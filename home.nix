@@ -11,10 +11,10 @@
 
   # PROGRAMS
   programs.home-manager.enable = true;
-#  programs.nix-index = {
-#    enable = true;
-#    enableZshIntegration = true;
-#  };
+  programs.nix-index = {
+    enable = true;
+    enableZshIntegration = true;
+  };
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -69,16 +69,16 @@
           antigen theme romkatv/powerlevel10k
           # Tell Antigen that you're done
           antigen apply
-        '';
-        afterCfg = lib.mkOrder 1500 ''
           # Configure theme
           source ~/.dotfiles/.p10k.zsh
+        '';
+        afterCfg = lib.mkOrder 1500 ''
           # Aliases
-          #alias c="clear"
-          #alias ed="$EDITOR"
-          #alias vw="bat"
-          #alias my-ip="curl checkip.amazonaws.com"
-          #alias nix-hm-switch="home-manager switch --flake github:xzima/nix-config#pve-root --refresh"
+          alias c="clear"
+          alias ed="$EDITOR"
+          alias vw="bat"
+          alias my-ip="curl checkip.amazonaws.com"
+          alias nix-hm-switch="home-manager switch --flake github:xzima/nix-config#pve-root --refresh"
         '';
       in
       lib.mkMerge [ beforeCfg antigenCfg afterCfg ];

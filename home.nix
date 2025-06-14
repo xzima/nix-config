@@ -10,7 +10,18 @@
 
   # PROGRAMS
   programs.home-manager.enable = true;
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    enableBashCompletion = true;
+    autosuggestions.enable = true;
+    syntaxHighlighting.enable = true;
+    histSize = 10000;
+    oh-my-zsh = {
+      enable = true;
+      #plugins = [ "kubectl" ];
+    };
+  };
 
   # ENV VARIABLES
   home.sessionVariables = {
@@ -34,6 +45,10 @@
   home.packages = [
     pkgs.git
     pkgs.micro
+    pkgs.bat
+    pkgs.ripgrep
+    pkgs.antigen
+    pkgs.zsh-powerlevel10k
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the

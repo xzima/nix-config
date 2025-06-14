@@ -22,6 +22,10 @@
     syntaxHighlighting.enable = true;
     history.size = 10000;
     oh-my-zsh.enable = true;
+    sessionVariables = {
+      EDITOR = "micro";
+      MICRO_CONFIG_HOME = "~/.dotfiles/micro";
+    };
     initContent =
       let
         beforeCfg = lib.mkOrder 500 ''
@@ -82,12 +86,6 @@
         '';
       in
       lib.mkMerge [ beforeCfg antigenCfg afterCfg ];
-  };
-
-  # ENV VARIABLES
-  home.sessionVariables = {
-    EDITOR = "micro";
-    MICRO_CONFIG_HOME = "~/.dotfiles/micro";
   };
 
   # DOTFILES

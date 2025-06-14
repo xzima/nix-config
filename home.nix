@@ -10,6 +10,7 @@
 
   # PROGRAMS
   programs.home-manager.enable = true;
+  fonts.fontconfig.enable = true;
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -65,6 +66,7 @@
           antigen bundle zsh-users/zsh-syntax-highlighting
           antigen bundle zsh-users/zsh-history-substring-search
           antigen bundle zsh-users/zsh-autosuggestions
+          antigen bundle git@github.com:nix-community/nix-zsh-completions.git
           # Load the theme
           antigen theme romkatv/powerlevel10k
           # Tell Antigen that you're done
@@ -104,6 +106,7 @@
     pkgs.bat # replace cat
     pkgs.ripgrep # replace grep
     pkgs.antigen # zsh plugins
+    pkgs.meslo-lgs-nf # zsh theme font
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the

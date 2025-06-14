@@ -22,7 +22,7 @@
     };
     initContent =
       let
-        zshConfigEarlyInit = lib.mkOrder 500 ''
+        beforeCfg = lib.mkOrder 500 ''
           # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
           # Initialization code that may require console input (password prompts, [y/n]
           # confirmations, etc.) must go above this block; everything else may go below.
@@ -31,11 +31,12 @@
             source "''${XDG_CACHE_HOME:-''$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
           fi
         '';
-        zshConfig = lib.mkOrder 1500 ''
+        antigenCfg = lib.mkOrder 750 ''
           # Enable antigen
           source ${pkgs.antigen}/share/antigen/antigen.zsh
-          #
+          # Configure oh-my-zsh
           antigen use oh-my-zsh
+          # Load bundles
           antigen bundle ufw
           antigen bundle lol
           antigen bundle sudo
@@ -58,12 +59,17 @@
           antigen bundle zsh-users/zsh-syntax-highlighting
           antigen bundle zsh-users/zsh-history-substring-search
           antigen bundle zsh-users/zsh-autosuggestions
+          # Load the theme
           antigen theme romkatv/powerlevel10k
-          #
+          # Tell Antigen that you're done
+          antigen apply
+        '';
+        afterCfg = lib.mkOrder 1500 ''
+          # Configure theme
           source ~/.dotfiles/.p10k.zsh
         '';
       in
-      lib.mkMerge [ zshConfigEarlyInit zshConfig ];
+      lib.mkMerge [ beforeCfg antigenCfg afterCfg ];
   };
 
   # ENV VARIABLES

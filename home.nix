@@ -7,10 +7,11 @@
 {
   home.username = "root";
   home.homeDirectory = "/root";
+  fonts.fontconfig.enable = true;
 
   # PROGRAMS
   programs.home-manager.enable = true;
-  fonts.fontconfig.enable = true;
+  programs.command-not-found.enable = true;
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -23,6 +24,7 @@
       ed = "$EDITOR";
       vw = "bat";
       myip = "curl checkip.amazonaws.com";
+      nix-hm-switch = "home-manager switch --flake github:xzima/nix-config#pve-root --refresh";
     };
     initContent =
       let
@@ -67,7 +69,6 @@
           antigen bundle zsh-users/zsh-syntax-highlighting
           antigen bundle zsh-users/zsh-history-substring-search
           antigen bundle zsh-users/zsh-autosuggestions
-          antigen bundle git@github.com:nix-community/nix-zsh-completions.git
           # Load the theme
           antigen theme romkatv/powerlevel10k
           # Tell Antigen that you're done
@@ -113,7 +114,6 @@
     pkgs.ripgrep # replace grep
     pkgs.antigen # zsh plugins
     pkgs.meslo-lgs-nf # zsh theme font
-    pkgs.command-not-found
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the

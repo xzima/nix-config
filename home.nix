@@ -12,6 +12,10 @@
   # PROGRAMS
   programs.home-manager.enable = true;
   programs.command-not-found.enable = true;
+  programs.nix-index = {
+    enable = true;
+    enableZshIntegration = true;
+  };
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -19,13 +23,6 @@
     syntaxHighlighting.enable = true;
     history.size = 10000;
     oh-my-zsh.enable = true;
-    shellAliases = {
-      c = "clear";
-      ed = "$EDITOR";
-      vw = "bat";
-      myip = "curl checkip.amazonaws.com";
-      nix-hm-switch = "home-manager switch --flake github:xzima/nix-config#pve-root --refresh";
-    };
     initContent =
       let
         beforeCfg = lib.mkOrder 500 ''
@@ -76,7 +73,13 @@
         '';
         afterCfg = lib.mkOrder 1500 ''
           # Configure theme
-          #source ~/.dotfiles/.p10k.zsh
+          source ~/.dotfiles/.p10k.zsh
+          # Aliases
+          alias c="clear"
+          alias ed="$EDITOR"
+          alias vw="bat"
+          alias my-ip="curl checkip.amazonaws.com"
+          alias nix-hm-switch="home-manager switch --flake github:xzima/nix-config#pve-root --refresh"
         '';
       in
       lib.mkMerge [ beforeCfg antigenCfg afterCfg ];

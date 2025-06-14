@@ -20,6 +20,50 @@
       enable = true;
       #plugins = [ "kubectl" ];
     };
+    initContent =
+      let
+        zshConfigEarlyInit = lib.mkOrder 500 ''
+          # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+          # Initialization code that may require console input (password prompts, [y/n]
+          # confirmations, etc.) must go above this block; everything else may go below.
+          # double single quotes (''$) to escape the dollar char
+          if [[ -r "''${XDG_CACHE_HOME:-''$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+            source "''${XDG_CACHE_HOME:-''$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+          fi
+        '';
+        zshConfig = lib.mkOrder 1500 ''
+          # Enable antigen
+          source ${pkgs.antigen}/share/antigen/antigen.zsh
+          #
+          antigen use oh-my-zsh
+          antigen bundle ufw
+          antigen bundle lol
+          antigen bundle sudo
+          antigen bundle git
+          antigen bundle git-flow-completion
+          antigen bundle aliases
+          antigen bundle history
+          antigen bundle ripgrep
+          antigen bundle colored-man-pages
+          antigen bundle command-not-found
+          antigen bundle compleat
+          antigen bundle copypath
+          antigen bundle cp
+          # antigen bundle fzf
+          antigen bundle dircycle
+          antigen bundle encode64
+          antigen bundle extract
+          antigen bundle genpass
+          # antigen bundle per-directory-history
+          antigen bundle zsh-users/zsh-syntax-highlighting
+          antigen bundle zsh-users/zsh-history-substring-search
+          antigen bundle zsh-users/zsh-autosuggestions
+          antigen theme romkatv/powerlevel10k
+          #
+          source ~/.dotfiles/.p10k.zsh
+        '';
+      in
+      lib.mkMerge [ zshConfigEarlyInit zshConfig ];
   };
 
   # ENV VARIABLES
@@ -29,6 +73,7 @@
 
   # DOTFILES
   home.file = {
+    ".dotfiles/.p10k.zsh".source = home/pve-root/dotfiles/.p10k.zsh;
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
@@ -43,11 +88,10 @@
 
   home.packages = [
     pkgs.git
-    pkgs.micro
-    pkgs.bat
-    pkgs.ripgrep
-    pkgs.antigen
-    pkgs.zsh-powerlevel10k
+    pkgs.micro # replace nano
+    pkgs.bat # replace cat
+    pkgs.ripgrep # replace grep
+    pkgs.antigen # zsh plugins
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the

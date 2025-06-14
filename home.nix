@@ -17,9 +17,12 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     history.size = 10000;
-    oh-my-zsh = {
-      enable = true;
-      #plugins = [ "kubectl" ];
+    oh-my-zsh.enable = true;
+    shellAliases = {
+      c = "clear";
+      ed = "$EDITOR";
+      vw = "bat";
+      myip = "curl checkip.amazonaws.com";
     };
     initContent =
       let
@@ -43,26 +46,24 @@
           source ${pkgs.antigen}/share/antigen/antigen.zsh
           # Configure oh-my-zsh
           antigen use oh-my-zsh
-          # Load bundles
+          # Load bundles https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
+          antigen bundle debian
+          antigen bundle systemd
           antigen bundle ufw
           antigen bundle lol
           antigen bundle sudo
           antigen bundle git
-          antigen bundle git-flow-completion
+          antigen bundle git-flow
           antigen bundle aliases
           antigen bundle history
-          antigen bundle ripgrep
           antigen bundle colored-man-pages
           antigen bundle command-not-found
           antigen bundle compleat
           antigen bundle copypath
           antigen bundle cp
-          # antigen bundle fzf
           antigen bundle dircycle
           antigen bundle encode64
           antigen bundle extract
-          antigen bundle genpass
-          # antigen bundle per-directory-history
           antigen bundle zsh-users/zsh-syntax-highlighting
           antigen bundle zsh-users/zsh-history-substring-search
           antigen bundle zsh-users/zsh-autosuggestions
@@ -83,11 +84,16 @@
   # ENV VARIABLES
   home.sessionVariables = {
     EDITOR = "micro";
+    MICRO_CONFIG_HOME = "~/.dotfiles/micro";
   };
 
   # DOTFILES
   home.file = {
     ".dotfiles/.p10k.zsh".source = home/pve-root/dotfiles/.p10k.zsh;
+    ".dotfiles/micro" = {
+      source = home/pve-root/dotfiles/micro;
+      recursive = true;
+    };
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
@@ -107,6 +113,7 @@
     pkgs.ripgrep # replace grep
     pkgs.antigen # zsh plugins
     pkgs.meslo-lgs-nf # zsh theme font
+    pkgs.command-not-found
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the

@@ -32,6 +32,12 @@
           fi
         '';
         antigenCfg = lib.mkOrder 750 ''
+          # Fix the slowness of zsh prompt, by removing the git status stuff that slows it down...
+          # https://gist.github.com/msabramo/2355834
+          function git_prompt_info() {
+              ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+              echo "$ZSH_THEME_GIT_PROMPT_PREFIX''${ref#refs/heads/}''${ZSH_THEME_GIT_PROMPT_CLEAN}''${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+          }
           # Enable antigen
           source ${pkgs.antigen}/share/antigen/antigen.zsh
           # Configure oh-my-zsh
@@ -66,7 +72,7 @@
         '';
         afterCfg = lib.mkOrder 1500 ''
           # Configure theme
-          source ~/.dotfiles/.p10k.zsh
+          #source ~/.dotfiles/.p10k.zsh
         '';
       in
       lib.mkMerge [ beforeCfg antigenCfg afterCfg ];

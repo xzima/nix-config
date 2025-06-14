@@ -7,16 +7,24 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, nix-index-database, ... }:
     let
       system = "x86_64-linux";
     in
     {
       homeConfigurations.pve-root = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${system};
-        modules = [ ./home.nix ];
+        modules = [
+          nix-index-database.hmModules.nix-index
+          ./home.nix
+        ];
       };
     };
 }

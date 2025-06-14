@@ -13,10 +13,9 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    enableBashCompletion = true;
-    autosuggestions.enable = true;
+    autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-    histSize = 10000;
+    history.size = 10000;
     oh-my-zsh = {
       enable = true;
       #plugins = [ "kubectl" ];

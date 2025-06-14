@@ -72,7 +72,7 @@
         '';
         afterCfg = lib.mkOrder 1500 ''
           # Configure theme
-          source ~/.dotfiles/.p10k.zsh
+          source ~/.p10k.zsh
           # Aliases
           #alias c="clear"
           #alias ed="$EDITOR"
@@ -92,7 +92,7 @@
 
   # DOTFILES
   home.file = {
-    ".dotfiles/.p10k.zsh".source = home/pve-root/dotfiles/.p10k.zsh;
+    ".p10k.zsh".source = home/pve-root/dotfiles/.p10k.zsh;
     ".dotfiles/micro" = {
       source = home/pve-root/dotfiles/micro;
       recursive = true;

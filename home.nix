@@ -69,10 +69,10 @@
           antigen theme romkatv/powerlevel10k
           # Tell Antigen that you're done
           antigen apply
-        '';
-        afterCfg = lib.mkOrder 1500 ''
           # Configure theme
           source ~/.dotfiles/.p10k.zsh
+        '';
+        afterCfg = lib.mkOrder 1500 ''
           # Aliases
           alias c="clear"
           alias ed="$EDITOR"

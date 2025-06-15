@@ -79,7 +79,7 @@
           alias vw="bat"
           alias my-ip="curl checkip.amazonaws.com"
           alias nix-hm-switch="home-manager switch --flake github:xzima/nix-config#pve-root --refresh"
-          nix-gc() {
+          function nix-gc() {
             nix store gc --debug
             nix-collect-garbage --delete-old
           }

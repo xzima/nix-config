@@ -4,8 +4,8 @@
   imports = [ (modulesPath + "/virtualisation/proxmox-lxc.nix") ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  programs.zsh.enable = true;
   environment.systemPackages = [
-    pkgs.zsh
     pkgs.home-manager
   ];
 

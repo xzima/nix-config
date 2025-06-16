@@ -22,9 +22,19 @@
       homeConfigurations.pve-root = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${system};
         modules = [
-          nix-index-database.hmModules.nix-index
           ./home.nix
+          nix-index-database.hmModules.nix-index
         ];
+      };
+
+      nixosConfigurations = {
+        test = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./node/test/config.nix
+            nix-index-database.nixosModules.nix-index
+          ];
+        };
       };
     };
 }

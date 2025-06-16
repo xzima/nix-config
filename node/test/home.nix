@@ -10,7 +10,6 @@
   fonts.fontconfig.enable = true;
 
   # PROGRAMS
-  programs.home-manager.enable = true;
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true;

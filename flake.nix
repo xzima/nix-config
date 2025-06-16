@@ -19,13 +19,13 @@
       system = "x86_64-linux";
     in
     {
-      homeConfigurations.pve-root = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-        modules = [
-          ./home.nix
-          nix-index-database.hmModules.nix-index
-        ];
-      };
+#      homeConfigurations.pve-root = home-manager.lib.homeManagerConfiguration {
+#        pkgs = nixpkgs.legacyPackages.${system};
+#        modules = [
+#          ./home.nix
+#          nix-index-database.hmModules.nix-index
+#        ];
+#      };
 #      homeConfigurations.test-root = home-manager.lib.homeManagerConfiguration {
 #        pkgs = nixpkgs.legacyPackages.${system};
 #        modules = [

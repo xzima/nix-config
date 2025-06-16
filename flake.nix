@@ -26,15 +26,20 @@
           nix-index-database.hmModules.nix-index
         ];
       };
+      homeConfigurations.test-root = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${system};
+        modules = [
+          ./node/test/home.nix
+          nix-index-database.hmModules.nix-index
+        ];
+      };
 
-      nixosConfigurations = {
-        test = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./node/test/config.nix
-            nix-index-database.nixosModules.nix-index
-          ];
-        };
+      nixosConfigurations.test = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./node/test/config.nix
+          nix-index-database.nixosModules.nix-index
+        ];
       };
     };
 }

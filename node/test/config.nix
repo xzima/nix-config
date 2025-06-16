@@ -5,12 +5,13 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   programs.zsh.enable = true;
+
   environment.systemPackages = [
     pkgs.home-manager
   ];
 
-  users = {
-    defaultUserShell = pkgs.zsh;
+  users.users.root = {
+    shell = pkgs.zsh;
   };
 
   # This value determines the Home Manager release that your configuration is

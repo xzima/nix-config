@@ -7,6 +7,7 @@
   programs.zsh.enable = true;
 
   environment.systemPackages = [
+    pkgs.zsh
     pkgs.home-manager
   ];
 

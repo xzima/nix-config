@@ -4,15 +4,15 @@
   imports = [ (modulesPath + "/virtualisation/proxmox-lxc.nix") ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  programs.zsh.enable = true;
 
   environment.systemPackages = [
     pkgs.home-manager
   ];
 
   users.users.root = {
-    shell = pkgs.zsh;
+    #shell = pkgs.zsh;
   };
-  programs.zsh.enable = true;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

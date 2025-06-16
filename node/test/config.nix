@@ -4,6 +4,11 @@
   imports = [ (modulesPath + "/virtualisation/proxmox-lxc.nix") ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  environment.systemPackages = [
+    pkgs.zsh
+    pkgs.home-manager
+  ];
+
   users = {
     defaultUserShell = pkgs.zsh;
   };

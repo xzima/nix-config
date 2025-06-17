@@ -12,7 +12,7 @@
   environment.systemPackages = [
     pkgs.home-manager
   ];
-  environment.sessionVariables = {
+  environment.variables = {
     HOST = "$(hostname)";
   };
 

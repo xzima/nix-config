@@ -78,7 +78,7 @@
           alias my-ip="curl checkip.amazonaws.com"
           function nix-rb() {
             source /etc/os-release
-            if [ "nixos" == "$ID" ]; then
+            if [ "nixos" = "$ID" ]; then
               nixos-rebuild switch --flake github:xzima/nix-config --refresh
             else
               home-manager switch --flake github:xzima/nix-config#$(hostname) --refresh

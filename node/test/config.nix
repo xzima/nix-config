@@ -17,6 +17,7 @@
   ];
   environment.variables = {
     HOST11 = "$(cat /etc/hostname)";
+    HOST111 = "$(cat /etc/hostname)";
     HOST = "$(cat /etc/hostname)";
   };
   environment.sessionVariables = {

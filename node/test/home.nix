@@ -81,7 +81,7 @@
             nixos-rebuild switch --flake github:xzima/nix-config --option eval-cache false
           }
           function hm-rb() {
-            home-manager switch --flake github:xzima/nix-config#$(hostname) --option eval-cache false
+            home-manager switch --flake github:xzima/nix-config#$(hostname) --refresh
             rm -f ~/.zshrc.zwc
           }
           function nix-gc() {

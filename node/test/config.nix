@@ -3,10 +3,7 @@
   # Proxmox specific https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/virtualisation/proxmox-lxc.nix
   imports = [ (modulesPath + "/virtualisation/proxmox-lxc.nix") ];
   boot.isContainer = true;
-  proxmoxLXC = {
-    privileged = true;
-    manageHostName = true;
-  };
+  proxmoxLXC = { privileged = true; };
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   programs.zsh.enable = true;
@@ -15,6 +12,9 @@
   environment.systemPackages = [
     pkgs.home-manager
   ];
+  environment.sessionVariables = {
+    HOST = "$(hostname)";
+  };
 
   # I had to suppress these units, since they do not work inside LXC
   systemd.suppressedSystemUnits = [

@@ -79,7 +79,7 @@
           alias vw="bat"
           alias my-ip="curl checkip.amazonaws.com"
           function nix-rb() {
-            nixos-rebuild switch --flake github:xzima/nix-config#$(hostname) --option eval-cache false
+            nixos-rebuild switch --flake github:xzima/nix-config --option eval-cache false
           }
           function hm-rb() {
             home-manager switch --flake github:xzima/nix-config#$(hostname) --option eval-cache false

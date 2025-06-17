@@ -120,7 +120,6 @@
   };
 
   home.packages = [
-    pkgs.sudo
     pkgs.git
     pkgs.micro # replace nano
     pkgs.bat # replace cat

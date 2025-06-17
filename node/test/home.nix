@@ -23,13 +23,8 @@
     oh-my-zsh.enable = true;
     sessionVariables = {
       HOST3 = "$(cat /etc/hostname)";
+      HOST = "$(cat /etc/hostname)";
     };
-    localVariables = {
-      HOST2 = "$(cat /etc/hostname)";
-    };
-    envExtra = ''
-      export HOST4 = "$(cat /etc/hostname)"
-    '';
     initContent =
       let
         beforeCfg = lib.mkOrder 500 ''
@@ -106,7 +101,6 @@
   home.sessionVariables = {
     EDITOR = "micro";
     MICRO_CONFIG_HOME = "${config.home.homeDirectory}/.dotfiles/micro";
-    HOST1 = "$(cat /etc/hostname)";
   };
 
   # DOTFILES

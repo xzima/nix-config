@@ -8,10 +8,8 @@
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
-  environment.shells = [ pkgs.zsh ];
 
   environment.systemPackages = [
-    pkgs.zsh
     pkgs.home-manager
   ];
 

@@ -28,7 +28,7 @@
       HOST2 = "$(cat /etc/hostname)";
     };
     envExtra = ''
-      export HOST3 = "$(cat /etc/hostname)"
+      export HOST4 = "$(cat /etc/hostname)"
     '';
     initContent =
       let

@@ -12,6 +12,12 @@
   environment.systemPackages = [
     pkgs.home-manager
   ];
+  environment.variables = {
+    HOST11 = "$(cat /etc/hostname)";
+  };
+  environment.sessionVariables = {
+    HOST12 = "$(hostname)";
+  };
 
   # I had to suppress these units, since they do not work inside LXC
   systemd.suppressedSystemUnits = [

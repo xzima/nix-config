@@ -71,7 +71,7 @@
         '';
         afterCfg = lib.mkOrder 1500 ''
           # Configure theme
-          #source ~/.dotfiles/.p10k.zsh
+          source ~/.dotfiles/.p10k.zsh
           # Aliases
           alias c="clear"
           alias ed="$EDITOR"

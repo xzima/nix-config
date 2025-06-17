@@ -19,14 +19,14 @@
       system = "x86_64-linux";
     in
     {
-      homeConfigurations.pve-root = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.pve = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${system};
         modules = [
           ./home.nix
           nix-index-database.hmModules.nix-index
         ];
       };
-      homeConfigurations.test-root = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.sandbox = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${system};
         modules = [
           ./node/test/home.nix
@@ -34,7 +34,7 @@
         ];
       };
 
-      nixosConfigurations.test = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.sandbox = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           ./node/test/config.nix

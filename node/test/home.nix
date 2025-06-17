@@ -24,7 +24,6 @@
     initContent =
       let
         beforeCfg = lib.mkOrder 500 ''
-          export HOST=$(hostname)
           # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
           # Initialization code that may require console input (password prompts, [y/n]
           # confirmations, etc.) must go above this block; everything else may go below.
@@ -78,7 +77,13 @@
           alias ed="$EDITOR"
           alias vw="bat"
           alias my-ip="curl checkip.amazonaws.com"
-          alias nix-hm-switch="home-manager switch --flake github:xzima/nix-config#test-root --option eval-cache false"
+          function nix-rb() {
+            nixos-rebuild switch --flake github:xzima/nix-config#$(hostname) --option eval-cache false
+          }
+          function hm-rb() {
+            home-manager switch --flake github:xzima/nix-config#$(hostname) --option eval-cache false
+            rm ~/.zshrc.zwc
+          }
           function nix-gc() {
             nix store gc --debug
             nix-collect-garbage --delete-old

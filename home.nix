@@ -78,7 +78,13 @@
           alias ed="$EDITOR"
           alias vw="bat"
           alias my-ip="curl checkip.amazonaws.com"
-          alias nix-hm-switch="home-manager switch --flake github:xzima/nix-config#pve-root --option eval-cache false"
+          function nix-rb() {
+            nixos-rebuild switch --flake github:xzima/nix-config#$(hostname) --option eval-cache false
+          }
+          function hm-rb() {
+            home-manager switch --flake github:xzima/nix-config#$(hostname) --option eval-cache false
+            rm ~/.zshrc.zwc
+          }
           function nix-gc() {
             nix store gc --debug
             nix-collect-garbage --delete-old

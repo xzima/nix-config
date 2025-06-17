@@ -16,7 +16,7 @@
     HOST11 = "$(cat /etc/hostname)";
   };
   environment.sessionVariables = {
-    HOST12 = "$(hostname)";
+    HOST12 = "$(cat /etc/hostname)";
   };
 
   # I had to suppress these units, since they do not work inside LXC

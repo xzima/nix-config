@@ -7,6 +7,8 @@
   environment.variables = {
     TERM = "xterm-256color";
   };
+  ###
+  time.timeZone = "Europe/Moscow";
   # set zsh as default shell
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;

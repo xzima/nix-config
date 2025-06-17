@@ -25,10 +25,11 @@
     initContent =
       let
         beforeCfg = lib.mkOrder 500 ''
+          # double single quotes (''$) to escape the dollar char
+          export HOST=''${HOST:-$(hostname)}
           # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
           # Initialization code that may require console input (password prompts, [y/n]
           # confirmations, etc.) must go above this block; everything else may go below.
-          # double single quotes (''$) to escape the dollar char
           if [[ -r "''${XDG_CACHE_HOME:-''$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
             source "''${XDG_CACHE_HOME:-''$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
           fi
@@ -82,8 +83,8 @@
             nixos-rebuild switch --flake github:xzima/nix-config --option eval-cache false
           }
           function hm-rb() {
-            home-manager switch --flake github:xzima/nix-config#$(hostname) --option eval-cache false
-            rm ~/.zshrc.zwc
+            home-manager switch --flake github:xzima/nix-config#$(hostname) --refresh
+            rm -f ~/.zshrc.zwc
           }
           function nix-gc() {
             nix store gc --debug

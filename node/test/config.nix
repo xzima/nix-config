@@ -1,12 +1,16 @@
 { config, modulesPath, pkgs, lib, ... }:
 {
+  # Flake specific
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # Proxmox specific https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/virtualisation/proxmox-lxc.nix
   imports = [ (modulesPath + "/virtualisation/proxmox-lxc.nix") ];
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
+  environment.variables = {
+    TERM = "xterm-256color";
+  };
+  # set zsh as default shell
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
-
+  # home-manager specific
   environment.systemPackages = [
     pkgs.home-manager
   ];

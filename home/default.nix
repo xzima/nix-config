@@ -5,12 +5,9 @@
 }:
 
 {
-  home.username = "root";
-  home.homeDirectory = "/root";
   fonts.fontconfig.enable = true;
 
   # PROGRAMS
-  programs.home-manager.enable = true;
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true;
@@ -80,7 +77,7 @@
           alias vw="bat"
           alias my-ip="curl checkip.amazonaws.com"
           function nix-rb() {
-            nixos-rebuild switch --flake github:xzima/nix-config --option eval-cache false
+            nixos-rebuild switch --flake github:xzima/nix-config --refresh
           }
           function hm-rb() {
             home-manager switch --flake github:xzima/nix-config#$(hostname) --refresh
@@ -103,9 +100,9 @@
 
   # DOTFILES
   home.file = {
-    ".dotfiles/.p10k.zsh".source = home/pve-root/dotfiles/.p10k.zsh;
+    ".dotfiles/.p10k.zsh".source = ../dotfiles/.p10k.zsh;
     ".dotfiles/micro" = {
-      source = home/pve-root/dotfiles/micro;
+      source = ../dotfiles/micro;
       recursive = true;
     };
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
@@ -141,25 +138,6 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
-
-
-
-  # Set zsh as default shell on activation
-  home.activation.make-zsh-default-shell = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    # if zsh is not the current shell
-    PATH="/usr/bin:/bin:$PATH"
-    ZSH_PATH="/${config.home.username}/.nix-profile/bin/zsh"
-    if [[ $(getent passwd ${config.home.username}) != *"$ZSH_PATH" ]]; then
-      echo "setting zsh as default shell (using chsh). password might be necessay."
-      if grep -q $ZSH_PATH /etc/shells; then
-        echo "adding zsh to /etc/shells"
-        run echo "$ZSH_PATH" | sudo tee -a /etc/shells
-      fi
-      echo "running chsh to make zsh the default shell"
-      run chsh -s $ZSH_PATH ${config.home.username}
-      echo "zsh is now set as default shell !"
-    fi
-  '';
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,24 +23,26 @@
       homeConfigurations.pve = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${system};
         modules = [
-          ./home.nix
-          nix-index-database.hmModules.nix-index
-        ];
-      };
-      homeConfigurations.sandbox = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-        modules = [
-          ./node/test/home.nix
+          ./home/pve.nix
           nix-index-database.hmModules.nix-index
         ];
       };
 
-      nixosConfigurations.sandbox = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./node/test/config.nix
-          nix-index-database.nixosModules.nix-index
-        ];
+      nixosConfigurations = {
+
+        sandbox = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./node/sandbox.nix
+            nix-index-database.nixosModules.nix-index
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.root = ./home/sandbox.nix;
+            }
+          ];
+        };
       };
     };
 }

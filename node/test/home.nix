@@ -97,7 +97,6 @@
   home.sessionVariables = {
     EDITOR = "micro";
     MICRO_CONFIG_HOME = "${config.home.homeDirectory}/.dotfiles/micro";
-    HOST = "$(hostname)";
   };
 
   # DOTFILES

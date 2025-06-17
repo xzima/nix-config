@@ -13,10 +13,7 @@
     pkgs.home-manager
   ];
   environment.variables = {
-    HOST = "$(hostname)";
-  };
-  environment.sessionVariables = {
-    HOST = "$(hostname)";
+    HOST = "$(cat /etc/hostname)";
   };
 
   # I had to suppress these units, since they do not work inside LXC

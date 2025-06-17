@@ -21,6 +21,9 @@
     syntaxHighlighting.enable = true;
     history.size = 10000;
     oh-my-zsh.enable = true;
+    variables = {
+      HOST = "$(hostname)";
+    };
     initContent =
       let
         beforeCfg = lib.mkOrder 500 ''
@@ -91,7 +94,6 @@
   home.sessionVariables = {
     EDITOR = "micro";
     MICRO_CONFIG_HOME = "${config.home.homeDirectory}/.dotfiles/micro";
-    HOST = "$(hostname)";
   };
 
   # DOTFILES

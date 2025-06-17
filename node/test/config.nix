@@ -2,7 +2,6 @@
 {
   # Proxmox specific https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/virtualisation/proxmox-lxc.nix
   imports = [ (modulesPath + "/virtualisation/proxmox-lxc.nix") ];
-  proxmoxLXC = { privileged = true; };
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   programs.zsh.enable = true;
@@ -10,13 +9,6 @@
 
   environment.systemPackages = [
     pkgs.home-manager
-  ];
-
-  # I had to suppress these units, since they do not work inside LXC
-  systemd.suppressedSystemUnits = [
-    "dev-mqueue.mount"
-    "sys-kernel-debug.mount"
-    "sys-fs-fuse-connections.mount"
   ];
 
   # This value determines the Home Manager release that your configuration is

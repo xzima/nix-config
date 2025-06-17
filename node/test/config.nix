@@ -3,7 +3,10 @@
   # Proxmox specific https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/virtualisation/proxmox-lxc.nix
   imports = [ (modulesPath + "/virtualisation/proxmox-lxc.nix") ];
   boot.isContainer = true;
-  proxmoxLXC = { privileged = true; };
+  proxmoxLXC = {
+    privileged = true;
+    manageHostName = true;
+  };
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   programs.zsh.enable = true;
@@ -15,6 +18,7 @@
   environment.variables = {
     HOST11 = "$(cat /etc/hostname)";
     HOST111 = "$(cat /etc/hostname)";
+    HOST = "$(cat /etc/hostname)";
   };
   environment.sessionVariables = {
     HOST12 = "$(cat /etc/hostname)";

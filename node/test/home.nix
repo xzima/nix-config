@@ -71,7 +71,7 @@
         '';
         afterCfg = lib.mkOrder 1500 ''
           # Configure theme
-          source ~/.dotfiles/.p10k.zsh
+          #source ~/.dotfiles/.p10k.zsh
           # Aliases
           alias c="clear"
           alias ed="$EDITOR"
@@ -82,7 +82,7 @@
           }
           function hm-rb() {
             home-manager switch --flake github:xzima/nix-config#$(hostname) --option eval-cache false
-            rm ~/.zshrc.zwc
+            rm -f ~/.zshrc.zwc
           }
           function nix-gc() {
             nix store gc --debug

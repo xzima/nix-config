@@ -21,12 +21,10 @@
     syntaxHighlighting.enable = true;
     history.size = 10000;
     oh-my-zsh.enable = true;
-    envExtra = {
-      HOST = "$(hostname)";
-    };
     initContent =
       let
         beforeCfg = lib.mkOrder 500 ''
+          export HOST=$(hostname)
           # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
           # Initialization code that may require console input (password prompts, [y/n]
           # confirmations, etc.) must go above this block; everything else may go below.

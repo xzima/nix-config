@@ -21,7 +21,7 @@
     syntaxHighlighting.enable = true;
     history.size = 10000;
     oh-my-zsh.enable = true;
-    variables = {
+    envExtra = {
       HOST = "$(hostname)";
     };
     initContent =

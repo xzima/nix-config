@@ -10,6 +10,17 @@
   # set zsh as default shell
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
+  # protect ssh
+  services.openssh = {
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      KexAlgorithms = [ "curve25519-sha256@libssh.org" ];
+      Ciphers = [ "aes256-gcm@openssh.com" "aes256-ctr" ];
+      Macs = [ "hmac-sha2-256-etm@openssh.com" "hmac-sha2-256" ];
+    };
+  };
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

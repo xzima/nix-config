@@ -21,10 +21,6 @@
     syntaxHighlighting.enable = true;
     history.size = 10000;
     oh-my-zsh.enable = true;
-    sessionVariables = {
-      HOST3 = "$(cat /etc/hostname)";
-      HOST = "$(cat /etc/hostname)";
-    };
     initContent =
       let
         beforeCfg = lib.mkOrder 500 ''

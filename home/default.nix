@@ -77,10 +77,12 @@
           alias vw="bat"
           alias my-ip="curl checkip.amazonaws.com"
           function nix-rb() {
-            nixos-rebuild switch --flake github:xzima/nix-config --refresh
-          }
-          function hm-rb() {
-            home-manager switch --flake github:xzima/nix-config#$(hostname) --refresh
+            source /etc/os-release
+            if [ "nixos" == "$ID" ]; then
+              nixos-rebuild switch --flake github:xzima/nix-config --refresh
+            else
+              home-manager switch --flake github:xzima/nix-config#$(hostname) --refresh
+            fi
             rm -f ~/.zshrc.zwc
           }
           function nix-gc() {

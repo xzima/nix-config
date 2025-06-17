@@ -10,10 +10,6 @@
   # set zsh as default shell
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
-  # home-manager specific
-  environment.systemPackages = [
-    pkgs.home-manager
-  ];
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

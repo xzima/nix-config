@@ -31,7 +31,10 @@
         modules = [
           ./node/test/home.nix
           nix-index-database.hmModules.nix-index
-          { home.sessionVariables.HOST0 = "$(cat /etc/hostname)"; }
+          {
+            home.sessionVariables.HOST0 = "$(cat /etc/hostname)";
+            home.sessionVariables.HOST = "$(cat /etc/hostname)";
+          }
         ];
       };
 

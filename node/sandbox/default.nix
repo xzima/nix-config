@@ -31,7 +31,14 @@
     pkgs.docker-compose
   ];
   # Docker specific
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    storageDriver = "btrfs";
+    autoPrune = {
+      enable = true;
+      flags = [ "--all" "--force"];
+    };
+  };
   users.users.root.extraGroups = [ "docker" ];
 
   # This value determines the Home Manager release that your configuration is

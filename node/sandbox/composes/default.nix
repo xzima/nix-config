@@ -17,28 +17,6 @@ let
   };
 in
 {
-  # cleaner
-  systemd.timers.docker-cleanup = {
-    description = "Docker cleanup timer";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnUnitActiveSec = "12h"; # clear every 12 hours
-    };
-  };
-  systemd.services.docker-cleanup = {
-    description = "Docker cleanup";
-    wantedBy = [ "multi-user.target" ];
-    requires = [ "docker.service" ];
-    after = [ "docker.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      WorkingDirectory = /tmp;
-      User = "root";
-      Group = "root";
-      ExecStart = "${pkgs.docker}/bin/docker system prune -af";
-    };
-  };
-  # projects
   systemd.services.dc-whoami = mkCompose {
     projectPath = ./whoami;
     envFiles = [

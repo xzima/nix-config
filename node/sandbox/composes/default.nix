@@ -4,7 +4,7 @@ let
   mkCompose = { projectPath, envs ? { }, envFiles ? [ ], ... }: {
     wantedBy = [ "multi-user.target" ];
     partOf = [ "docker.service" ];
-    after = [ "docker.service" ];
+    after = [ "docker.service" "docker.socket" ];
     environment = envs;
     serviceConfig = {
       Type = "oneshot";

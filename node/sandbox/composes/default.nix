@@ -8,7 +8,7 @@ let
       Type = "oneshot";
       RemainAfterExit = "yes";
       ExecStart = "${pkgs.docker-compose}/bin/docker-compose --project-directory ${projectPath} up -d";
-      ExecStop = "${pkgs.docker-compose}/bin/docker-compose --project-directory ${projectPath} stop";
+      ExecStop = "${pkgs.docker-compose}/bin/docker-compose --project-directory ${projectPath} down";
     };
   };
 in
@@ -21,7 +21,7 @@ in
       PGID = "0";
     };
   };
-  systemd.services.homepage = mkCompose {
+  systemd.services.dc-homepage = mkCompose {
     projectPath = ./homepage;
     envs = {
       TZ = "Europe/Moscow";

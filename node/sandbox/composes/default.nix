@@ -19,6 +19,7 @@ in
       TZ = "Europe/Moscow";
       PUID = "0";
       PGID = "0";
+      BASE_DOMAIN = "test.test";
     };
   };
   systemd.services.dc-homepage = mkCompose {

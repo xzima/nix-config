@@ -23,6 +23,21 @@
       Macs = [ "hmac-sha2-256-etm@openssh.com" "hmac-sha2-256" ];
     };
   };
+  # packages
+  environment.systemPackages = [
+    pkgs.docker-compose
+  ];
+  # Docker specific
+  virtualisation.docker.enable = true;
+  users.users.root.extraGroups = [ "docker" ];
+  # composes
+  systemd.services.dc-whoami = {
+    script = ''
+      docker-compose -f ${./composes/whoami/compose.yml}
+    '';
+    wantedBy = [ "multi-user.target" ];
+    after = [ "docker.service" "docker.socket" ];
+  };
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

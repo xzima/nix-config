@@ -1,7 +1,6 @@
 services:
   whoami:
     image: traefik/whoami:v1.10.3
-    container_name: traefik-whoami
     restart: unless-stopped
     environment:
       TZ: ${TZ}

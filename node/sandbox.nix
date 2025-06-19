@@ -34,14 +34,14 @@
   systemd.services.dc-whoami = {
     wantedBy = [ "multi-user.target" ];
     after = [ "docker.service" "docker.socket" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = "yes";
       environment = {
         TZ = "Europe/Moscow";
         PUID = "0";
         PGID = "0";
       };
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = "yes";
       ExecStart = ''${pkgs.zsh}/bin/zsh -c "docker-compose -f ${../composes/whoami/compose.yml} up -d"'';
       ExecStop = ''${pkgs.zsh}/bin/zsh -c "docker-compose -f ${../composes/whoami/compose.yml} stop"'';
     };

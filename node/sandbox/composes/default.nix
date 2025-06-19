@@ -27,6 +27,7 @@ in
       TZ = "Europe/Moscow";
       PUID = "0";
       PGID = "0";
+      BASE_DOMAIN = "test.test";
     };
     after = [ config.systemd.services.dc-whoami.name ];
   };

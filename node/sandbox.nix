@@ -42,8 +42,8 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = "yes";
-      ExecStart = "docker-compose -f ${../composes/whoami/compose.yml} up -d";
-      ExecStop = "docker-compose -f ${../composes/whoami/compose.yml} stop";
+      ExecStart = "${pkgs.docker-compose}/bin/docker-compose -f ${../composes/whoami/compose.yml} up -d";
+      ExecStop = "${pkgs.docker-compose}/bin/docker-compose -f ${../composes/whoami/compose.yml} stop";
     };
   };
 

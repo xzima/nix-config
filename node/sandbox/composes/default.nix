@@ -1,35 +1,56 @@
-{ config, modulesPath, pkgs, lib, ... }:
+# https://gist.github.com/mosquito/b23e1c1e5723a7fd9e6568e5cf91180f
+{ config, pkgs, lib, ... }:
 let
-  mkCompose = { projectPath, envs, after ? [ ], ... }: {
+  mkCompose = { projectPath, envs ? { }, envFiles ? [ ], ... }: {
     wantedBy = [ "multi-user.target" ];
-    after = [ "docker.service" "docker.socket" ] ++ after;
+    partOf = [ "docker.service" ];
+    after = [ "docker.service" ];
     environment = envs;
     serviceConfig = {
       Type = "oneshot";
-      RemainAfterExit = "yes";
-      ExecStart = "${pkgs.docker-compose}/bin/docker-compose --project-directory ${projectPath} up -d";
-      ExecStop = "${pkgs.docker-compose}/bin/docker-compose --project-directory ${projectPath} down";
+      RemainAfterExit = "true";
+      WorkingDirectory = projectPath;
+      EnvironmentFile = envFiles;
+      ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d --remove-orphans";
+      ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
     };
   };
 in
 {
+  # cleaner
+  systemd.timers.docker-cleanup = {
+    description = "Docker cleanup timer";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnUnitActiveSec = "12h"; # clear every 12 hours
+    };
+  };
+  systemd.services.docker-cleanup = {
+    description = "Docker cleanup";
+    wantedBy = [ "multi-user.target" ];
+    requires = [ "docker.service" ];
+    after = [ "docker.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      WorkingDirectory = /tmp;
+      User = "root";
+      Group = "root";
+      ExecStart = "${pkgs.docker}/bin/docker system prune -af";
+    };
+  };
+  # projects
   systemd.services.dc-whoami = mkCompose {
     projectPath = ./whoami;
-    envs = {
-      TZ = "Europe/Moscow";
-      PUID = "0";
-      PGID = "0";
-      BASE_DOMAIN = "test.test";
-    };
+    envFiles = [
+      ./first.env
+      ./second.env
+    ];
   };
   systemd.services.dc-homepage = mkCompose {
     projectPath = ./homepage;
-    envs = {
-      TZ = "Europe/Moscow";
-      PUID = "0";
-      PGID = "0";
-      BASE_DOMAIN = "test.test";
-    };
-    after = [ config.systemd.services.dc-whoami.name ];
+    envFiles = [
+      ./first.env
+      ./second.env
+    ];
   };
 }

@@ -3,7 +3,10 @@
   # Flake specific
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # Proxmox specific https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/virtualisation/proxmox-lxc.nix
-  imports = [ (modulesPath + "/virtualisation/proxmox-lxc.nix") ];
+  imports = [
+    (modulesPath + "/virtualisation/proxmox-lxc.nix")
+    ./composes
+  ];
   environment.variables = {
     TERM = "xterm-256color";
   };
@@ -30,22 +33,6 @@
   # Docker specific
   virtualisation.docker.enable = true;
   users.users.root.extraGroups = [ "docker" ];
-  # composes
-  systemd.services.dc-whoami = {
-    wantedBy = [ "multi-user.target" ];
-    after = [ "docker.service" "docker.socket" ];
-    environment = {
-      TZ = "Europe/Moscow";
-      PUID = "0";
-      PGID = "0";
-    };
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = "yes";
-      ExecStart = "${pkgs.docker-compose}/bin/docker-compose -f ${../composes/whoami/compose.yml} up -d";
-      ExecStop = "${pkgs.docker-compose}/bin/docker-compose -f ${../composes/whoami/compose.yml} stop";
-    };
-  };
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

@@ -33,7 +33,7 @@
         sandbox = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
-            ./node/sandbox.nix
+            ./node/sandbox
             nix-index-database.nixosModules.nix-index
             home-manager.nixosModules.home-manager
             {

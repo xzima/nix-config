@@ -33,7 +33,7 @@
   # composes
   systemd.services.dc-whoami = {
     script = ''
-      docker-compose -f ${./composes/whoami/compose.yml}
+      docker-compose -f ${../composes/whoami/compose.yml}
     '';
     wantedBy = [ "multi-user.target" ];
     after = [ "docker.service" "docker.socket" ];

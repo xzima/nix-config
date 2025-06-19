@@ -32,11 +32,14 @@
   users.users.root.extraGroups = [ "docker" ];
   # composes
   systemd.services.dc-whoami = {
-    script = ''
-      docker-compose -f ${../composes/whoami/compose.yml} up -d
-    '';
     wantedBy = [ "multi-user.target" ];
     after = [ "docker.service" "docker.socket" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = "yes";
+      ExecStart = ''${pkgs.zsh}/bin/zsh -c "docker-compose -f ${../composes/whoami/compose.yml} up -d"'';
+      ExecStop = ''${pkgs.zsh}/bin/zsh -c "docker-compose -f ${../composes/whoami/compose.yml} stop"'';
+    };
   };
 
   # This value determines the Home Manager release that your configuration is

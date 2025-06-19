@@ -16,8 +16,3 @@ services:
       #homepage.icon: https://www.gravatar.com/avatar/27caca9bcd7fd7f7412ca5255c9ae2d0?s=160
       homepage.href: https://whoami.$BASE_DOMAIN
       homepage.description: whoami/echo service
-
-networks:
-  default:
-    external: true
-    name: proxy

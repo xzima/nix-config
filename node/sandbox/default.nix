@@ -33,7 +33,7 @@
   # Docker specific
   virtualisation.docker = {
     enable = true;
-    storageDriver = "btrfs";
+    storageDriver = "zfs";
     autoPrune = {
       enable = true;
       flags = [ "--all" "--force"];

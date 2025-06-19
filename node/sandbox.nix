@@ -37,6 +37,11 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = "yes";
+      environment = {
+        TZ = "Europe/Moscow";
+        PUID = "0";
+        PGID = "0";
+      };
       ExecStart = ''${pkgs.zsh}/bin/zsh -c "docker-compose -f ${../composes/whoami/compose.yml} up -d"'';
       ExecStop = ''${pkgs.zsh}/bin/zsh -c "docker-compose -f ${../composes/whoami/compose.yml} stop"'';
     };

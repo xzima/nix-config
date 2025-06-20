@@ -96,6 +96,7 @@ in
                 home-manager switch --flake github:xzima/nix-config#$(hostname) --refresh
               fi
               rm -f ~/.zshrc.zwc
+              antigen reset
             }
             function nix-gc() {
               nix store gc --debug

@@ -37,7 +37,8 @@
     # storageDriver = "zfs";
     autoPrune = {
       enable = true;
-      flags = [ "--all" "--force"];
+      flags = [ "--all" "--force" ];
+      dates = "12h";
     };
   };
   users.users.root.extraGroups = [ "docker" ];

@@ -1,4 +1,6 @@
 # https://gist.github.com/mosquito/b23e1c1e5723a7fd9e6568e5cf91180f
+# https://nixos.wiki/wiki/Systemd/Timers
+# age.secretsDir https://github.com/ryantm/agenix
 { config, pkgs, lib, ... }:
 let
   mkCompose = { projectPath, envs ? { }, envFiles ? [ ], ... }: {

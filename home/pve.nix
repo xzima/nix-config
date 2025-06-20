@@ -1,13 +1,19 @@
 { config, pkgs, lib, ... }:
 {
+  home.stateVersion = "25.05";
   imports = [
-    ./default.nix
+    ./myZsh.nix
   ];
 
   home.username = "root";
   home.homeDirectory = "/root";
 
   programs.home-manager.enable = true;
+
+  programs.myZsh = {
+    fix-hostname = true;
+    antigenBundles = [ "docker" "docker-compose" ];
+  };
 
   # Set zsh as default shell on activation
   home.activation.make-zsh-default-shell = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

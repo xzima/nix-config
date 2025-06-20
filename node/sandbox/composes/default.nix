@@ -7,7 +7,7 @@ let
     wantedBy = [ "multi-user.target" ];
     partOf = [ "docker.service" ];
     after = [ "docker.service" ];
-    environment = envs;
+    environment = envs // { SECRET_PATH = config.age.secretsDir; };
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = "true";

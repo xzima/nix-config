@@ -16,3 +16,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config:/app/config
+    secrets:
+      - token
+
+secrets:
+  token:
+    file: ${SECRET_PATH}/token.txt

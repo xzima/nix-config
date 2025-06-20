@@ -45,6 +45,7 @@
 
   age.secrets = {
     "domain.env".file = ../../secrets/node/sandbox/domain.env.age;
+    "token.txt".file =  ../../secrets/node/sandbox/token.txt.age;
   };
 
   # This value determines the Home Manager release that your configuration is

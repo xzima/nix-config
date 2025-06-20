@@ -43,6 +43,10 @@
   };
   users.users.root.extraGroups = [ "docker" ];
 
+  age.secrets = {
+    "domain.env".file = ../../secrets/node/sandbox/domain.env.age;
+  };
+
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.

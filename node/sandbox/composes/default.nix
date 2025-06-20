@@ -23,14 +23,14 @@ in
     projectPath = ./whoami;
     envFiles = [
       ./first.env
-      ./second.env
+      config.age.secrets."domain.env".path
     ];
   };
   systemd.services.dc-homepage = mkCompose {
     projectPath = ./homepage;
     envFiles = [
       ./first.env
-      ./second.env
+      config.age.secrets."domain.env".path
     ];
   };
 }

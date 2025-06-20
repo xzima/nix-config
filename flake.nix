@@ -13,9 +13,14 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, nix-index-database, ... }:
+  outputs = { nixpkgs, agenix, home-manager, nix-index-database, ... }:
     let
       system = "x86_64-linux";
     in
@@ -34,8 +39,9 @@
           inherit system;
           modules = [
             ./node/sandbox
-            nix-index-database.nixosModules.nix-index
+            agenix.nixosModules.default
             home-manager.nixosModules.home-manager
+            nix-index-database.nixosModules.nix-index
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;

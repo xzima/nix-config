@@ -20,6 +20,10 @@ let
     "zsh-users/zsh-history-substring-search"
     "zsh-users/zsh-autosuggestions"
   ];
+  dockerCompetitionFix = ''
+    zstyle ':completion:*:*:docker:*' option-stacking yes
+    zstyle ':completion:*:*:docker-*:*' option-stacking yes
+  '';
 in
 {
   options.programs.myZsh = {
@@ -78,6 +82,7 @@ in
           afterCfg = lib.mkOrder 1500 ''
             # Configure theme
             source ~/.dotfiles/.p10k.zsh
+            ${if (builtins.elem "docker" (defaultAntigenBundles ++ cfg.antigenBundles)) then dockerCompetitionFix else ""}
             # Aliases
             alias c="clear"
             alias ed="$EDITOR"

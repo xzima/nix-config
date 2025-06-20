@@ -38,7 +38,7 @@
     autoPrune = {
       enable = true;
       flags = [ "--all" "--force" ];
-      dates = "12h";
+      dates = "daily";
     };
   };
   users.users.root.extraGroups = [ "docker" ];

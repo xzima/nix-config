@@ -9,6 +9,7 @@
   home.homeDirectory = "/root";
 
   programs.myZsh = {
-    antigenBundles = [ "debian" ];
+    fix-hostname = true;
+    antigenBundles = [ "docker" "docker-compose" ];
   };
 }

@@ -11,8 +11,7 @@
   programs.home-manager.enable = true;
 
   programs.myZsh = {
-    fix-hostname = true;
-    antigenBundles = [ "docker" "docker-compose" ];
+    antigenBundles = [ "debian" ];
   };
 
   # Set zsh as default shell on activation

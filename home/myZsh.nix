@@ -70,25 +70,6 @@ in
             antigen use oh-my-zsh
             # Load bundles https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
             ${lib.concatLines (builtins.map (x: "antigen bundle ${x}") (defaultAntigenBundles ++ cfg.antigenBundles))}
-            antigen bundle debian
-            antigen bundle systemd
-            antigen bundle ufw
-            antigen bundle lol
-            antigen bundle sudo
-            antigen bundle git
-            antigen bundle git-flow
-            antigen bundle history
-            antigen bundle colored-man-pages
-            antigen bundle command-not-found
-            antigen bundle compleat
-            antigen bundle copypath
-            antigen bundle cp
-            antigen bundle dircycle
-            antigen bundle encode64
-            antigen bundle extract
-            antigen bundle zsh-users/zsh-syntax-highlighting
-            antigen bundle zsh-users/zsh-history-substring-search
-            antigen bundle zsh-users/zsh-autosuggestions
             # Load the theme
             antigen theme romkatv/powerlevel10k
             # Tell Antigen that you're done

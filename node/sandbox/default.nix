@@ -33,7 +33,8 @@
   # Docker specific
   virtualisation.docker = {
     enable = true;
-    storageDriver = "zfs";
+    # daemon.settings.data-root = "/share/docker";
+    # storageDriver = "zfs";
     autoPrune = {
       enable = true;
       flags = [ "--all" "--force"];

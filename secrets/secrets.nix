@@ -5,5 +5,6 @@ in
 {
   "node/sandbox/domain.env.age".publicKeys = [ zx-laptop sandbox-node ];
   "node/sandbox/token.txt.age".publicKeys = [ zx-laptop sandbox-node ];
+  "node/sandbox/tailscale-auth-file.age".publicKeys = [ zx-laptop sandbox-node ];
 }
 

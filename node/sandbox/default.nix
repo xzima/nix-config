@@ -53,7 +53,7 @@
     enable = true;
     authKeyFile = config.age.secrets.tailscale-auth-file.path;
     useRoutingFeatures = "server";
-    extraSetFlags = [ "--advertise-routes=192.168.0.0/24" ];
+    extraUpFlags = [ "--advertise-routes=192.168.0.0/24" ];
   };
 
   # This value determines the Home Manager release that your configuration is

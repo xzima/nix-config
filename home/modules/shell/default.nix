@@ -91,9 +91,9 @@ in
             function nix-rb() {
               source /etc/os-release
               if [ "nixos" = "$ID" ]; then
-                nixos-rebuild switch --flake github:xzima/nix-config/develop --refresh
+                nixos-rebuild switch --flake github:xzima/nix-config/stable --refresh
               else
-                home-manager switch --flake github:xzima/nix-config/develop#$(hostname) --refresh
+                home-manager switch --flake github:xzima/nix-config/stable#$(hostname) --refresh
               fi
               rm -f ~/.zshrc.zwc
               antigen reset

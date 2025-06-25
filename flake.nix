@@ -13,9 +13,14 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, nix-index-database, ... }:
+  outputs = { nixpkgs, agenix, home-manager, nix-index-database, ... }:
     let
       system = "x86_64-linux";
     in
@@ -26,6 +31,24 @@
           ./home/az-pve.nix
           nix-index-database.hmModules.nix-index
         ];
+      };
+
+      nixosConfigurations = {
+
+        tailscale-router = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./node/tailscale-router
+            agenix.nixosModules.default
+            home-manager.nixosModules.home-manager
+            nix-index-database.nixosModules.nix-index
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.root = ./home/tailscale-router.nix;
+            }
+          ];
+        };
       };
     };
 }

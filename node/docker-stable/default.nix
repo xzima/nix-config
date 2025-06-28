@@ -30,6 +30,7 @@
   # packages
   environment.systemPackages = [
     pkgs.docker-compose
+    pkgs.dig
   ];
   # Docker specific
   virtualisation.docker = {
@@ -44,8 +45,10 @@
   users.users.root.extraGroups = [ "docker" ];
 
   age.secrets = {
-    #    "domain.env".file = ../../secrets/node/sandbox/domain.env.age;
-    #    "token.txt".file = ../../secrets/node/sandbox/token.txt.age;
-    #    tailscale-auth-file.file = ../../secrets/node/sandbox/tailscale-auth-file.age;
+    "base.env".file = ../../secrets/node/docker-stable/base.env.age;
+    # traefik
+    "duckdns-token".file = ../../secrets/node/docker-stable/duckdns-token.age;
+    "traefik.env".file = ../../secrets/node/docker-stable/traefik.env.age;
+    "traefik-secret".file = ../../secrets/node/docker-stable/traefik-secret.age;
   };
 }

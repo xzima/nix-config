@@ -1,0 +1,77 @@
+# https://doc.traefik.io/traefik/
+# https://habr.com/ru/articles/508636/
+services:
+  traefik:
+    image: traefik:3.4.3
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    secrets:
+      - usersfile
+      - duck_dns_token
+    labels:
+      traefik.enable: true
+      traefik.http.middlewares.traefik-auth.basicauth.usersfile: /run/secrets/usersfile
+      traefik.http.routers.traefik.middlewares: traefik-auth
+      traefik.http.routers.traefik.entrypoints: websecure
+      traefik.http.routers.traefik.rule: Host(`traefik.$BASE_DOMAIN`)
+      traefik.http.routers.traefik.service: api@internal
+      traefik.http.services.traefik-traefik.loadbalancer.server.port: 888
+      homepage.group: Infrastructure
+      homepage.name: Traefik
+      homepage.icon: traefik-proxy.svg
+      homepage.href: https://traefik.$BASE_DOMAIN
+      homepage.description: Reverse-proxy
+      #homepage.widget.type: traefik
+      #homepage.widget.url: https://traefik.$BASE_DOMAIN
+    command:
+      - --api.disabledashboardad=true
+      - --api.dashboard=true
+      - --log.level=DEBUG
+
+      - --certificatesresolvers.letsEncrypt.acme.email=${EMAIL}
+      - --certificatesresolvers.letsEncrypt.acme.storage=/acme.json
+      #- --certificatesresolvers.letsEncrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --certificatesresolvers.letsEncrypt.acme.dnschallenge.provider=duckdns
+      # if nameservers are not reachable(https://intodns.com/duckdns.org)
+      - --certificatesresolvers.letsEncrypt.acme.dnschallenge.propagation.disableANSChecks=true
+      - --certificatesresolvers.letsEncrypt.acme.dnschallenge.propagation.requireAllRNS=true
+      - --certificatesresolvers.letsEncrypt.acme.dnschallenge.resolvers=8.8.8.8,1.1.1.1
+
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.websecure.http.tls.certresolver=letsEncrypt
+      - --entrypoints.websecure.http.tls.domains[0].main=*.${BASE_DOMAIN}
+
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      #- --providers.file.directory=/external
+
+    environment:
+      TZ: ${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+      DUCKDNS_TOKEN_FILE: /run/secrets/duck_dns_token
+      DUCKDNS_PROPAGATION_TIMEOUT: ${DUCKDNS_PROPAGATION_TIMEOUT}
+      DUCKDNS_POLLING_INTERVAL: ${DUCKDNS_POLLING_INTERVAL}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      #- ./external/:/external/:ro
+      - ${STORAGE_PATH}/traefik/acme.json:/acme.json
+
+secrets:
+  duck_dns_token:
+    file: ${SECRET_PATH}/duckdns-token
+  usersfile:
+    file: ${SECRET_PATH}/traefik-secret
+
+networks:
+  default:
+    name: proxy

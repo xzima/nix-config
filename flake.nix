@@ -49,6 +49,21 @@
             }
           ];
         };
+
+        docker-stable = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./node/docker-stable
+            agenix.nixosModules.default
+            home-manager.nixosModules.home-manager
+            nix-index-database.nixosModules.nix-index
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.root = ./home/docker-stable.nix;
+            }
+          ];
+        };
       };
     };
 }

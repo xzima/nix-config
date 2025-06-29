@@ -7,7 +7,7 @@ let
 in
 {
   "node/tailscale-router/auth-key.age".publicKeys = [ zx-laptop nodes.tailscale-router ];
-  "node/docker-stable/duckdns-token.age".publicKeys = [ zx-laptop nodes.docker-stable ];
+  "node/docker-stable/myaddr-token.age".publicKeys = [ zx-laptop nodes.docker-stable ];
   "node/docker-stable/traefik-secret.age".publicKeys = [ zx-laptop nodes.docker-stable ];
   "node/docker-stable/base.env.age".publicKeys = [ zx-laptop nodes.docker-stable ];
   "node/docker-stable/traefik.env.age".publicKeys = [ zx-laptop nodes.docker-stable ];

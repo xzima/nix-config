@@ -47,7 +47,7 @@
   age.secrets = {
     "base.env".file = ../../secrets/node/docker-stable/base.env.age;
     # traefik
-    "duckdns-token".file = ../../secrets/node/docker-stable/duckdns-token.age;
+    "myaddr-token".file = ../../secrets/node/docker-stable/myaddr-token.age;
     "traefik.env".file = ../../secrets/node/docker-stable/traefik.env.age;
     "traefik-secret".file = ../../secrets/node/docker-stable/traefik-secret.age;
   };

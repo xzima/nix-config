@@ -8,7 +8,7 @@ services:
       - no-new-privileges:true
     secrets:
       - usersfile
-      - duck_dns_token
+      - myaddr_token
     labels:
       traefik.enable: true
       traefik.http.middlewares.traefik-auth.basicauth.usersfile: /run/secrets/usersfile
@@ -32,11 +32,7 @@ services:
       - --certificatesresolvers.letsEncrypt.acme.email=${EMAIL}
       - --certificatesresolvers.letsEncrypt.acme.storage=/acme.json
       #- --certificatesresolvers.letsEncrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
-      - --certificatesresolvers.letsEncrypt.acme.dnschallenge.provider=duckdns
-      # if nameservers are not reachable(https://intodns.com/duckdns.org)
-      - --certificatesresolvers.letsEncrypt.acme.dnschallenge.propagation.disableANSChecks=true
-      - --certificatesresolvers.letsEncrypt.acme.dnschallenge.propagation.requireAllRNS=true
-      - --certificatesresolvers.letsEncrypt.acme.dnschallenge.resolvers=8.8.8.8,1.1.1.1
+      - --certificatesresolvers.letsEncrypt.acme.dnschallenge.provider=myaddr
 
       - --entrypoints.web.address=:80
       - --entrypoints.web.http.redirections.entryPoint.to=websecure
@@ -54,10 +50,9 @@ services:
       TZ: ${TZ}
       PUID: ${PUID}
       PGID: ${PGID}
-      DUCKDNS_TOKEN_FILE: /run/secrets/duck_dns_token
-      DUCKDNS_TTL: ${DUCKDNS_TTL}
-      DUCKDNS_PROPAGATION_TIMEOUT: ${DUCKDNS_PROPAGATION_TIMEOUT}
-      DUCKDNS_POLLING_INTERVAL: ${DUCKDNS_POLLING_INTERVAL}
+      MYADDR_PRIVATE_KEYS_MAPPING_FILE: /run/secrets/myaddr_token
+      MYADDR_PROPAGATION_TIMEOUT: ${MYADDR_PROPAGATION_TIMEOUT}
+      MYADDR_POLLING_INTERVAL: ${MYADDR_POLLING_INTERVAL}
     ports:
       - "80:80"
       - "443:443"
@@ -68,8 +63,8 @@ services:
       - ${STORAGE_PATH}/traefik/acme.json:/acme.json
 
 secrets:
-  duck_dns_token:
-    file: ${SECRET_PATH}/duckdns-token
+  myaddr_token:
+    file: ${SECRET_PATH}/myaddr-token
   usersfile:
     file: ${SECRET_PATH}/traefik-secret
 

@@ -1,0 +1,24 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:v1.3.2
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+      LOG_TARGETS: stdout
+      HOMEPAGE_ALLOWED_HOSTS: homepage.$BASE_DOMAIN
+    labels:
+      traefik.enable: true
+      traefik.http.routers.homepage.entrypoints: websecure
+      traefik.http.routers.homepage.rule: Host(`homepage.$BASE_DOMAIN`)
+      traefik.http.services.homepage.loadbalancer.server.port: 3000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config:/app/config
+
+networks:
+  default:
+    external: true
+    name: proxy

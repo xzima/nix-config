@@ -19,21 +19,20 @@ let
   };
 in
 {
+
   systemd.services.dc-traefik = mkCompose {
     projectPath = ./traefik;
     envFiles = [
       config.age.secrets."traefik.env".path
     ];
   };
+
+  systemd.services.dc-homepage = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./homepage;
+  };
   #  systemd.services.dc-whoami = mkCompose {
   #    projectPath = ./whoami;
-  #    envFiles = [
-  #      ./first.env
-  #      config.age.secrets."domain.env".path
-  #    ];
-  #  };
-  #  systemd.services.dc-homepage = mkCompose {
-  #    projectPath = ./homepage;
   #    envFiles = [
   #      ./first.env
   #      config.age.secrets."domain.env".path

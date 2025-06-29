@@ -1,0 +1,22 @@
+services:
+  whoami:
+    image: traefik/whoami:v1.11.0
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.whoami.entrypoints: websecure
+      traefik.http.routers.whoami.rule: Host(`whoami.$BASE_DOMAIN`)
+      homepage.group: Infrastructure
+      homepage.name: WhoAmI
+      #homepage.icon: https://www.gravatar.com/avatar/27caca9bcd7fd7f7412ca5255c9ae2d0?s=160
+      homepage.href: https://whoami.$BASE_DOMAIN
+      homepage.description: whoami/echo service
+
+networks:
+  default:
+    external: true
+    name: proxy

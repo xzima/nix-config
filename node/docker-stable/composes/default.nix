@@ -31,11 +31,9 @@ in
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./homepage;
   };
-  #  systemd.services.dc-whoami = mkCompose {
-  #    projectPath = ./whoami;
-  #    envFiles = [
-  #      ./first.env
-  #      config.age.secrets."domain.env".path
-  #    ];
-  #  };
+
+  systemd.services.dc-whoami = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./whoami;
+  };
 }

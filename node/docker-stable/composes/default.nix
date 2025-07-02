@@ -3,7 +3,7 @@
 # age.secretsDir https://github.com/ryantm/agenix
 { config, pkgs, lib, ... }:
 let
-  mkCompose = { projectPath, envs ? { }, envFiles ? [ ], after ? [ ], ... }: {
+  mkCompose = { projectPath, envs ? { }, envFiles ? [ ], after ? [ ], isWait ? false, ... }: {
     wantedBy = [ "multi-user.target" ];
     partOf = [ "docker.service" ];
     after = [ "docker.service" ] ++ after;
@@ -13,7 +13,7 @@ let
       RemainAfterExit = "true";
       WorkingDirectory = projectPath;
       EnvironmentFile = envFiles ++ [ config.age.secrets."base.env".path ];
-      ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d --remove-orphans";
+      ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d --remove-orphans ${lib.strings.optionalString isWait "--wait"}";
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
     };
   };
@@ -21,6 +21,7 @@ in
 {
 
   systemd.services.dc-traefik = mkCompose {
+    isWait = true;
     projectPath = ./traefik;
     envFiles = [
       config.age.secrets."traefik.env".path
@@ -35,5 +36,10 @@ in
   systemd.services.dc-whoami = mkCompose {
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./whoami;
+  };
+
+  systemd.services.dc-nextcloud = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./nextcloud;
   };
 }

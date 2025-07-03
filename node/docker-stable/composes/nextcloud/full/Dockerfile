@@ -1,3 +1,4 @@
+# based on: https://github.com/nextcloud/docker/tree/f0a7a8c934a8fef236ac5d12e319a12e7fcb1f88/.examples/dockerfiles/full/apache
 FROM nextcloud:31.0.6-apache
 
 RUN set -ex; \

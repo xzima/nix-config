@@ -50,5 +50,11 @@
     "myaddr-token".file = ../../secrets/node/docker-stable/myaddr-token.age;
     "traefik.env".file = ../../secrets/node/docker-stable/traefik.env.age;
     "traefik-secret".file = ../../secrets/node/docker-stable/traefik-secret.age;
+    # nextcloud
+    "nextcloud.postgres-db-name.txt".file = ../../secrets/node/docker-stable/nextcloud.postgres-db-name.txt.age;
+    "nextcloud.postgres-username.txt".file = ../../secrets/node/docker-stable/nextcloud.postgres-username.txt.age;
+    "nextcloud.postgres-password.txt".file = ../../secrets/node/docker-stable/nextcloud.postgres-password.txt.age;
+    "nextcloud.username.txt".file = ../../secrets/node/docker-stable/nextcloud.username.txt.age;
+    "nextcloud.password.txt".file = ../../secrets/node/docker-stable/nextcloud.password.txt.age;
   };
 }

@@ -1,17 +1,21 @@
+# based on:
+# https://github.com/stilicho2011/ubuntu_rep/blob/main/nextcloud/docker-compose.yaml
+# https://github.com/nextcloud/docker/tree/master/.examples/docker-compose/insecure/postgres/apache
 services:
   postgres:
     image: postgres:17.5-alpine3.22
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      test: [ "CMD-SHELL", "pg_isready -q -d `cat $$POSTGRES_DB_FILE` -U `cat $$POSTGRES_USER_FILE`" ]
       start_period: 60s
+    secrets:
+      - postgres-db-name
+      - postgres-username
+      - postgres-password
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB_FILE: /run/secrets/postgres-db-name
+      POSTGRES_USER_FILE: /run/secrets/postgres-username
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
     volumes:
       - ${STORAGE_PATH}/nextcloud/db/postgres:/var/lib/postgresql/data
 
@@ -19,10 +23,7 @@ services:
     image: redis:8.0.2-alpine3.21
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      test: [ "CMD", "redis-cli", "ping" ]
       start_period: 60s
     volumes:
       - ${STORAGE_PATH}/nextcloud/db/redis:/data
@@ -36,33 +37,38 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 90s
+      test: [ "CMD", "curl", "-f", "http://localhost" ]
+      start_period: 60s
     volumes:
-      - ${STORAGE_PATH}/nextcloud/main:/var/www/html
+      - ${STORAGE_PATH}/nextcloud/main:/var/www/html # root directory
       - ${STORAGE_PATH}/nextcloud/data:/var/www/html/data
-      - ${STORAGE_PATH}/nextcloud/config:/var/www/html/config #local configuration
+      - ${STORAGE_PATH}/nextcloud/config:/var/www/html/config
       - ${STORAGE_PATH}/nextcloud/custom_apps:/var/www/html/custom_apps #installed / modified apps
       - ${STORAGE_PATH}/nextcloud/themes:/var/www/html/themes/ #theming/branding
+    secrets:
+      - postgres-db-name
+      - postgres-username
+      - postgres-password
+      - nextcloud-username
+      - nextcloud-password
     environment:
       TZ: ${TZ}
       REDIS_HOST: redis
       POSTGRES_HOST: postgres
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      NEXTCLOUD_ADMIN_USER: ${NEXTCLOUD_ADMIN_USER}
-      NEXTCLOUD_ADMIN_PASSWORD: ${NEXTCLOUD_ADMIN_PASSWORD}
-      NEXTCLOUD_TRUSTED_DOMAINS: nextcloud.$BASE_DOMAIN
-      TRUSTED_PROXIES: 172.18.0.0/16 # docker proxy network
+      POSTGRES_DB_FILE: /run/secrets/postgres-db-name
+      POSTGRES_USER_FILE: /run/secrets/postgres-username
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
+      NEXTCLOUD_ADMIN_USER_FILE: /run/secrets/nextcloud-username
+      NEXTCLOUD_ADMIN_PASSWORD_FILE: /run/secrets/nextcloud-password
+      # fix nextcloud checks
       OVERWRITEPROTOCOL: https
+      TRUSTED_PROXIES: 172.18.0.0/16 # docker proxy network
+      NEXTCLOUD_TRUSTED_DOMAINS: nextcloud.$BASE_DOMAIN
     labels:
       traefik.enable: true
       traefik.http.routers.nextcloud.entrypoints: websecure
       traefik.http.routers.nextcloud.rule: Host(`nextcloud.$BASE_DOMAIN`)
+      # fix nextcloud checks
       traefik.http.routers.nextcloud.tls: true
       traefik.http.routers.nextcloud.middlewares: nextcloud-headers,nextcloud_redirect
       traefik.http.middlewares.nextcloud-headers.headers.stsSeconds: 31536000
@@ -72,6 +78,18 @@ services:
       traefik.http.middlewares.nextcloud_redirect.redirectregex.permanent: true
       traefik.http.middlewares.nextcloud_redirect.redirectregex.regex: https://(.*)/.well-known/(?:card|cal)dav
       traefik.http.middlewares.nextcloud_redirect.redirectregex.replacement: https://$${1}/remote.php/dav
+
+secrets:
+  postgres-db-name:
+    file: ${SECRET_PATH}/nextcloud.postgres-db-name.txt
+  postgres-username:
+    file: ${SECRET_PATH}/nextcloud.postgres-username.txt
+  postgres-password:
+    file: ${SECRET_PATH}/nextcloud.postgres-password.txt
+  nextcloud-username:
+    file: ${SECRET_PATH}/nextcloud.username.txt
+  nextcloud-password:
+    file: ${SECRET_PATH}/nextcloud.password.txt
 
 networks:
   default:

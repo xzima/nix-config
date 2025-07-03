@@ -56,6 +56,10 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    networks:
+      default:
+        aliases:
+          - nextcloud.${BASE_DOMAIN} # fix HSTS check for nextcloud(node/docker-stable/composes/nextcloud/compose.yml)
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro

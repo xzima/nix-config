@@ -78,6 +78,12 @@ services:
       traefik.http.middlewares.nextcloud_redirect.redirectregex.permanent: true
       traefik.http.middlewares.nextcloud_redirect.redirectregex.regex: https://(.*)/.well-known/(?:card|cal)dav
       traefik.http.middlewares.nextcloud_redirect.redirectregex.replacement: https://$${1}/remote.php/dav
+      # homepage
+      homepage.group: Others
+      homepage.name: NextCloud
+      homepage.icon: nextcloud-white.svg
+      homepage.href: https://nextcloud.$BASE_DOMAIN
+      homepage.description: Personal cloud
 
 secrets:
   postgres-db-name:

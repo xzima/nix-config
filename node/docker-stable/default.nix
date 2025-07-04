@@ -56,5 +56,7 @@
     "nextcloud.postgres-password.txt".file = ../../secrets/node/docker-stable/nextcloud.postgres-password.txt.age;
     "nextcloud.username.txt".file = ../../secrets/node/docker-stable/nextcloud.username.txt.age;
     "nextcloud.password.txt".file = ../../secrets/node/docker-stable/nextcloud.password.txt.age;
+    # onlyoffice
+    "onlyoffice.env".file = ../../secrets/node/docker-stable/onlyoffice.env.age;
   };
 }

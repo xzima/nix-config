@@ -19,5 +19,7 @@ in
   "node/docker-stable/nextcloud.postgres-password.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
   "node/docker-stable/nextcloud.username.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
   "node/docker-stable/nextcloud.password.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
+
+  "node/docker-stable/onlyoffice.env.age".publicKeys = [ zx-laptop nodes.docker-stable ];
 }
 

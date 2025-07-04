@@ -45,6 +45,8 @@ services:
         condition: service_healthy
       onlyoffice-redis:
         condition: service_healthy
+      onlyoffice-rabbitmq:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8000/info/info.json" ]
       start_period: 60s
@@ -73,6 +75,11 @@ services:
       traefik.enable: true
       traefik.http.routers.onlyoffice.entrypoints: websecure
       traefik.http.routers.onlyoffice.rule: Host(`onlyoffice.$BASE_DOMAIN`)
+      # homepage
+      homepage.group: Others
+      homepage.name: OnlyOffice(NextCloud)
+      homepage.icon: onlyoffice.svg
+      homepage.description: Personal office suite
 
 networks:
   default:

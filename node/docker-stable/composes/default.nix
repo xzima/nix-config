@@ -46,5 +46,8 @@ in
   systemd.services.dc-onlyoffice = mkCompose {
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./onlyoffice;
+    envFiles = [
+      config.age.secrets."onlyoffice.env".path
+    ];
   };
 }

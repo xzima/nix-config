@@ -2,7 +2,7 @@
 # https://github.com/stilicho2011/ubuntu_rep/blob/main/nextcloud/docker-compose.yaml
 # https://github.com/nextcloud/docker/tree/master/.examples/docker-compose/insecure/postgres/apache
 services:
-  postgres:
+  nextcloud-postgres:
     image: postgres:17.5-alpine3.22
     restart: unless-stopped
     healthcheck:
@@ -19,7 +19,7 @@ services:
     volumes:
       - ${STORAGE_PATH}/nextcloud/db/postgres:/var/lib/postgresql/data
 
-  redis:
+  nextcloud-redis:
     image: redis:8.0.2-alpine3.21
     restart: unless-stopped
     healthcheck:
@@ -32,9 +32,9 @@ services:
     build: ./full
     restart: unless-stopped
     depends_on:
-      postgres:
+      nextcloud-postgres:
         condition: service_healthy
-      redis:
+      nextcloud-redis:
         condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost" ]
@@ -53,8 +53,8 @@ services:
       - nextcloud-password
     environment:
       TZ: ${TZ}
-      REDIS_HOST: redis
-      POSTGRES_HOST: postgres
+      REDIS_HOST: nextcloud-redis
+      POSTGRES_HOST: nextcloud-postgres
       POSTGRES_DB_FILE: /run/secrets/postgres-db-name
       POSTGRES_USER_FILE: /run/secrets/postgres-username
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password

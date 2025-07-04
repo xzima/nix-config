@@ -42,4 +42,9 @@ in
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./nextcloud;
   };
+
+  systemd.services.dc-onlyoffice = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./onlyoffice;
+  };
 }

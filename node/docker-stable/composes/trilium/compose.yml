@@ -4,16 +4,10 @@ services:
     image: triliumnext/trilium:v0.96.0
     restart: unless-stopped
     environment:
-      TZ: ${TZ}
-      PUID: ${PUID}
-      PGID: ${PGID}
       TRILIUM_CONFIG_INI_PATH: "/config.ini"
       TRILIUM_DOCUMENT_PATH: "/db/document.db"
       TRILIUM_ANONYMIZED_DB_DIR: "/anonymized-db"
       TRILIUM_BACKUP_DIR: "/backup"
-      TRILIUM_LOG_DIR: "/log"
-    expose:
-      - "80"
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -23,8 +17,10 @@ services:
       - ${STORAGE_PATH}/trilium/backup:/backup
     labels:
       traefik.enable: true
-      traefik.http.routers.whoami.entrypoints: websecure
-      traefik.http.routers.whoami.rule: Host(`whoami.$BASE_DOMAIN`)
+      traefik.http.routers.trilium.entrypoints: websecure
+      traefik.http.routers.trilium.rule: Host(`trilium.$BASE_DOMAIN`)
+      traefik.http.services.trilium.loadbalancer.server.port: 8080
+      # homepage
       homepage.group: Others
       homepage.name: Trilium Notes
       homepage.icon: triliumnext.svg

@@ -50,4 +50,9 @@ in
       config.age.secrets."onlyoffice.env".path
     ];
   };
+
+  systemd.services.dc-trilium = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./trilium;
+  };
 }

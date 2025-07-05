@@ -1,0 +1,37 @@
+# based on: https://github.com/TriliumNext/Trilium/blob/main/docker-compose.yml
+services:
+  trilium:
+    image: triliumnext/trilium:v0.96.0
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TRILIUM_CONFIG_INI_PATH: "/config.ini"
+      TRILIUM_DOCUMENT_PATH: "/db/document.db"
+      TRILIUM_ANONYMIZED_DB_DIR: "/anonymized-db"
+      TRILIUM_BACKUP_DIR: "/backup"
+      TRILIUM_LOG_DIR: "/log"
+    expose:
+      - "80"
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ./config.ini:/config.ini
+      - ${STORAGE_PATH}/trilium/db:/db
+      - ${STORAGE_PATH}/trilium/anonymized-db:/anonymized-db
+      - ${STORAGE_PATH}/trilium/backup:/backup
+    labels:
+      traefik.enable: true
+      traefik.http.routers.whoami.entrypoints: websecure
+      traefik.http.routers.whoami.rule: Host(`whoami.$BASE_DOMAIN`)
+      homepage.group: Others
+      homepage.name: Trilium Notes
+      homepage.icon: triliumnext.svg
+      homepage.href: https://trilium.$BASE_DOMAIN
+      homepage.description: Personal knowledge base
+
+networks:
+  default:
+    external: true
+    name: proxy

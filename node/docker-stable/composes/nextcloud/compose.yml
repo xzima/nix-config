@@ -45,6 +45,8 @@ services:
       - ${STORAGE_PATH}/nextcloud/config:/var/www/html/config
       - ${STORAGE_PATH}/nextcloud/custom_apps:/var/www/html/custom_apps #installed / modified apps
       - ${STORAGE_PATH}/nextcloud/themes:/var/www/html/themes/ #theming/branding
+      - ${STORAGE_PATH}/photoprism/inbox:/storage/services/nextcloud/data/nextcloud/files/Photos/Inbox
+      - ${STORAGE_PATH}/photoprism/originals:/storage/services/nextcloud/data/nextcloud/files/Photos/PhotoPrism
     secrets:
       - postgres-db-name
       - postgres-username

@@ -58,5 +58,8 @@
     "nextcloud.password.txt".file = ../../secrets/node/docker-stable/nextcloud.password.txt.age;
     # onlyoffice
     "onlyoffice.env".file = ../../secrets/node/docker-stable/onlyoffice.env.age;
+    # photoprism
+    "photoprism.mariadb-password.txt".file = ../../secrets/node/docker-stable/photoprism.mariadb-password.txt.age;
+    "photoprism.password.txt".file = ../../secrets/node/docker-stable/photoprism.password.txt.age;
   };
 }

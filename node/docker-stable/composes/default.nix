@@ -55,4 +55,9 @@ in
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./trilium;
   };
+
+  systemd.services.dc-photoprism = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./photoprism;
+  };
 }

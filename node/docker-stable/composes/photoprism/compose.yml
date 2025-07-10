@@ -1,0 +1,100 @@
+# Setup Guides:
+# - https://docs.photoprism.app/getting-started/docker-compose/
+# - https://docs.photoprism.app/getting-started/raspberry-pi/
+# - https://www.photoprism.app/kb/activation
+#
+# Troubleshooting Checklists:
+# - https://docs.photoprism.app/getting-started/troubleshooting/
+# - https://docs.photoprism.app/getting-started/troubleshooting/docker/
+# - https://docs.photoprism.app/getting-started/troubleshooting/mariadb/
+#
+# CLI Commands:
+# - https://docs.photoprism.app/getting-started/docker-compose/#command-line-interface
+
+services:
+  photoprism:
+    image: photoprism/photoprism:250707
+    restart: unless-stopped
+    stop_grace_period: 10s
+    depends_on:
+      - mariadb
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    secrets:
+      - mariadb-password
+      - photoprism-password
+    ## https://docs.photoprism.app/getting-started/config-options/
+    environment:
+      PHOTOPRISM_ADMIN_USER: ${PHOTOPRISM_ADMIN_USER}
+      PHOTOPRISM_ADMIN_PASSWORD_FILE: /run/secrets/photoprism-password
+      PHOTOPRISM_DEFAULT_LOCALE: "ru"
+      PHOTOPRISM_PLACES_LOCALE: "ru"
+      PHOTOPRISM_SITE_URL: photoprism.$BASE_DOMAIN
+      PHOTOPRISM_DISABLE_TLS: "true"
+      PHOTOPRISM_ORIGINALS_LIMIT: 5000
+      PHOTOPRISM_HTTP_COMPRESSION: "gzip"
+      PHOTOPRISM_DISABLE_CHOWN: "false"
+      PHOTOPRISM_DISABLE_WEBDAV: "true"
+      PHOTOPRISM_BACKUP_DATABASE: "false"
+      PHOTOPRISM_UPLOAD_NSFW: "true"
+      PHOTOPRISM_UPLOAD_ARCHIVES: "true"
+      PHOTOPRISM_DATABASE_DRIVER: "mysql"
+      PHOTOPRISM_DATABASE_SERVER: photoprism-mariadb:3306
+      PHOTOPRISM_DATABASE_NAME: ${MARIADB_DATABASE}
+      PHOTOPRISM_DATABASE_USER: ${MARIADB_USER}
+      PHOTOPRISM_DATABASE_PASSWORD_FILE: /run/secrets/mariadb-password
+      ## Run/install on first startup, see https://github.com/photoprism/photoprism/blob/develop/scripts/dist/Makefile:
+      PHOTOPRISM_INIT: "update ffmpeg tensorflow"
+      PHOTOPRISM_UID: 33
+      PHOTOPRISM_GID: 33
+    working_dir: "/photoprism" # do not change or remove
+    volumes:
+      - ${STORAGE_PATH}/photoprism/inbox:/photoprism/import
+      - ${STORAGE_PATH}/photoprism/originals:/photoprism/originals
+      - ${STORAGE_PATH}/photoprism/storage:/photoprism/storage
+
+    labels:
+      traefik.enable: true
+      traefik.http.routers.photoprism.entrypoints: websecure
+      traefik.http.routers.photoprism.rule: Host(`photoprism.$BASE_DOMAIN`)
+      traefik.http.services.photoprism.loadbalancer.server.port: 2342
+      # homepage
+      homepage.group: Others
+      homepage.name: PhotoPrism
+      homepage.icon: photoprism-light.svg
+      homepage.href: https://photoprism.$BASE_DOMAIN
+      homepage.description: AI-Powered Photos App
+
+  ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
+  photoprism-mariadb:
+    image: mariadb:11.8.2
+    restart: unless-stopped
+    stop_grace_period: 5s
+    security_opt: # see https://github.com/MariaDB/mariadb-docker/issues/434#issuecomment-1136151239
+      - seccomp:unconfined
+      - apparmor:unconfined
+    command: --innodb-buffer-pool-size=512M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
+    ## Never store database files on an unreliable device such as a USB flash drive, an SD card, or a shared network folder:
+    volumes:
+      - ${STORAGE_PATH}/photoprism/db:/var/lib/mysql
+    secrets:
+      - mariadb-password
+    environment:
+      MARIADB_AUTO_UPGRADE: "1"
+      MARIADB_INITDB_SKIP_TZINFO: "1"
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD_FILE: /run/secrets/mariadb-password
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mariadb-password
+
+secrets:
+  mariadb-password:
+    file: ${SECRET_PATH}/photoprism.mariadb-password.txt
+  photoprism-password:
+    file: ${SECRET_PATH}/photoprism.password.txt
+
+networks:
+  default:
+    external: true
+    name: proxy

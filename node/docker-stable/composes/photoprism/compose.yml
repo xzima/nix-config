@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
     stop_grace_period: 10s
     depends_on:
-      - mariadb
+      - photoprism-mariadb
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
@@ -30,7 +30,7 @@ services:
       PHOTOPRISM_ADMIN_PASSWORD_FILE: /run/secrets/photoprism-password
       PHOTOPRISM_DEFAULT_LOCALE: "ru"
       PHOTOPRISM_PLACES_LOCALE: "ru"
-      PHOTOPRISM_SITE_URL: photoprism.$BASE_DOMAIN
+      PHOTOPRISM_SITE_URL: https://photoprism.$BASE_DOMAIN/
       PHOTOPRISM_DISABLE_TLS: "true"
       PHOTOPRISM_ORIGINALS_LIMIT: 5000
       PHOTOPRISM_HTTP_COMPRESSION: "gzip"
@@ -45,9 +45,9 @@ services:
       PHOTOPRISM_DATABASE_USER: ${MARIADB_USER}
       PHOTOPRISM_DATABASE_PASSWORD_FILE: /run/secrets/mariadb-password
       ## Run/install on first startup, see https://github.com/photoprism/photoprism/blob/develop/scripts/dist/Makefile:
-      PHOTOPRISM_INIT: "update ffmpeg tensorflow"
-      PHOTOPRISM_UID: 33
-      PHOTOPRISM_GID: 33
+      PHOTOPRISM_INIT: "ffmpeg tensorflow"
+      PHOTOPRISM_UID: ${NEXTCLOUD_UID}
+      PHOTOPRISM_GID: ${NEXTCLOUD_GID}
     working_dir: "/photoprism" # do not change or remove
     volumes:
       - ${STORAGE_PATH}/photoprism/inbox:/photoprism/import

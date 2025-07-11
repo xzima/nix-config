@@ -1,0 +1,51 @@
+services:
+  jackett:
+    image: linuxserver/jackett:0.22.2145
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${STORAGE_PATH}/jackett/config:/config
+      - ${MEDIA_PATH}:/downloads
+    labels:
+      traefik.enable: true
+      traefik.http.routers.jackett.entrypoints: websecure
+      traefik.http.routers.jackett.rule: Host(`jackett.$BASE_DOMAIN`)
+      traefik.http.services.jackett.loadbalancer.server.port: 9117
+      # homepage
+      homepage.group: Torrent
+      homepage.name: Jackett
+      homepage.icon: jackett-light.png
+      homepage.href: https://jackett.$BASE_DOMAIN
+      homepage.description: Torrent tracker indexer
+
+  qbittorrent:
+    image: linuxserver/qbittorrent:5.1.2
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.qbittorrent.entrypoints: websecure
+      traefik.http.routers.qbittorrent.rule: Host(`qbittorrent.$BASE_DOMAIN`)
+      traefik.http.services.qbittorrent.loadbalancer.server.port: 8080
+      # homepage
+      homepage.group: Torrent
+      homepage.name: QBitTorrent
+      homepage.icon: qbittorrent.svg
+      homepage.href: https://qbittorrent.$BASE_DOMAIN
+      homepage.description: Torrent-клиент
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${STORAGE_PATH}/qbittorrent/config:/config
+      - ${MEDIA_PATH}:/downloads
+
+networks:
+  default:
+    external: true
+    name: proxy

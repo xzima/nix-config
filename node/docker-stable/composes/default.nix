@@ -15,6 +15,8 @@ let
       EnvironmentFile = envFiles ++ [ config.age.secrets."base.env".path ];
       ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d --remove-orphans ${lib.strings.optionalString isWait "--wait"}";
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
+      Restart = "on-failure";
+      RestartSec = "5";
     };
   };
 in

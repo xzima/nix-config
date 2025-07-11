@@ -7,7 +7,11 @@ let
     wantedBy = [ "multi-user.target" ];
     partOf = [ "docker.service" ];
     after = [ "docker.service" ] ++ after;
-    environment = envs // { SECRET_PATH = config.age.secretsDir; STORAGE_PATH = "/storage/services"; };
+    environment = envs // {
+      SECRET_PATH = config.age.secretsDir;
+      STORAGE_PATH = "/storage/services";
+      MEDIA_PATH = "/media-store";
+    };
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = "true";
@@ -61,5 +65,10 @@ in
   systemd.services.dc-photoprism = mkCompose {
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./photoprism;
+  };
+
+  systemd.services.dc-awg-proxy = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./awg-proxy;
   };
 }

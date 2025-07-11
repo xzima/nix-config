@@ -1,0 +1,4 @@
+WGConfig = /run/secrets/awg.conf
+
+[http]
+BindAddress = 0.0.0.0:2080

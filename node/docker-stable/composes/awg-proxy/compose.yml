@@ -1,0 +1,24 @@
+services:
+  awg-proxy:
+    # TODO: create own build
+    image: ghcr.io/artem-russkikh/wireproxy-awg:fe2920a47dbada6773e385b8a646d860e234cf43
+    restart: always
+    volumes:
+      - ./config:/etc/wireproxy/config
+    expose:
+      - "2080"
+    secrets:
+      - awg.conf
+    labels:
+      homepage.group: Infrastructure
+      homepage.name: AwgProxy
+      homepage.icon: https://avatars.githubusercontent.com/u/74861536
+      homepage.description: AmneziaWG Proxy
+secrets:
+  awg.conf:
+    file: ${SECRET_PATH}/awg-proxy.awg.conf
+
+networks:
+  default:
+    external: true
+    name: proxy

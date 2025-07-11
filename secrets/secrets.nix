@@ -24,5 +24,7 @@ in
 
   "node/docker-stable/photoprism.mariadb-password.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
   "node/docker-stable/photoprism.password.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
+
+  "node/docker-stable/awg-proxy.awg.conf.age".publicKeys = [ zx-laptop nodes.docker-stable ];
 }
 

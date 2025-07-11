@@ -29,6 +29,7 @@ services:
       TZ: ${TZ}
       PUID: ${PUID}
       PGID: ${PGID}
+      DOCKER_MODS: ghcr.io/vuetorrent/vuetorrent-lsio-mod:2.27.0
     labels:
       traefik.enable: true
       traefik.http.routers.qbittorrent.entrypoints: websecure

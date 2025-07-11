@@ -31,6 +31,7 @@
   environment.systemPackages = [
     pkgs.docker-compose
     pkgs.dig
+    pkgs.unzip
   ];
   # Docker specific
   virtualisation.docker = {
@@ -68,6 +69,9 @@
       mode = "444";
     };
     # awg-proxy
-    "awg-proxy.awg.conf".file = ../../secrets/node/docker-stable/awg-proxy.awg.conf.age;
+    "awg-proxy.awg.conf" = {
+      file = ../../secrets/node/docker-stable/awg-proxy.awg.conf.age;
+      mode = "444";
+    };
   };
 }

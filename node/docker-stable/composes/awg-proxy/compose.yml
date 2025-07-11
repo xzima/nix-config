@@ -6,7 +6,8 @@ services:
     volumes:
       - ./config:/etc/wireproxy/config
     expose:
-      - "2080"
+      - "25550"
+      - "25555"
     secrets:
       - awg.conf
     labels:

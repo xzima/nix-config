@@ -1,0 +1,71 @@
+services:
+  radarr:
+    image: linuxserver/radarr:5.26.2
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.radarr.entrypoints: websecure
+      traefik.http.routers.radarr.rule: Host(`radarr.$BASE_DOMAIN`)
+      traefik.http.services.radarr.loadbalancer.server.port: 7878
+      homepage.group: Servarr
+      homepage.name: Radarr
+      homepage.icon: radarr.svg
+      homepage.href: https://radarr.$BASE_DOMAIN
+      homepage.description: Кино
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${STORAGE_PATH}/radarr/config:/config
+      - ${MEDIA_PATH}:/storage
+
+  sonarr:
+    image: linuxserver/sonarr:4.0.15
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.sonarr.entrypoints: websecure
+      traefik.http.routers.sonarr.rule: Host(`sonarr.$BASE_DOMAIN`)
+      traefik.http.services.sonarr.loadbalancer.server.port: 8989
+      homepage.group: Servarr
+      homepage.name: Sonarr
+      homepage.icon: sonarr.svg
+      homepage.href: https://sonarr.$BASE_DOMAIN
+      homepage.description: Сериалы
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${STORAGE_PATH}/sonarr/config:/config
+      - ${MEDIA_PATH}:/storage
+
+  whisparr:
+    image: hotio/whisparr:v3-3.0.0.1149
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.whisparr.entrypoints: websecure
+      traefik.http.routers.whisparr.rule: Host(`whisparr.$BASE_DOMAIN`)
+      traefik.http.services.whisparr.loadbalancer.server.port: 6969
+      homepage.group: Servarr
+      homepage.name: Whisparr
+      homepage.icon: whisparr.svg
+      homepage.href: https://whisparr.$BASE_DOMAIN
+      homepage.description: XXX
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${STORAGE_PATH}/whisparr/config:/config
+      - ${MEDIA_PATH}:/storage
+
+networks:
+  default:
+    external: true
+    name: proxy

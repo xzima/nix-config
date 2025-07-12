@@ -76,4 +76,9 @@ in
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./torrent;
   };
+
+  systemd.services.dc-servarr = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./servarr;
+  };
 }

@@ -1,0 +1,48 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.10.7
+    restart: unless-stopped
+    environment:
+      HTTP_PROXY: http://awg-proxy:25550
+      HTTPS_PROXY: http://awg-proxy:25550
+      NO_PROXY: localhost,127.0.0.1
+    group_add:
+      - 104
+      - 44
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card1:/dev/dri/card1
+    volumes:
+      - ${MEDIA_PATH}:/storage
+      - ${STORAGE_PATH}/jellyfin/config:/config
+      - ${STORAGE_PATH}/jellyfin/cache:/cache
+    labels:
+      traefik.enable: true
+      traefik.http.routers.jellyfin.entrypoints: websecure
+      traefik.http.routers.jellyfin.rule: Host(`jellyfin.$BASE_DOMAIN`)
+      traefik.http.services.jellyfin.loadbalancer.server.port: 8096
+      # custom
+      traefik.http.routers.jellyfin.middlewares: jellyfin-mw
+      traefik.http.middlewares.jellyfin-mw.headers.customResponseHeaders.X-Robots-Tag: noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex
+      traefik.http.middlewares.jellyfin-mw.headers.SSLRedirect: true
+      traefik.http.middlewares.jellyfin-mw.headers.SSLHost: jellyfin.$BASE_DOMAIN
+      traefik.http.middlewares.jellyfin-mw.headers.SSLForceHost: true
+      traefik.http.middlewares.jellyfin-mw.headers.STSSeconds: 315360000
+      traefik.http.middlewares.jellyfin-mw.headers.STSIncludeSubdomains: true
+      traefik.http.middlewares.jellyfin-mw.headers.STSPreload: true
+      traefik.http.middlewares.jellyfin-mw.headers.forceSTSHeader: true
+      traefik.http.middlewares.jellyfin-mw.headers.frameDeny: true
+      traefik.http.middlewares.jellyfin-mw.headers.contentTypeNosniff: true
+      traefik.http.middlewares.jellyfin-mw.headers.customresponseheaders.X-XSS-PROTECTION: 1
+      traefik.http.middlewares.jellyfin-mw.headers.customFrameOptionsValue: 'allow-from https://jellyfin.$BASE_DOMAIN'
+      # homepage
+      homepage.group: Servarr
+      homepage.name: Jellyfin
+      homepage.icon: jellyfin.svg
+      homepage.href: https://jellyfin.$BASE_DOMAIN
+      homepage.description: Home Media Server
+
+networks:
+  default:
+    external: true
+    name: proxy

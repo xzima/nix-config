@@ -81,4 +81,9 @@ in
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./servarr;
   };
+
+  systemd.services.dc-jellyfin = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./jellyfin;
+  };
 }

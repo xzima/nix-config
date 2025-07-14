@@ -86,4 +86,9 @@ in
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./jellyfin;
   };
+
+  systemd.services.dc-filebrowser = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./filebrowser;
+  };
 }

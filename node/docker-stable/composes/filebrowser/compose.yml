@@ -1,0 +1,23 @@
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:v2.40.0
+    restart: unless-stopped
+    volumes:
+      - ${STORAGE_PATH}:/srv${STORAGE_PATH}
+      - ${MEDIA_PATH}:/srv${MEDIA_PATH}
+      - ${STORAGE_PATH}/filebrowser/database:/database
+      - ${STORAGE_PATH}/filebrowser/config:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.filebrowser.entrypoints: websecure
+      traefik.http.routers.filebrowser.rule: Host(`filebrowser.$BASE_DOMAIN`)
+      homepage.group: Infrastructure
+      homepage.name: FileBrowser
+      homepage.icon: filebrowser.svg
+      homepage.href: https://filebrowser.$BASE_DOMAIN
+      homepage.description: File Managing Interface
+
+networks:
+  default:
+    external: true
+    name: proxy

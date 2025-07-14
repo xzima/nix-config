@@ -2,7 +2,7 @@ services:
   awg-proxy:
     # TODO: create own build
     image: ghcr.io/artem-russkikh/wireproxy-awg:fe2920a47dbada6773e385b8a646d860e234cf43
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./config:/etc/wireproxy/config
     expose:

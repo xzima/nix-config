@@ -5,3 +5,13 @@
 providers:
   openweathermap: openweathermapapikey
   weatherapi: weatherapiapikey
+
+layout:
+  - Servarr:
+      style: columns
+  - Torrent:
+      style: columns
+  - Infrastructure:
+      style: columns
+  - Others:
+      style: columns

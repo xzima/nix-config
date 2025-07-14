@@ -2,12 +2,4 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/latest/configs/services
 
-- Servarr:
-- Infrastructure:
-- Others:
-- Torrent:
 
-- My Third Group:
-    - My Third Service:
-        href: http://localhost/
-        description: Homepage is 😎

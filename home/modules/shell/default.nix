@@ -21,6 +21,7 @@ let
     "zsh-users/zsh-autosuggestions"
   ];
   dockerCompetitionFix = ''
+    alias dc="docker compose -p"
     zstyle ':completion:*:*:docker:*' option-stacking yes
     zstyle ':completion:*:*:docker-*:*' option-stacking yes
   '';

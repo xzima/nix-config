@@ -2,6 +2,7 @@ services:
   filebrowser:
     image: filebrowser/filebrowser:v2.40.0
     restart: unless-stopped
+    user: ${PUID}:${PGID}
     volumes:
       - ${STORAGE_PATH}:/srv${STORAGE_PATH}
       - ${MEDIA_PATH}:/srv${MEDIA_PATH}

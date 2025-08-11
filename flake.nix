@@ -29,7 +29,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
         modules = [
           ./home/az-pve.nix
-          nix-index-database.hmModules.nix-index
+          nix-index-database.homeModules.nix-index
         ];
       };
 

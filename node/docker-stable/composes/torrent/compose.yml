@@ -1,6 +1,6 @@
 services:
   jackett:
-    image: linuxserver/jackett:0.22.2174
+    image: linuxserver/jackett:0.22.2258
     restart: unless-stopped
     environment:
       TZ: ${TZ}
@@ -29,7 +29,7 @@ services:
       TZ: ${TZ}
       PUID: ${PUID}
       PGID: ${PGID}
-      DOCKER_MODS: ghcr.io/vuetorrent/vuetorrent-lsio-mod:2.27.0
+      DOCKER_MODS: ghcr.io/vuetorrent/vuetorrent-lsio-mod:2.28.2
     labels:
       traefik.enable: true
       traefik.http.routers.qbittorrent.entrypoints: websecure

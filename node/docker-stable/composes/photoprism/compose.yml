@@ -13,7 +13,7 @@
 
 services:
   photoprism:
-    image: photoprism/photoprism:250707
+    build: ./
     restart: unless-stopped
     stop_grace_period: 10s
     depends_on:
@@ -49,8 +49,7 @@ services:
       PHOTOPRISM_DATABASE_NAME: ${MARIADB_DATABASE}
       PHOTOPRISM_DATABASE_USER: ${MARIADB_USER}
       PHOTOPRISM_DATABASE_PASSWORD_FILE: /run/secrets/mariadb-password
-      ## Run/install on first startup, see https://github.com/photoprism/photoprism/blob/develop/scripts/dist/Makefile:
-      PHOTOPRISM_INIT: "ffmpeg tensorflow"
+      #
       PHOTOPRISM_UID: ${NEXTCLOUD_UID}
       PHOTOPRISM_GID: ${NEXTCLOUD_GID}
     working_dir: "/photoprism" # do not change or remove

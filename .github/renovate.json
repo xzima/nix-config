@@ -14,7 +14,10 @@
   "baseBranchPatterns": [
     "stable"
   ],
-  "nix": {"enabled": true},
+  "nix": {
+    "enabled": true,
+    "digest": {"enabled": false}
+  },
   "packageRules": [
     {
       "semanticCommitType": "build",

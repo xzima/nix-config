@@ -1,0 +1,40 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "dependencyDashboardApproval": true,
+  "assigneesFromCodeOwners": true,
+  "semanticCommits": "enabled",
+  "semanticCommitType": "build",
+  "semanticCommitScope": "deps",
+  "labels": [
+    "dependencies"
+  ],
+  "baseBranchPatterns": [
+    "stable"
+  ],
+  "lockFileMaintenance": {"enabled": true},
+  "nix": {"enabled": true},
+  "packageRules": [
+    {
+      "semanticCommitType": "build",
+      "matchPackageNames": [
+        "*"
+      ]
+    },
+    {
+      "matchDatasources": ["docker"],
+      "versioning": "regex:^(?<major>\\d{2})(?<minor>\\d{2})(?<patch>\\d{2})$",
+      "matchPackageNames": ["photoprism/photoprism"]
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)(?:docker-)?compose[^/]*\\.ya?ml$/"],
+      "matchStrings": ["\\s+DOCKER_MODS:\\s+(?<packageName>.*):(?<currentValue>.*)\\n"],
+      "datasourceTemplate": "docker"
+    }
+  ]
+}

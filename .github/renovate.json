@@ -18,19 +18,18 @@
   "packageRules": [
     {
       "semanticCommitType": "build",
-      "matchPackageNames": [
-        "*"
-      ]
+      "matchPackageNames": ["*"],
+      "minimumReleaseAge": "5 days"
+    },
+    {
+      "matchManagers": ["nix"],
+      "matchPackageNames": ["*"],
+      "versioning": "nixpkgs"
     },
     {
       "matchDatasources": ["docker"],
       "matchPackageNames": ["photoprism/photoprism"],
       "versioning": "regex:^(?<major>\\d{2})(?<minor>\\d{2})(?<patch>\\d{2})$"
-    },
-    {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["linuxserver/qbittorrent"],
-      "versioning": "semver"
     }
   ],
   "customManagers": [

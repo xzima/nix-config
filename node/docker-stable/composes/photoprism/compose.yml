@@ -72,7 +72,7 @@ services:
 
   ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
   photoprism-mariadb:
-    image: mariadb:11.8.2
+    image: mariadb:11.8.3
     restart: unless-stopped
     stop_grace_period: 5s
     security_opt: # see https://github.com/MariaDB/mariadb-docker/issues/434#issuecomment-1136151239

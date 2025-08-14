@@ -27,11 +27,12 @@
       Macs = [ "hmac-sha2-256-etm@openssh.com" "hmac-sha2-256" ];
     };
   };
-  # packages
+  # packages https://search.nixos.org/packages
   environment.systemPackages = [
     pkgs.docker-compose
     pkgs.dig
     pkgs.unzip
+    pkgs.ffmpeg
   ];
   # Docker specific
   virtualisation.docker = {

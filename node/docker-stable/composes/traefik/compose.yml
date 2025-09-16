@@ -2,7 +2,7 @@
 # https://habr.com/ru/articles/508636/
 services:
   traefik:
-    image: traefik:3.5.0
+    image: traefik:v3.5.1
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true

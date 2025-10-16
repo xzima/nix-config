@@ -91,4 +91,9 @@ in
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./filebrowser;
   };
+
+  systemd.services.dc-gitea = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./gitea;
+  };
 }

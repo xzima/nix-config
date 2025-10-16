@@ -1,0 +1,92 @@
+# based on:
+# https://docs.gitea.com/installation/install-with-docker-rootless
+# https://github.com/go-gitea/gitea/tree/main/docker
+services:
+  gitea-postgres:
+    image: postgres:18.0-alpine3.22
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -q -d `cat $$POSTGRES_DB_FILE` -U `cat $$POSTGRES_USER_FILE`" ]
+      start_period: 60s
+    secrets:
+      - postgres-db-name
+      - postgres-username
+      - postgres-password
+    environment:
+      POSTGRES_DB_FILE: /run/secrets/postgres-db-name
+      POSTGRES_USER_FILE: /run/secrets/postgres-username
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
+    volumes:
+      - ${STORAGE_PATH}/gitea/db/postgres:/var/lib/postgresql
+
+  gitea:
+    container_name: gitea-container-name # used for Gitea Docker SSH Forwarding
+    image: docker.gitea.com/gitea:1.24.6-rootless
+    restart: unless-stopped
+    depends_on:
+      - gitea-postgres
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/api/healthz" ]
+      start_period: 60s
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ${STORAGE_PATH}/gitea/data:/var/lib/gitea
+      - ${STORAGE_PATH}/gitea/config:/etc/gitea
+    secrets:
+      - postgres-db-name
+      - postgres-username
+      - postgres-password
+      - lfs-jwt-secret
+      - secret-key
+      - jwt-secret
+      - internal-token
+    env_file: gitea.env
+    environment:
+      # Configuration: https://docs.gitea.com/administration/config-cheat-sheet
+      GITEA__server__DOMAIN: gitea.$BASE_DOMAIN
+      GITEA__server__SSH_DOMAIN: gitea.$BASE_DOMAIN
+      GITEA__server__LFS_JWT_SECRET__FILE: /run/secrets/lfs-jwt-secret
+      GITEA__security__SECRET_KEY__FILE: /run/secrets/secret-key
+      GITEA__security__INTERNAL_TOKEN__FILE: /run/secrets/internal-token
+      GITEA__oauth2__JWT_SECRET__FILE: /run/secrets/jwt-secret
+      GITEA__database__DB_TYPE: postgres
+      GITEA__database__HOST: gitea-postgres:5432
+      GITEA__database__NAME__FILE: /run/secrets/postgres-db-name
+      GITEA__database__USER__FILE: /run/secrets/postgres-username
+      GITEA__database__PASSWD__FILE: /run/secrets/postgres-password
+    labels:
+      traefik.enable: true
+      traefik.http.routers.gitea.entrypoints: websecure
+      traefik.http.routers.gitea.rule: Host(`gitea.$BASE_DOMAIN`)
+      traefik.http.services.gitea.loadbalancer.server.port: 3000
+      # custom
+      traefik.http.routers.gitea.middlewares: gitea-mw
+      traefik.http.middlewares.gitea-mw.compress: true
+      # homepage
+      homepage.group: Others
+      homepage.name: Gitea
+      homepage.icon: gitea.svg
+      homepage.href: https://gitea.$BASE_DOMAIN
+      homepage.description: Git with a cup of tea
+
+secrets:
+  postgres-db-name:
+    file: ${SECRET_PATH}/gitea.postgres-db-name.txt
+  postgres-username:
+    file: ${SECRET_PATH}/gitea.postgres-username.txt
+  postgres-password:
+    file: ${SECRET_PATH}/gitea.postgres-password.txt
+  lfs-jwt-secret:
+    file: ${SECRET_PATH}/gitea.lfs-jwt-secret.txt
+  secret-key:
+    file: ${SECRET_PATH}/gitea.secret-key.txt
+  jwt-secret:
+    file: ${SECRET_PATH}/gitea.jwt-secret.txt
+  internal-token:
+    file: ${SECRET_PATH}/gitea.internal-token.txt
+
+networks:
+  default:
+    external: true
+    name: proxy

@@ -46,6 +46,7 @@ services:
       # Configuration: https://docs.gitea.com/administration/config-cheat-sheet
       GITEA__server__DOMAIN: gitea.$BASE_DOMAIN
       GITEA__server__SSH_DOMAIN: gitea.$BASE_DOMAIN
+      GITEA__server__ROOT_URL: https://gitea.$BASE_DOMAIN
       GITEA__server__LFS_JWT_SECRET__FILE: /run/secrets/lfs-jwt-secret
       GITEA__security__SECRET_KEY__FILE: /run/secrets/secret-key
       GITEA__security__INTERNAL_TOKEN__FILE: /run/secrets/internal-token

@@ -1,6 +1,6 @@
 services:
   jackett:
-    image: linuxserver/jackett:0.24.101
+    image: linuxserver/jackett:0.24.131
     restart: unless-stopped
     environment:
       TZ: ${TZ}

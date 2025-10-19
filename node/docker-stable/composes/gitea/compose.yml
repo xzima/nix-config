@@ -71,6 +71,20 @@ services:
       homepage.href: https://gitea.$BASE_DOMAIN
       homepage.description: Git with a cup of tea
 
+  old-gitea:
+    image: gitea/gitea:1.21.11-rootless
+    restart: always
+    volumes:
+      - ${STORAGE_PATH}/gitea/old/data:/var/lib/gitea
+      - ${STORAGE_PATH}/gitea/old/config:/etc/gitea
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.old-gitea.entrypoints: websecure
+      traefik.http.routers.old-gitea.rule: Host(`old-gitea.$BASE_DOMAIN`)
+      traefik.http.services.old-gitea.loadbalancer.server.port: 3000
+
 secrets:
   postgres-db-name:
     file: ${SECRET_PATH}/gitea.postgres-db-name.txt

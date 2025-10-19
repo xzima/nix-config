@@ -26,7 +26,7 @@ services:
       - ${STORAGE_PATH}/onlyoffice/db/redis:/data
 
   onlyoffice-rabbitmq:
-    image: rabbitmq:4.1.3-alpine
+    image: rabbitmq:4.1.4-alpine
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "rabbitmq-diagnostics", "-q", "ping" ]

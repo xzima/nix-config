@@ -38,7 +38,7 @@ services:
       - ${STORAGE_PATH}/onlyoffice/db/rabbitmq:/var/lib/rabbitmq
 
   onlyoffice:
-    image: onlyoffice/documentserver:9.0.4
+    image: onlyoffice/documentserver:9.1.0
     restart: unless-stopped
     depends_on:
       onlyoffice-postgres:

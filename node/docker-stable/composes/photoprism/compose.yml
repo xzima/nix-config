@@ -13,7 +13,11 @@
 
 services:
   photoprism:
-    build: ./
+    build:
+      context: ./
+      network: default
+      args:
+        PROXY: http://awg-proxy:25550
     restart: unless-stopped
     pull_policy: build
     stop_grace_period: 10s

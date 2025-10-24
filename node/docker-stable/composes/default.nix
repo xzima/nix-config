@@ -63,7 +63,10 @@ in
   };
 
   systemd.services.dc-photoprism = mkCompose {
-    after = [ config.systemd.services.dc-traefik.name ];
+    after = [
+      config.systemd.services.dc-traefik.name
+      config.systemd.services.dc-awg-proxy.name
+    ];
     projectPath = ./photoprism;
   };
 

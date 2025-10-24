@@ -36,7 +36,7 @@
     },
     {
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["ghcr.io/hotio/whisparr"],
+      "matchPackageNames": ["hotio/whisparr"],
       "versioning": "regex:^(?<major>\\d{2})(?<minor>\\d{2})(?<patch>\\d{2})$"
     }
   ],

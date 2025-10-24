@@ -44,7 +44,7 @@ services:
       - ${MEDIA_PATH}:/storage
 
   whisparr:
-    image: ghcr.io/hotio/whisparr:v3-3.0.0.1241
+    image: ghcr.io/hotio/whisparr:v3-3.0.1.1319
     restart: unless-stopped
     environment:
       - PUID=${PUID}

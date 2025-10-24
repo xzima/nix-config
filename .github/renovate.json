@@ -38,6 +38,11 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["ghcr.io/hotio/whisparr"],
       "versioning": "regex:^(v\\d+)-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["crocodilestick/calibre-web-automated"],
+      "versioning": "regex:^[V|v]?(?<major>\\d+)(\\.(?<minor>\\d+))?(\\.(?<patch>\\d+))?(-(?<compatibility>.*))?$"
     }
   ],
   "customManagers": [

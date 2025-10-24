@@ -15,6 +15,7 @@ services:
   photoprism:
     build: ./
     restart: unless-stopped
+    pull_policy: build
     stop_grace_period: 10s
     depends_on:
       - photoprism-mariadb

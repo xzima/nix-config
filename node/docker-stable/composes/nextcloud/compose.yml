@@ -31,6 +31,7 @@ services:
   nextcloud:
     build: ./full
     restart: unless-stopped
+    pull_policy: build
     depends_on:
       nextcloud-postgres:
         condition: service_healthy

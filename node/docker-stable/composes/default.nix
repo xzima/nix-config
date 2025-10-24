@@ -96,4 +96,9 @@ in
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./gitea;
   };
+
+  systemd.services.dc-calibre = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./calibre;
+  };
 }

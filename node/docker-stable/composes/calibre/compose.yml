@@ -1,0 +1,28 @@
+# based on: https://github.com/crocodilestick/Calibre-Web-Automated/tree/main?tab=readme-ov-file#using-docker-compose-recommended
+services:
+  calibre:
+    image: crocodilestick/calibre-web-automated:V3.1.4
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - ${STORAGE_PATH}/calibre/config:/config
+      - ${STORAGE_PATH}/calibre/library:/calibre-library
+    labels:
+      traefik.enable: true
+      traefik.http.routers.calibre.entrypoints: websecure
+      traefik.http.routers.calibre.rule: Host(`calibre.$BASE_DOMAIN`)
+      traefik.http.services.calibre.loadbalancer.server.port: 8083
+      # homepage
+      homepage.group: Others
+      homepage.name: Calibre-Web Automated
+      homepage.icon: calibre-web.svg
+      homepage.href: https://calibre.$BASE_DOMAIN
+      homepage.description: Книги
+
+networks:
+  default:
+    external: true
+    name: proxy

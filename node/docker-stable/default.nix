@@ -138,5 +138,10 @@
       file = ../../secrets/node/docker-stable/gitea.internal-token.txt.age;
       mode = "444";
     };
+    # jellyfin
+    "jellyfin.jellystat-postgres-db-name.txt".file = ../../secrets/node/docker-stable/jellyfin.jellystat-postgres-db-name.txt.age;
+    "jellyfin.jellystat-postgres-username.txt".file = ../../secrets/node/docker-stable/jellyfin.jellystat-postgres-username.txt.age;
+    "jellyfin.jellystat-postgres-password.txt".file = ../../secrets/node/docker-stable/jellyfin.jellystat-postgres-password.txt.age;
+    "jellyfin.jellystat-jwt-secret.txt".file = ../../secrets/node/docker-stable/jellyfin.jellystat-jwt-secret.txt.age;
   };
 }

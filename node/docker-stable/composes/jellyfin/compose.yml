@@ -42,6 +42,69 @@ services:
       homepage.href: https://jellyfin.$BASE_DOMAIN
       homepage.description: Home Media Server
 
+  jellystat-db:
+    image: postgres:18.0-alpine3.22
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -q -d `cat $$POSTGRES_DB_FILE` -U `cat $$POSTGRES_USER_FILE`" ]
+      start_period: 60s
+    secrets:
+      - postgres-db-name
+      - postgres-username
+      - postgres-password
+    environment:
+      POSTGRES_DB_FILE: /run/secrets/postgres-db-name
+      POSTGRES_USER_FILE: /run/secrets/postgres-username
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
+    volumes:
+      - ${STORAGE_PATH}/jellyfin/jellystat/db/postgres:/var/lib/postgresql
+
+  jellystat:
+    image: cyfershepard/jellystat:1.1.6
+    restart: unless-stopped
+    depends_on:
+      jellystat-db:
+        condition: service_healthy
+      jellyfin:
+        condition: service_healthy
+    secrets:
+      - postgres-db-name
+      - postgres-username
+      - postgres-password
+      - jwt-secret
+    environment:
+      TZ: ${TZ}
+      FILE__POSTGRES_DB: /run/secrets/postgres-db-name
+      FILE__POSTGRES_USER: /run/secrets/postgres-username
+      FILE__POSTGRES_PASSWORD: /run/secrets/postgres-password
+      POSTGRES_IP: jellystat-db
+      POSTGRES_PORT: 5432
+      FILE__JWT_SECRET: /run/secrets/jwt-secret
+      MINIMUM_SECONDS_TO_INCLUDE_PLAYBACK: 60
+    volumes:
+      - ${STORAGE_PATH}/jellyfin/jellystat/backup:/app/backend/backup-data'
+    labels:
+      traefik.enable: true
+      traefik.http.routers.jellystat.entrypoints: websecure
+      traefik.http.routers.jellystat.rule: Host(`jellystat.$BASE_DOMAIN`)
+      traefik.http.services.jellystat.loadbalancer.server.port: 3000
+      # homepage
+      homepage.group: Servarr
+      homepage.name: JellyStat
+      homepage.icon: jellystat-dark.svg
+      homepage.href: https://jellystat.$BASE_DOMAIN
+      homepage.description: Statistics App for Jellyfin
+
+secrets:
+  postgres-db-name:
+    file: ${SECRET_PATH}/jellyfin.jellystat-postgres-db-name.txt
+  postgres-username:
+    file: ${SECRET_PATH}/jellyfin.jellystat-postgres-username.txt
+  postgres-password:
+    file: ${SECRET_PATH}/jellyfin.jellystat-postgres-password.txt
+  jwt-secret:
+    file: ${SECRET_PATH}/jellyfin.jellystat-jwt-secret.txt
+
 networks:
   default:
     external: true

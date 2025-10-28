@@ -8,6 +8,7 @@ let
     partOf = [ "docker.service" ];
     after = [ "docker.service" ] ++ after;
     environment = envs // {
+      COMPOSE_BAKE = "true";
       SECRET_PATH = config.age.secretsDir;
       STORAGE_PATH = "/storage/services";
       MEDIA_PATH = "/media-store";

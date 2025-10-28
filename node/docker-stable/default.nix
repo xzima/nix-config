@@ -62,6 +62,7 @@
     pkgs.dig
     pkgs.unzip
     pkgs.ffmpeg
+    pkgs.docker-buildx
   ];
   # Docker specific
   virtualisation.docker = {

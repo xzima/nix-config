@@ -1,5 +1,8 @@
 FROM photoprism/photoprism:250707
 
+ARG ALL_PROXY
+ENV ALL_PROXY=$ALL_PROXY
+
 # see https://github.com/photoprism/photoprism/blob/develop/scripts/dist/Makefile
 RUN make -C /scripts/ update
 RUN make -C /scripts/ ffmpeg

@@ -13,7 +13,11 @@
 
 services:
   photoprism:
-    build: ./
+    build:
+      context: ./
+      network: host
+      args:
+        ALL_PROXY: socks5h://0.0.0.0:29050
     restart: unless-stopped
     pull_policy: build
     stop_grace_period: 10s

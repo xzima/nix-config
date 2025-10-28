@@ -1,0 +1,44 @@
+SOCKSPort 0.0.0.0:9050 # Default: Bind to localhost:9050 for local connections.
+
+#ControlPort 9051
+## If you enable the controlport, be sure to enable one of these
+## authentication methods, to prevent attackers from accessing it.
+#HashedControlPassword 16:872860B76453A77D60CA2BB8C1A7042072093276A3D701AD684053EC4C
+#CookieAuthentication 1
+
+## The directory for keeping all the keys/etc. By default, we store
+## things in $HOME/.tor on Unix, and in Application Data\tor on Windows.
+DataDirectory /var/lib/tor
+
+Log notice stdout
+## Send all messages of level 'notice' or higher to /var/log/tor/notices.log
+#Log notice file /var/log/tor/notices.log
+## Send every possible message to /var/log/tor/debug.log
+#Log debug file /var/log/tor/debug.log
+## Use the system log instead of Tor's logfiles
+#Log notice syslog
+## To send all messages to stderr:
+#Log debug stderr
+
+## To access a version 3 Onion Service with client authorization as a client, make sure you have ClientOnionAuthDir set in your torrc
+## see https://community.torproject.org/onion-services/advanced/client-auth/
+#ClientOnionAuthDir /var/lib/tor/onion_auth
+
+## When this option is set, we don’t listen for or accept any connections other than controller connections,
+## and we close (and don’t reattempt) any outbound connections. Controllers sometimes use this option to avoid using
+## the network until Tor is fully configured. Tor will make still certain network-related calls (like DNS lookups)
+## as a part of its configuration process, even if DisableNetwork is set. (Default: 0)
+#DisableNetwork 1
+
+UseBridges 1
+ClientTransportPlugin meek_lite,obfs2,obfs3,obfs4,scramblesuit,webtunnel exec /usr/bin/lyrebird
+
+## Configuration options can be imported from files or folders using the %include
+## option with the value being a path. This path can have wildcards. Wildcards are
+## expanded first, using lexical order. Then, for each matching file or folder, the following
+## rules are followed: if the path is a file, the options from the file will be parsed as if
+## they were written where the %include option is. If the path is a folder, all files on that
+## folder will be parsed following lexical order. Files starting with a dot are ignored. Files
+## on subfolders are ignored.
+## The %include option can be used recursively.
+%include /etc/tor/bridges

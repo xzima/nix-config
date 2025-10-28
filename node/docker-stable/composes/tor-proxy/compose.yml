@@ -1,0 +1,22 @@
+services:
+  tor-proxy:
+    image: dockurr/tor:0.4.8
+    restart: unless-stopped
+    user: ${PUID}:${PGID}
+    ports:
+      - "29050:9050"
+    volumes:
+      - ./torrc:/etc/tor/torrc
+      - ${STORAGE_PATH}/tor-proxy/bridges:/etc/tor/bridges
+      - ${STORAGE_PATH}/tor-proxy/data:/var/lib/tor
+    labels:
+      # homepage
+      homepage.group: Infrastructure
+      homepage.name: TorProxy
+      homepage.icon: tor.png
+      homepage.description: Tor Proxy
+
+networks:
+  default:
+    external: true
+    name: proxy

@@ -101,4 +101,9 @@ in
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./calibre;
   };
+
+  systemd.services.dc-tor-proxy = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./tor-proxy;
+  };
 }

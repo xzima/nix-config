@@ -25,9 +25,7 @@ in
   "node/docker-stable/photoprism.mariadb-password.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
   "node/docker-stable/photoprism.password.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
 
-  "node/docker-stable/awg-proxy.awg.conf.age".publicKeys = [ zx-laptop nodes.docker-stable ];
-
-  "node/docker-stable/gitea.postgres-db-name.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
+   "node/docker-stable/gitea.postgres-db-name.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
   "node/docker-stable/gitea.postgres-username.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
   "node/docker-stable/gitea.postgres-password.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
   "node/docker-stable/gitea.lfs-jwt-secret.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];

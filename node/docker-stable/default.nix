@@ -109,11 +109,6 @@
       file = ../../secrets/node/docker-stable/photoprism.password.txt.age;
       mode = "444";
     };
-    # awg-proxy
-    "awg-proxy.awg.conf" = {
-      file = ../../secrets/node/docker-stable/awg-proxy.awg.conf.age;
-      mode = "444";
-    };
     # gitea
     "gitea.postgres-db-name.txt" = {
       file = ../../secrets/node/docker-stable/gitea.postgres-db-name.txt.age;

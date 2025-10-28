@@ -1,7 +1,0 @@
-WGConfig = /run/secrets/awg.conf
-
-[Socks5]
-BindAddress = 127.0.0.1:25555
-
-[http]
-BindAddress = 0.0.0.0:25550

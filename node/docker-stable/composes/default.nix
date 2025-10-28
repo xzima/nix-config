@@ -71,11 +71,6 @@ in
     projectPath = ./photoprism;
   };
 
-  systemd.services.dc-awg-proxy = mkCompose {
-    after = [ config.systemd.services.dc-traefik.name ];
-    projectPath = ./awg-proxy;
-  };
-
   systemd.services.dc-torrent = mkCompose {
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./torrent;

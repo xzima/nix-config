@@ -105,4 +105,12 @@ in
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./tor-proxy;
   };
+
+  systemd.services.dc-wallabag = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./wallabag;
+    envFiles = [
+      config.age.secrets."wallabag.env".path
+    ];
+  };
 }

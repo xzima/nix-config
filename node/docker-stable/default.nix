@@ -143,5 +143,7 @@
     "jellyfin.jellystat-postgres-username.txt".file = ../../secrets/node/docker-stable/jellyfin.jellystat-postgres-username.txt.age;
     "jellyfin.jellystat-postgres-password.txt".file = ../../secrets/node/docker-stable/jellyfin.jellystat-postgres-password.txt.age;
     "jellyfin.jellystat-jwt-secret.txt".file = ../../secrets/node/docker-stable/jellyfin.jellystat-jwt-secret.txt.age;
+    # wallabag
+    "wallabag.env".file = ../../secrets/node/docker-stable/wallabag.env.age;
   };
 }

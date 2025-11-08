@@ -37,5 +37,7 @@ in
   "node/docker-stable/jellyfin.jellystat-postgres-username.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
   "node/docker-stable/jellyfin.jellystat-postgres-password.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
   "node/docker-stable/jellyfin.jellystat-jwt-secret.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
+
+  "node/docker-stable/wallabag.env.age".publicKeys = [ zx-laptop nodes.docker-stable ];
 }
 

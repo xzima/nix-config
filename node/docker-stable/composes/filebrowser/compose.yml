@@ -1,6 +1,6 @@
 services:
   filebrowser:
-    image: filebrowser/filebrowser:v2.44.1
+    image: filebrowser/filebrowser:v2.45.0
     restart: unless-stopped
     user: ${PUID}:${PGID}
     volumes:

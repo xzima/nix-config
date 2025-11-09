@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: jellyfin/jellyfin:10.10.7
+    image: jellyfin/jellyfin:10.11.2
     restart: unless-stopped
     environment:
       HTTP_PROXY: http://awg-proxy:25550

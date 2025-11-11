@@ -64,6 +64,15 @@
             }
           ];
         };
+
+        test-desktop = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./node/test-desktop
+            agenix.nixosModules.default
+            nix-index-database.nixosModules.nix-index
+          ];
+        };
       };
     };
 }

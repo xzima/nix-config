@@ -69,6 +69,7 @@
           inherit system;
           modules = [
             ./node/test-desktop
+            ./node/test-desktop/overlay.nix
             agenix.nixosModules.default
             nix-index-database.nixosModules.nix-index
           ];

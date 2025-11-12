@@ -18,9 +18,11 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
   };
 
-  outputs = { nixpkgs, agenix, home-manager, nix-index-database, ... }:
+  outputs = { nixpkgs, agenix, home-manager, nix-index-database, nix-flatpak, ... }:
     let
       system = "x86_64-linux";
     in
@@ -72,6 +74,7 @@
             ./node/test-desktop/overlay.nix
             agenix.nixosModules.default
             nix-index-database.nixosModules.nix-index
+            nix-flatpak.nixosModules.nix-flatpak
           ];
         };
       };

@@ -95,7 +95,6 @@
       firefox
       dconf-editor
       jetbrains.idea-ultimate
-      jetbrains.idea-community
     ];
   };
 

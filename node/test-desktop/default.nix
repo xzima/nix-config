@@ -3,38 +3,123 @@
   system.stateVersion = "25.05";
   # Flake specific
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  # Proxmox specific https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/virtualisation/proxmox-lxc.nix
   imports = [
-    (modulesPath + "/virtualisation/proxmox-lxc.nix")
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
   ];
-  environment.variables = {
-    TERM = "xterm-256color"; # fix proxmox terminal colors
-  };
-  ###
+
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  # Use latest kernel.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  networking.hostName = "test-desktop"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # Enable networking
+  networking.networkmanager.enable = true;
+
+  # Set your time zone.
   time.timeZone = "Europe/Moscow";
-  # set zsh as default shell
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-  # protect ssh
-  services.openssh = {
-    settings = {
-      PermitRootLogin = "no";
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
-      KexAlgorithms = [ "curve25519-sha256@libssh.org" ];
-      Ciphers = [ "aes256-gcm@openssh.com" "aes256-ctr" ];
-      Macs = [ "hmac-sha2-256-etm@openssh.com" "hmac-sha2-256" ];
-    };
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "ru_RU.UTF-8";
+    LC_IDENTIFICATION = "ru_RU.UTF-8";
+    LC_MEASUREMENT = "ru_RU.UTF-8";
+    LC_MONETARY = "ru_RU.UTF-8";
+    LC_NAME = "ru_RU.UTF-8";
+    LC_NUMERIC = "ru_RU.UTF-8";
+    LC_PAPER = "ru_RU.UTF-8";
+    LC_TELEPHONE = "ru_RU.UTF-8";
+    LC_TIME = "ru_RU.UTF-8";
   };
 
-  age.secrets = {
-    auth-file.file = ../../secrets/node/tailscale-router/auth-key.age;
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+
+  # Enable the GNOME Desktop Environment.
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
   };
 
-  services.tailscale = {
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
+
+  # Enable sound with pipewire.
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
     enable = true;
-    authKeyFile = config.age.secrets.auth-file.path;
-    useRoutingFeatures = "server";
-    extraSetFlags = [ "--advertise-routes=192.168.0.2/32,192.168.0.96/27" ]; # 192.168.0.2,192.168.0.97-126
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
   };
+
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
+
+  services.flatpak = {
+    enable = true;
+    uninstallUnmanaged = true;
+    packages = [
+      #{ appId = "com.jetbrains.IntelliJ-IDEA-Ultimate"; commit = ""; }
+    ];
+  };
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.zx = {
+    isNormalUser = true;
+    extraGroups = [ "networkmanager" "wheel" ];
+
+    # packages = with pkgs; [
+    #   #  thunderbird
+    #   keeweb
+    #   firefox
+    #   dconf-editor
+    #   jetbrains.idea-ultimate
+    # ];
+  };
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = [ pkgs.home-manager ];
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
+
+  # List services that you want to enable:
+
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
+
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
 }

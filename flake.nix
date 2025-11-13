@@ -27,12 +27,21 @@
       system = "x86_64-linux";
     in
     {
-      homeConfigurations.az-pve = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-        modules = [
-          ./home/az-pve.nix
-          nix-index-database.homeModules.nix-index
-        ];
+      homeConfigurations = {
+        az-pve = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.${system};
+          modules = [
+            ./home/az-pve.nix
+            nix-index-database.homeModules.nix-index
+          ];
+        };
+        zx = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.${system};
+          modules = [
+            ./home/zx.nix
+            nix-index-database.homeModules.nix-index
+          ];
+        };
       };
 
       nixosConfigurations = {
@@ -75,6 +84,7 @@
             agenix.nixosModules.default
             nix-index-database.nixosModules.nix-index
             nix-flatpak.nixosModules.nix-flatpak
+            home-manager.nixosModules.home-manager
           ];
         };
       };

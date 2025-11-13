@@ -2,7 +2,8 @@
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -13,7 +14,7 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "test-desktop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -83,34 +84,24 @@
       #{ appId = "com.jetbrains.IntelliJ-IDEA-Ultimate"; commit = ""; }
     ];
   };
-  
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.zx = {
     isNormalUser = true;
-    description = "zx";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
-      keeweb
-      firefox
-      dconf-editor
-      jetbrains.idea-ultimate
-    ];
+
+#    packages = with pkgs; [
+#      #  thunderbird
+#      keeweb
+#      firefox
+#      dconf-editor
+#      jetbrains.idea-ultimate
+#    ];
   };
-
-  # Install firefox.
-  programs.firefox.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-    git
-  ];
+  environment.systemPackages = [ pkgs.home-manager ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

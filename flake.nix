@@ -20,9 +20,14 @@
     };
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
+
+    stylix = {
+      url = "github:danth/stylix/release-25.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, agenix, home-manager, nix-index-database, nix-flatpak, ... }:
+  outputs = { nixpkgs, agenix, home-manager, nix-index-database, nix-flatpak, stylix, ... }:
     let
       system = "x86_64-linux";
     in
@@ -39,6 +44,7 @@
           pkgs = nixpkgs.legacyPackages.${system};
           modules = [
             ./home/zx.nix
+            stylix.homeModules.stylix
             nix-index-database.homeModules.nix-index
           ];
         };

@@ -15,6 +15,10 @@
   programs.dankMaterialShell.greeter = {
     enable = true;
     compositor.name = "niri";
+    logs = {
+      save = true;
+      path = "/tmp/dms-greeter.log";
+    };
   };
 
   # Use latest kernel.

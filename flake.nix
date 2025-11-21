@@ -26,9 +26,15 @@
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
 
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell/?ref=v3.7.1";
+    dgop = {
+      url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    dankMaterialShell = {
+      url = "github:AvengeMedia/DankMaterialShell";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.dgop.follows = "dgop";
     };
 
     niri = {

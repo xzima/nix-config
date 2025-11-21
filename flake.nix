@@ -14,6 +14,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -27,7 +32,7 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
   };
 
-  outputs = { nixpkgs, agenix, home-manager, noctalia, nix-index-database, nix-flatpak, ... }:
+  outputs = { nixpkgs, agenix, home-manager, noctalia, niri,  nix-index-database, nix-flatpak, ... }:
     let
       system = "x86_64-linux";
     in
@@ -46,6 +51,7 @@
             ./home/zx.nix
             nix-index-database.homeModules.nix-index
             noctalia.homeModules.default
+            niri.homeModules.niri
           ];
         };
       };

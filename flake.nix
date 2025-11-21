@@ -9,9 +9,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell/?ref=v3.2.0";
+    dgop = {
+      url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    dankMaterialShell = {
+      url = "github:AvengeMedia/DankMaterialShell";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.dgop.follows = "dgop";
     };
 
     niri = {
@@ -32,7 +38,7 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
   };
 
-  outputs = { nixpkgs, agenix, home-manager, noctalia, niri,  nix-index-database, nix-flatpak, ... }:
+  outputs = { nixpkgs, agenix, home-manager, dankMaterialShell, niri, nix-index-database, nix-flatpak, ... }:
     let
       system = "x86_64-linux";
     in
@@ -50,7 +56,9 @@
           modules = [
             ./home/zx.nix
             nix-index-database.homeModules.nix-index
-            noctalia.homeModules.default
+            dankMaterialShell.homeModules.dankMaterialShell.default
+            dankMaterialShell.homeModules.dankMaterialShell.greeter
+            dankMaterialShell.homeModules.dankMaterialShell.niri
             niri.homeModules.niri
           ];
         };

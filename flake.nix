@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -57,7 +57,6 @@
             ./home/zx.nix
             nix-index-database.homeModules.nix-index
             dankMaterialShell.homeModules.dankMaterialShell.default
-            dankMaterialShell.homeModules.dankMaterialShell.greeter
             dankMaterialShell.homeModules.dankMaterialShell.niri
             niri.homeModules.niri
           ];
@@ -105,6 +104,7 @@
             nix-index-database.nixosModules.nix-index
             nix-flatpak.nixosModules.nix-flatpak
             home-manager.nixosModules.home-manager
+            dankMaterialShell.nixosModules.greeter
           ];
         };
       };

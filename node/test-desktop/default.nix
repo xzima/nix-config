@@ -11,6 +11,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  programs.dankMaterialShell.greeter = {
+    enable = true;
+    compositor.name = "niri";
+  };
+
   # Use latest kernel.
   #boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -93,13 +98,13 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" ];
 
-#    packages = with pkgs; [
-#      #  thunderbird
-#      keeweb
-#      firefox
-#      dconf-editor
-#      jetbrains.idea-ultimate
-#    ];
+    #    packages = with pkgs; [
+    #      #  thunderbird
+    #      keeweb
+    #      firefox
+    #      dconf-editor
+    #      jetbrains.idea-ultimate
+    #    ];
   };
 
   # List packages installed in system profile. To search, run:

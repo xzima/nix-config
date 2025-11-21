@@ -24,6 +24,9 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  hardware.bluetooth.enable = true;
+  services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Moscow";
@@ -44,17 +47,17 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  # services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
+  # services.xserver.xkb = {
+  #   layout = "us";
+  #   variant = "";
+  # };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -78,13 +81,13 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  services.flatpak = {
-    enable = true;
-    uninstallUnmanaged = true;
-    packages = [
-      #{ appId = "com.jetbrains.IntelliJ-IDEA-Ultimate"; commit = ""; }
-    ];
-  };
+  # services.flatpak = {
+  #   enable = true;
+  #   uninstallUnmanaged = true;
+  #   packages = [
+  #     #{ appId = "com.jetbrains.IntelliJ-IDEA-Ultimate"; commit = ""; }
+  #   ];
+  # };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.zx = {

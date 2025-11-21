@@ -25,6 +25,11 @@
     };
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
+
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell/?ref=v3.2.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs: inputs.blueprint { inherit inputs; };

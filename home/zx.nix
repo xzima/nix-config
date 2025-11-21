@@ -26,10 +26,7 @@
       enableKeybinds = true; # Automatic keybinding configuration
       enableSpawn = true; # Auto-start DMS with niri
     };
-    greeter = {
-      enable = true;
-      compositor.name = "niri";
-    };
+
     systemd = {
       enable = true; # Systemd service for auto-start
       restartIfChanged = true; # Auto-restart dms.service when dankMaterialShell changes

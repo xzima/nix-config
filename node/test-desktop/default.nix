@@ -12,6 +12,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  programs.dankMaterialShell.greeter = {
+    enable = true;
+    compositor.name = "niri";
+  };
+
   # Use latest kernel.
   #boot.kernelPackages = pkgs.linuxPackages_latest;
 

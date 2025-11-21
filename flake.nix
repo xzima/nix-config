@@ -9,6 +9,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell/?ref=v3.2.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,7 +27,7 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
   };
 
-  outputs = { nixpkgs, agenix, home-manager, nix-index-database, nix-flatpak, ... }:
+  outputs = { nixpkgs, agenix, home-manager, noctalia, nix-index-database, nix-flatpak, ... }:
     let
       system = "x86_64-linux";
     in
@@ -40,6 +45,7 @@
           modules = [
             ./home/zx.nix
             nix-index-database.homeModules.nix-index
+            noctalia.homeModules.default
           ];
         };
       };

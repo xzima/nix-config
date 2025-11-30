@@ -11,13 +11,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  programs.niri.enable = true;
+  niri-flake.cache.enable = true;
   programs.dankMaterialShell.greeter = {
     enable = true;
     compositor.name = "niri";
-    logs = {
-      save = true;
-      path = "/tmp/dms-greeter.log";
-    };
+    configHome = "/home/zx"; # sync themes
   };
 
   # Use latest kernel.
@@ -33,8 +32,8 @@
   # Enable networking
   networking.networkmanager.enable = true;
   hardware.bluetooth.enable = true;
-  services.power-profiles-daemon.enable = true;
-  services.upower.enable = true;
+  services.power-profiles-daemon.enable = false; # power profile service
+  services.upower.enable = false; # battery interface
 
   # Set your time zone.
   time.timeZone = "Europe/Moscow";
@@ -113,7 +112,9 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = [ pkgs.home-manager ];
+  environment.systemPackages = [
+    pkgs.home-manager
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

@@ -15,7 +15,7 @@
     };
 
     dankMaterialShell = {
-      url = "github:AvengeMedia/DankMaterialShell";
+      url = "github:AvengeMedia/DankMaterialShell/?ref=v0.6.2";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.dgop.follows = "dgop";
     };
@@ -59,6 +59,9 @@
             dankMaterialShell.homeModules.dankMaterialShell.default
             dankMaterialShell.homeModules.dankMaterialShell.niri
             niri.homeModules.niri
+            { 
+              nixpkgs.overlays = [ niri.overlays.niri ];
+            }
           ];
         };
       };
@@ -105,6 +108,7 @@
             nix-flatpak.nixosModules.nix-flatpak
             home-manager.nixosModules.home-manager
             dankMaterialShell.nixosModules.greeter
+            niri.nixosModules.niri
           ];
         };
       };

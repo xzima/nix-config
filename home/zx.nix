@@ -14,9 +14,9 @@
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
-    keeweb
+    keeweb # password manager
     jetbrains.idea-ultimate
-    xwayland-satellite-stable
+    xwayland-satellite-stable # fix idea
     colordiff
     wev
   ];

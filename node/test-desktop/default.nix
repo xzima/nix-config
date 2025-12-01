@@ -100,7 +100,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.zx = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "input" ];
 
     # packages = with pkgs; [
     #   #  thunderbird

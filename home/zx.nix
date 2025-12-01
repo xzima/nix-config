@@ -361,4 +361,14 @@
       configVersion = 2;
     };
   };
+
+  programs.niri = {
+    enable = true;
+    settings = {
+      input.keyboard.xkb = {
+        layout = "us,ru";
+        options = "grp:caps_toggle";
+      };
+    };
+  };
 }

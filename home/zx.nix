@@ -20,6 +20,8 @@
     xwayland-satellite-stable # fix idea
     colordiff
     wev
+    seahorse # keyring gui
+    dconf-editor # dconf viewer
     nerd-fonts.fira-code
   ];
 

@@ -28,11 +28,16 @@
   # browser
   programs.firefox.enable = true;
   # terminal
-  programs.alacritty = {
+  programs.kitty = {
     enable = true;
+    shellIntegration.enableFishIntegration = true;
     settings = {
-      terminal.shell.program = "fish";
+      shell = "fish";
     };
+    extraConfig = ''
+      include dank-tabs.conf
+      include dank-theme.conf
+    '';
   };
   programs.jq.enable = true;
   programs.fish = {
@@ -398,8 +403,8 @@
 
         # Suggested binds for running programs: terminal, app launcher, screen locker.
         "Ctrl+Alt+T" /*"Mod+T"*/ = {
-          action = spawn "alacritty";
-          hotkey-overlay.title = "Spawn terminal (Alacritty)";
+          action = spawn "kitty";
+          hotkey-overlay.title = "Spawn terminal (Kitty)";
         };
         "Ctrl+Escape" /*"Mod+D"*/ = {
           action = spawn "dms" "ipc" "spotlight" "toggle";

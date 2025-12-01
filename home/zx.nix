@@ -43,6 +43,10 @@
   programs.fish = {
     enable = true;
   };
+  programs.yazi = {
+    enable = true;
+    enableFishIntegration = true;
+  };
   # index
   programs.nix-index = {
     enable = true;
@@ -405,6 +409,10 @@
         "Ctrl+Alt+T" /*"Mod+T"*/ = {
           action = spawn "kitty";
           hotkey-overlay.title = "Spawn terminal (Kitty)";
+        };
+        "Mod+E" = {
+          action = spawn "kitty" "-e" "yazi";
+          hotkey-overlay.title = "Spawn File Manager";
         };
         "Ctrl+Escape" /*"Mod+D"*/ = {
           action = spawn "dms" "ipc" "spotlight" "toggle";

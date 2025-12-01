@@ -24,6 +24,12 @@
     dconf-editor # dconf viewer
     nerd-fonts.fira-code
   ];
+  home.file = {
+    ".dotfiles/micro" = {
+      source = ./modules/shell/dotfiles/micro;
+      recursive = true;
+    };
+  };
 
   # browser
   programs.firefox.enable = true;
@@ -46,6 +52,9 @@
   programs.yazi = {
     enable = true;
     enableFishIntegration = true;
+  };
+  programs.micro = {
+    enable = true;
   };
   # index
   programs.nix-index = {
@@ -389,6 +398,10 @@
       input.keyboard.xkb = {
         layout = "us,ru";
         options = "grp:caps_toggle";
+      };
+      environment = {
+        EDITOR = "micro";
+        MICRO_CONFIG_HOME = "${config.home.homeDirectory}/.dotfiles/micro";
       };
       binds = with config.lib.niri.actions; {
         # Keys consist of modifiers separated by + signs, followed by an XKB key name

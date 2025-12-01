@@ -437,7 +437,7 @@
         };
 
         /* SEE https://github.com/AvengeMedia/DankMaterialShell/blob/master/distro/nix/niri.nix
-      "Super+Alt+L".action.spawn = "swaylock";
+        "Super+Alt+L".action.spawn = "swaylock";
         */
 
         # You can also use a shell. Do this if you need pipes, multiple commands, etc.
@@ -445,24 +445,24 @@
         # Mod+T { spawn "bash" "-c" "notify-send hello && exec alacritty"; }
 
         /* SEE https://github.com/AvengeMedia/DankMaterialShell/blob/master/distro/nix/niri.nix
-      # Example volume keys mappings for PipeWire & WirePlumber.
-      # The allow-when-locked=true property makes them work even when the session is locked.
-      "XF86AudioRaiseVolume" = {
-        allow-when-locked = true;
-        action.spawn = [ "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+" ];
-      };
-      "XF86AudioLowerVolume" = {
-        allow-when-locked = true;
-        action.spawn = [ "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-" ];
-      };
-      "XF86AudioMute" = {
-        allow-when-locked = true;
-        action.spawn = [ "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle" ];
-      };
-      "XF86AudioMicMute" = {
-        allow-when-locked = true;
-        action.spawn = [ "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle" ];
-      };
+        # Example volume keys mappings for PipeWire & WirePlumber.
+        # The allow-when-locked=true property makes them work even when the session is locked.
+        "XF86AudioRaiseVolume" = {
+          allow-when-locked = true;
+          action.spawn = [ "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+" ];
+        };
+        "XF86AudioLowerVolume" = {
+          allow-when-locked = true;
+          action.spawn = [ "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-" ];
+        };
+        "XF86AudioMute" = {
+          allow-when-locked = true;
+          action.spawn = [ "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle" ];
+        };
+        "XF86AudioMicMute" = {
+          allow-when-locked = true;
+          action.spawn = [ "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle" ];
+        };
         */
 
         "Alt+F4" /*"Mod+Q"*/ = {

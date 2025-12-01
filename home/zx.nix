@@ -17,12 +17,20 @@
     keeweb
     jetbrains.idea-ultimate
     xwayland-satellite-stable
+    colordiff
+    wev
   ];
 
   # browser
   programs.firefox.enable = true;
   # terminal
-  programs.alacritty.enable = true;
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      terminal.shell.program = "fish";
+    };
+  };
+  programs.jq.enable = true;
   programs.fish = {
     enable = true;
   };

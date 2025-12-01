@@ -12,6 +12,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
     keeweb # password manager
@@ -19,6 +20,7 @@
     xwayland-satellite-stable # fix idea
     colordiff
     wev
+    nerd-fonts.fira-code
   ];
 
   # browser

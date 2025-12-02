@@ -23,6 +23,8 @@
     seahorse # keyring gui
     dconf-editor # dconf viewer
     nerd-fonts.fira-code
+    grim
+    slurp
   ];
   home.file = {
     ".dotfiles/micro" = {
@@ -56,6 +58,15 @@
   programs.micro = {
     enable = true;
   };
+  programs.satty = {
+    enable = true;
+    settings = {
+      general = {
+        fullscreen = true;
+      };
+    };
+  };
+
   # index
   programs.nix-index = {
     enable = true;

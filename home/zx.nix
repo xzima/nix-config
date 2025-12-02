@@ -16,6 +16,7 @@
 
   home.packages = with pkgs; [
     keeweb # password manager
+    # TODO: add to idea vm options `-Dawt.toolkit.name=WLToolkit`
     jetbrains.idea-ultimate
     xwayland-satellite-stable # fix idea
     colordiff

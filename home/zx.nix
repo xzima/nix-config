@@ -24,6 +24,7 @@
     seahorse # keyring gui
     dconf-editor # dconf viewer
     nerd-fonts.fira-code
+    matugen
   ];
   home.file = {
     ".dotfiles/micro" = {
@@ -57,12 +58,14 @@
   programs.micro = {
     enable = true;
   };
+
   # index
   programs.nix-index = {
     enable = true;
     enableFishIntegration = true;
   };
 
+  programs.cava.enable = true;
   programs.dankMaterialShell = {
     enable = true;
     niri = {
@@ -73,12 +76,12 @@
     # Core features
     enableSystemMonitoring = true; # System monitoring widgets (dgop)
     enableClipboard = true; # Clipboard history manager
-    enableVPN = true; # VPN management widget
+    enableVPN = false; # VPN management widget TODO: disable or remove
     enableBrightnessControl = true; # Backlight/brightness controls
     enableColorPicker = true; # Color picker tool
     enableDynamicTheming = true; # Wallpaper-based theming (matugen)
     enableAudioWavelength = true; # Audio visualizer (cava)
-    enableCalendarEvents = true; # Calendar integration (khal)
+    enableCalendarEvents = false; # Calendar integration (khal) TODO: wait DankCalendar integration
     enableSystemSound = true; # System sound effects
 
     # see `diff -U 300 (jq -S . ~/.config/DankMaterialShell/default-settings.json | psub) (jq -S . ~/.config/DankMaterialShell/settings.json | psub)`

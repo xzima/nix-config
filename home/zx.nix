@@ -58,6 +58,59 @@
   programs.micro = {
     enable = true;
   };
+  # TODO:
+  # [x] hx --tutor g441g
+  # [ ] https://tomgroenwoldt.github.io/helix-shortcut-quiz/
+  # [ ] https://nik-rev.github.io/helix-golf/
+  programs.helix = {
+    enable = true;
+    extraPackages = with pkgs; [ nixd ];
+    settings = {
+      theme = "autumn_night_transparent";
+      editor = {
+        shell = [ "fish" "-c" ];
+        cursor-shape = {
+          normal = "block";
+          insert = "bar";
+          select = "underline";
+        };
+      };
+    };
+    languages = {
+      language = [
+        {
+          name = "nix";
+          auto-format = true;
+          formatter.command = lib.getExe pkgs.nixfmt-rfc-style;
+        }
+      ];
+      language-server = {
+        nixd = {
+          command = "nixd";
+          args = [ "--semantic-tokens=true" ];
+          config.nixd =
+            let
+              myFlake = ''(builtins.getFlake "${config.home.homeDirectory}/nix-config"'';
+              nixosOpts = "${myFlake}.nixosConfigurations.test-desktop.options";
+            in
+            {
+              nixpkgs.expr = "import ${myFlake}.inputs.nixpkgs { }";
+              formatting.command = [ "${lib.getExe pkgs.nixfmt-rfc-style}" ];
+              options = {
+                nixos.expr = nixosOpts;
+                home-manager.expr = "${nixosOpts}.home-manager.users.type.getSubOptions [ ]";
+              };
+            };
+        };
+      };
+    };
+    themes = {
+      autumn_night_transparent = {
+        "inherits" = "autumn_night";
+        "ui.background" = { };
+      };
+    };
+  };
 
   # index
   programs.nix-index = {

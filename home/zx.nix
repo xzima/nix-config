@@ -25,6 +25,7 @@
     dconf-editor # dconf viewer
     nerd-fonts.fira-code
     matugen
+    podman-compose
   ];
   home.file = {
     ".dotfiles/micro" = {
@@ -34,7 +35,38 @@
   };
 
   # browser
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+  };
+
+  # containers
+  services.podman = {
+    enable = true;
+    networks.proxy = { };
+  };
+  systemd.user.services.pc-tor-proxy = {
+    Unit = {
+      After = [ "podman-proxy-network.service" ];
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+    Service = {
+      Environment = [
+        "STORAGE_PATH=${config.home.homeDirectory}"
+        "PUID=1000"
+        "PGID=1000"
+      ];
+
+      Type = "oneshot";
+      RemainAfterExit = "true";
+      WorkingDirectory = "${../node/docker-stable/composes/tor-proxy}";
+      ExecStart = "${pkgs.podman-compose}/bin/podman-compose --pod-args '--userns keep-id' up -d --remove-orphans";
+      ExecStop = "${pkgs.podman-compose}/bin/podman-compose down";
+      Restart = "on-failure";
+      RestartSec = "5";
+    };
+  };
   # terminal
   programs.kitty = {
     enable = true;
@@ -64,7 +96,7 @@
   # [ ] https://nik-rev.github.io/helix-golf/
   programs.helix = {
     enable = true;
-    extraPackages = with pkgs; [ nixd ];
+    extraPackages = with pkgs; [ nixd yaml-language-server docker-compose-language-service ];
     settings = {
       theme = "autumn_night_transparent";
       editor = {

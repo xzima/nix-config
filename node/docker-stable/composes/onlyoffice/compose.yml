@@ -3,7 +3,7 @@
 # https://github.com/ONLYOFFICE/Docker-DocumentServer/blob/master/docker-compose.yml
 services:
   onlyoffice-postgres:
-    image: postgres:17.6-alpine3.22
+    image: postgres:17.7-alpine3.22
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]

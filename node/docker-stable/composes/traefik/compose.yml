@@ -41,6 +41,9 @@ services:
       - --entrypoints.websecure.address=:443
       - --entrypoints.websecure.http.tls.certresolver=letsEncrypt
       - --entrypoints.websecure.http.tls.domains[0].main=*.${BASE_DOMAIN}
+      # need for trilium(https://github.com/TriliumNext/Trilium/issues/7968)
+      - --entrypoints.websecure.http.encodedCharacters.allowEncodedSlash=true
+      - --entrypoints.websecure.http.encodedCharacters.allowEncodedHash=true
 
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false

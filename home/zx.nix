@@ -26,6 +26,9 @@
     nerd-fonts.fira-code
     matugen
     podman-compose
+    junction
+    zip
+    unzip
   ];
   home.file = {
     ".dotfiles/micro" = {
@@ -37,6 +40,40 @@
   # browser
   programs.firefox = {
     enable = true;
+    profiles = {
+      default = {
+        id = 0; # 0 is Default
+        name = "default";
+      };
+      "z7r.zima" = {
+        id = 1;
+        name = "z7r.zima";
+      };
+    };
+  };
+  gtk.theme.name = "Adwaita-dark";
+  # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/browsers/firefox/wrapper.nix
+  xdg.desktopEntries = {
+    "firefox-z7r.zima" = {
+      name = "[z7r.zima]Firefox";
+      genericName = "Web Browser (z7r.zima)";
+      icon = "firefox";
+      exec = "firefox -P z7r.zima --class=firefox-z7r.zima %U";
+      categories = [ "Network" "WebBrowser" ];
+      mimeType = [
+        "text/html"
+        "text/xml"
+        "application/xhtml+xml"
+        "application/vnd.mozilla.xul+xml"
+        "x-scheme-handler/http"
+        "x-scheme-handler/https"
+      ];
+      startupNotify = true;
+      terminal = false;
+      settings = {
+        StartupWMClass = "firefox-z7r.zima";
+      };
+    };
   };
 
   # containers
@@ -89,6 +126,14 @@
   };
   programs.micro = {
     enable = true;
+  };
+  services.udiskie = {
+    enable = true;
+    settings = {
+      program_options = {
+        file_manager = "${pkgs.kitty}/bin/kitty -e ${pkgs.yazi}/bin/yazi";
+      };
+    };
   };
   # TODO:
   # [x] hx --tutor g441g

@@ -1,20 +1,32 @@
-{ config, pkgs, lib, ... }:
+{ flake, inputs, hostName, perSystem, config, modulesPath, pkgs, lib, ... }:
 {
+  imports = [
+    inputs.nix-index-database.nixosModules.nix-index
+    inputs.nix-flatpak.nixosModules.nix-flatpak
+    inputs.niri.nixosModules.niri
+    ./overlay.nix
+    ./hardware-configuration.nix
+  ];
+
+  system.stateVersion = "25.05";
+  nixpkgs.hostPlatform = "x86_64-linux";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  # Disables all users for this host
+  home-manager.users = lib.mkForce { };
+
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # NIRI
+  programs.niri.enable = true;
+  niri-flake.cache.enable = true;
 
-  networking.hostName = "test-desktop"; # Define your hostname.
+  # Use latest kernel.
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  networking.hostName = hostName; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -24,8 +36,8 @@
   # Enable networking
   networking.networkmanager.enable = true;
   hardware.bluetooth.enable = true;
-  services.power-profiles-daemon.enable = true;
-  services.upower.enable = true;
+  #services.power-profiles-daemon.enable = true;
+  #services.upower.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Moscow";
@@ -91,20 +103,22 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.zx = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "input" ];
 
-#    packages = with pkgs; [
-#      #  thunderbird
-#      keeweb
-#      firefox
-#      dconf-editor
-#      jetbrains.idea-ultimate
-#    ];
+    #packages = with pkgs; [
+    #  #  thunderbird
+    #  keeweb
+    #  firefox
+    #  dconf-editor
+    #  jetbrains.idea-ultimate
+    #];
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = [ pkgs.home-manager ];
+  environment.systemPackages = [
+    pkgs.home-manager
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -124,13 +138,4 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
-
 }

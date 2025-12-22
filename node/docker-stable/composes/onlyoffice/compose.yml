@@ -3,7 +3,7 @@
 # https://github.com/ONLYOFFICE/Docker-DocumentServer/blob/master/docker-compose.yml
 services:
   onlyoffice-postgres:
-    image: postgres:17.7-alpine3.22
+    image: postgres:17.7-alpine
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]
@@ -16,7 +16,7 @@ services:
       - ${STORAGE_PATH}/onlyoffice/db/postgres:/var/lib/postgresql/data
 
   onlyoffice-redis:
-    image: redis:8.2.3-alpine3.22
+    image: redis:8.2.3-alpine
     restart: unless-stopped
     command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD}" ]
     healthcheck:

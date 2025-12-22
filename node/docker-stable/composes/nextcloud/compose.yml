@@ -20,7 +20,7 @@ services:
       - ${STORAGE_PATH}/nextcloud/db/postgres:/var/lib/postgresql/data
 
   nextcloud-redis:
-    image: redis:8.2.3-alpine
+    image: redis:8.4.0-alpine
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]

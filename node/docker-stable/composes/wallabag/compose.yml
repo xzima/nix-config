@@ -15,7 +15,7 @@ services:
       - ${STORAGE_PATH}/wallabag/db/postgres:/var/lib/postgresql
 
   wallabag-redis:
-    image: redis:8.2.3-alpine
+    image: redis:8.4.0-alpine
     restart: unless-stopped
     command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD}" ]
     healthcheck:

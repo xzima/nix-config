@@ -1,9 +1,11 @@
-{ config, pkgs, lib, ... }:
+{ flake, inputs, perSystem, config, pkgs, lib, ... }:
 {
-  home.stateVersion = "25.05";
+
   imports = [
-    ./modules/shell
+    flake.homeModules.shell
   ];
+
+  home.stateVersion = "25.05";
 
   home.username = "root";
   home.homeDirectory = "/root";

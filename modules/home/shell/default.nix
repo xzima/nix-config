@@ -94,7 +94,7 @@ in
               if [ "nixos" = "$ID" ]; then
                 nixos-rebuild switch --flake github:xzima/nix-config/stable --refresh
               else
-                home-manager switch --flake github:xzima/nix-config/stable#$(hostname) --refresh
+                home-manager switch --flake github:xzima/nix-config/stable --refresh
               fi
               rm -f ~/.zshrc.zwc
               antigen reset

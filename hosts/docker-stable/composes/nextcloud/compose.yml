@@ -29,7 +29,7 @@ services:
       - ${STORAGE_PATH}/nextcloud/db/redis:/data
 
   nextcloud:
-    build: ./full
+    build: full
     restart: unless-stopped
     pull_policy: build
     depends_on:

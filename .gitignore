@@ -32,3 +32,7 @@ fabric.properties
 result
 result-*
 
+### direnv template
+.direnv
+.envrc
+

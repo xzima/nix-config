@@ -18,52 +18,12 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    blueprint = {
+      url = "github:numtide/blueprint";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, agenix, home-manager, nix-index-database, ... }:
-    let
-      system = "x86_64-linux";
-    in
-    {
-      homeConfigurations.az-pve = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-        modules = [
-          ./home/az-pve.nix
-          nix-index-database.homeModules.nix-index
-        ];
-      };
-
-      nixosConfigurations = {
-
-        tailscale-router = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./node/tailscale-router
-            agenix.nixosModules.default
-            home-manager.nixosModules.home-manager
-            nix-index-database.nixosModules.nix-index
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.root = ./home/tailscale-router.nix;
-            }
-          ];
-        };
-
-        docker-stable = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./node/docker-stable
-            agenix.nixosModules.default
-            home-manager.nixosModules.home-manager
-            nix-index-database.nixosModules.nix-index
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.root = ./home/docker-stable.nix;
-            }
-          ];
-        };
-      };
-    };
+  outputs = inputs: inputs.blueprint { inherit inputs; };
 }

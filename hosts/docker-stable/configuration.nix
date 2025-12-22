@@ -1,13 +1,17 @@
-{ config, modulesPath, pkgs, lib, ... }:
+{ flake, inputs, hostName, perSystem, config, modulesPath, pkgs, lib, ... }:
 {
-  system.stateVersion = "25.05";
-  # Flake specific
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  # Proxmox specific https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/virtualisation/proxmox-lxc.nix
   imports = [
+    inputs.agenix.nixosModules.default
+    inputs.nix-index-database.nixosModules.nix-index
+    # Proxmox specific https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/virtualisation/proxmox-lxc.nix
     (modulesPath + "/virtualisation/proxmox-lxc.nix")
     ./composes
   ];
+
+  system.stateVersion = "25.05";
+  nixpkgs.hostPlatform = "x86_64-linux";
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   environment.variables = {
     TERM = "xterm-256color"; # fix proxmox terminal colors
   };
@@ -87,63 +91,63 @@
   users.groups.git = { };
 
   age.secrets = {
-    "base.env".file = ../../secrets/node/docker-stable/base.env.age;
+    "base.env".file = ./secrets/base.env.age;
     # traefik
-    "myaddr-token".file = ../../secrets/node/docker-stable/myaddr-token.age;
-    "traefik.env".file = ../../secrets/node/docker-stable/traefik.env.age;
-    "traefik-secret".file = ../../secrets/node/docker-stable/traefik-secret.age;
+    "myaddr-token".file = ./secrets/myaddr-token.age;
+    "traefik.env".file = ./secrets/traefik.env.age;
+    "traefik-secret".file = ./secrets/traefik-secret.age;
     # nextcloud
-    "nextcloud.postgres-db-name.txt".file = ../../secrets/node/docker-stable/nextcloud.postgres-db-name.txt.age;
-    "nextcloud.postgres-username.txt".file = ../../secrets/node/docker-stable/nextcloud.postgres-username.txt.age;
-    "nextcloud.postgres-password.txt".file = ../../secrets/node/docker-stable/nextcloud.postgres-password.txt.age;
-    "nextcloud.username.txt".file = ../../secrets/node/docker-stable/nextcloud.username.txt.age;
-    "nextcloud.password.txt".file = ../../secrets/node/docker-stable/nextcloud.password.txt.age;
+    "nextcloud.postgres-db-name.txt".file = ./secrets/nextcloud.postgres-db-name.txt.age;
+    "nextcloud.postgres-username.txt".file = ./secrets/nextcloud.postgres-username.txt.age;
+    "nextcloud.postgres-password.txt".file = ./secrets/nextcloud.postgres-password.txt.age;
+    "nextcloud.username.txt".file = ./secrets/nextcloud.username.txt.age;
+    "nextcloud.password.txt".file = ./secrets/nextcloud.password.txt.age;
     # onlyoffice
-    "onlyoffice.env".file = ../../secrets/node/docker-stable/onlyoffice.env.age;
+    "onlyoffice.env".file = ./secrets/onlyoffice.env.age;
     # photoprism
     "photoprism.mariadb-password.txt" = {
-      file = ../../secrets/node/docker-stable/photoprism.mariadb-password.txt.age;
+      file = ./secrets/photoprism.mariadb-password.txt.age;
       mode = "444";
     };
     "photoprism.password.txt" = {
-      file = ../../secrets/node/docker-stable/photoprism.password.txt.age;
+      file = ./secrets/photoprism.password.txt.age;
       mode = "444";
     };
     # gitea
     "gitea.postgres-db-name.txt" = {
-      file = ../../secrets/node/docker-stable/gitea.postgres-db-name.txt.age;
+      file = ./secrets/gitea.postgres-db-name.txt.age;
       mode = "444";
     };
     "gitea.postgres-username.txt" = {
-      file = ../../secrets/node/docker-stable/gitea.postgres-username.txt.age;
+      file = ./secrets/gitea.postgres-username.txt.age;
       mode = "444";
     };
     "gitea.postgres-password.txt" = {
-      file = ../../secrets/node/docker-stable/gitea.postgres-password.txt.age;
+      file = ./secrets/gitea.postgres-password.txt.age;
       mode = "444";
     };
     "gitea.lfs-jwt-secret.txt" = {
-      file = ../../secrets/node/docker-stable/gitea.lfs-jwt-secret.txt.age;
+      file = ./secrets/gitea.lfs-jwt-secret.txt.age;
       mode = "444";
     };
     "gitea.secret-key.txt" = {
-      file = ../../secrets/node/docker-stable/gitea.secret-key.txt.age;
+      file = ./secrets/gitea.secret-key.txt.age;
       mode = "444";
     };
     "gitea.jwt-secret.txt" = {
-      file = ../../secrets/node/docker-stable/gitea.jwt-secret.txt.age;
+      file = ./secrets/gitea.jwt-secret.txt.age;
       mode = "444";
     };
     "gitea.internal-token.txt" = {
-      file = ../../secrets/node/docker-stable/gitea.internal-token.txt.age;
+      file = ./secrets/gitea.internal-token.txt.age;
       mode = "444";
     };
     # jellyfin
-    "jellyfin.jellystat-postgres-db-name.txt".file = ../../secrets/node/docker-stable/jellyfin.jellystat-postgres-db-name.txt.age;
-    "jellyfin.jellystat-postgres-username.txt".file = ../../secrets/node/docker-stable/jellyfin.jellystat-postgres-username.txt.age;
-    "jellyfin.jellystat-postgres-password.txt".file = ../../secrets/node/docker-stable/jellyfin.jellystat-postgres-password.txt.age;
-    "jellyfin.jellystat-jwt-secret.txt".file = ../../secrets/node/docker-stable/jellyfin.jellystat-jwt-secret.txt.age;
+    "jellyfin.jellystat-postgres-db-name.txt".file = ./secrets/jellyfin.jellystat-postgres-db-name.txt.age;
+    "jellyfin.jellystat-postgres-username.txt".file = ./secrets/jellyfin.jellystat-postgres-username.txt.age;
+    "jellyfin.jellystat-postgres-password.txt".file = ./secrets/jellyfin.jellystat-postgres-password.txt.age;
+    "jellyfin.jellystat-jwt-secret.txt".file = ./secrets/jellyfin.jellystat-jwt-secret.txt.age;
     # wallabag
-    "wallabag.env".file = ../../secrets/node/docker-stable/wallabag.env.age;
+    "wallabag.env".file = ./secrets/wallabag.env.age;
   };
 }

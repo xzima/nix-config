@@ -35,6 +35,7 @@
   hardware.bluetooth.enable = true;
   services.power-profiles-daemon.enable = false; # power profile service
   services.upower.enable = false; # battery interface
+  services.udisks2.enable = true; # battery interface
 
   # Set your time zone.
   time.timeZone = "Europe/Moscow";

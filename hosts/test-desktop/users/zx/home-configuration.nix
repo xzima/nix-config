@@ -6,9 +6,12 @@
     inputs.nix-index-database.homeModules.nix-index
     inputs.noctalia.homeModules.default
     inputs.niri.homeModules.niri
+    ../../overlay.nix
   ];
 
-  nixpkgs.overlays = [ inputs.niri.overlays.niri ];
+  nixpkgs.overlays = [
+    inputs.niri.overlays.niri
+  ];
 
   home = {
     username = "zx";
@@ -23,7 +26,13 @@
   home.packages = with pkgs; [
     keeweb # password manager
     # TODO: add to idea vm options `-Dawt.toolkit.name=WLToolkit`
-    jetbrains.idea-ultimate
+    (jetbrains.idea.overrideAttrs
+      (old: rec {
+        src = builtins.fetchurl {
+          url = builtins.replaceStrings [ "download.jetbrains.com" ] [ "download-cdn.jetbrains.com" ] (builtins.head old.src.urls);
+          sha256 = old.src.outputHash;
+        };
+      }))
     xwayland-satellite-stable # fix idea
     colordiff
     wev
@@ -38,7 +47,7 @@
 
   home.file = {
     ".dotfiles/micro" = {
-      source = ./modules/shell/dotfiles/micro;
+      source = ../../../../modules/home/shell/dotfiles/micro;
       recursive = true;
     };
   };

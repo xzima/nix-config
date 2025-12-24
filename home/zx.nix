@@ -129,12 +129,21 @@
   programs.yazi = {
     enable = true;
     enableFishIntegration = true;
+    plugins = {
+      mount = pkgs.yaziPlugins.mount;
+    };
+    keymap = {
+      manager.prepend_keymap = [
+        { on = "M"; run = "plugin mount"; desc = "Enter Mount Manager"; }
+      ];
+    };
   };
   programs.micro = {
     enable = true;
   };
   services.udiskie = {
     enable = true;
+    tray = "never";
     settings = {
       program_options = {
         file_manager = "${pkgs.kitty}/bin/kitty -e ${pkgs.yazi}/bin/yazi";

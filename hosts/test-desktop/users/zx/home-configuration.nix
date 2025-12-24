@@ -4,7 +4,8 @@
   imports = [
     #flake.homeModules.shell
     inputs.nix-index-database.homeModules.nix-index
-    inputs.noctalia.homeModules.default
+    inputs.dms.homeModules.dank-material-shell
+    inputs.dms.homeModules.niri
     inputs.niri.homeModules.niri
     ../../overlay.nix
   ];
@@ -39,6 +40,7 @@
     seahorse # keyring gui
     dconf-editor # dconf viewer
     nerd-fonts.fira-code
+    matugen
     podman-compose
     junction
     zip
@@ -90,6 +92,7 @@
       };
     };
   };
+
   # containers
   services.podman = {
     enable = true;
@@ -125,6 +128,10 @@
     settings = {
       shell = "fish";
     };
+    extraConfig = ''
+      include dank-tabs.conf
+      include dank-theme.conf
+    '';
   };
   programs.jq.enable = true;
   programs.fish = {
@@ -133,9 +140,26 @@
   programs.yazi = {
     enable = true;
     enableFishIntegration = true;
+    plugins = {
+      mount = pkgs.yaziPlugins.mount;
+    };
+    keymap = {
+      manager.prepend_keymap = [
+        { on = "M"; run = "plugin mount"; desc = "Enter Mount Manager"; }
+      ];
+    };
   };
   programs.micro = {
     enable = true;
+  };
+  services.udiskie = {
+    enable = true;
+    tray = "never";
+    settings = {
+      program_options = {
+        file_manager = "${pkgs.kitty}/bin/kitty -e ${pkgs.yazi}/bin/yazi";
+      };
+    };
   };
   # TODO:
   # [x] hx --tutor g441g
@@ -197,9 +221,330 @@
     enableFishIntegration = true;
   };
 
-  programs.noctalia-shell = {
+  programs.cava.enable = true;
+  programs.dank-material-shell = {
     enable = true;
-    systemd.enable = true;
+    niri = {
+      enableKeybinds = true; # Automatic keybinding configuration
+      enableSpawn = true; # Auto-start DMS with niri
+    };
+
+    # Core features
+    enableSystemMonitoring = true; # System monitoring widgets (dgop)
+    enableDynamicTheming = true; # Wallpaper-based theming (matugen)
+    enableAudioWavelength = true; # Audio visualizer (cava)
+    enableCalendarEvents = false; # Calendar integration (khal) TODO: wait DankCalendar integration
+
+    # see `diff -U 300 (jq -S . ~/.config/DankMaterialShell/default-settings.json | psub) (jq -S . ~/.config/DankMaterialShell/settings.json | psub)`
+    default.settings = {
+      currentThemeName = "blue";
+      customThemeFile = "";
+      matugenScheme = "scheme-tonal-spot";
+      runUserMatugenTemplates = true;
+      matugenTargetMonitor = "";
+      popupTransparency = 1;
+      dockTransparency = 1;
+      widgetBackgroundColor = "sch";
+      widgetColorMode = "default";
+      cornerRadius = 12;
+      use24HourClock = true;
+      showSeconds = false;
+      useFahrenheit = false;
+      nightModeEnabled = false;
+      animationSpeed = 1;
+      customAnimationDuration = 500;
+      wallpaperFillMode = "Fill";
+      blurredWallpaperLayer = false;
+      blurWallpaperOnOverview = false;
+      showLauncherButton = true;
+      showWorkspaceSwitcher = true;
+      showFocusedWindow = true;
+      showWeather = true;
+      showMusic = true;
+      showClipboard = true;
+      showCpuUsage = true;
+      showMemUsage = true;
+      showCpuTemp = true;
+      showGpuTemp = true;
+      selectedGpuIndex = 0;
+      enabledGpuPciIds = [ ];
+      showSystemTray = true;
+      showClock = true;
+      showNotificationButton = true;
+      showBattery = true;
+      showControlCenterButton = true;
+      showCapsLockIndicator = true;
+      controlCenterShowNetworkIcon = true;
+      controlCenterShowBluetoothIcon = true;
+      controlCenterShowAudioIcon = true;
+      controlCenterShowVpnIcon = false;
+      controlCenterShowBrightnessIcon = false;
+      controlCenterShowMicIcon = false;
+      controlCenterShowBatteryIcon = false;
+      controlCenterShowPrinterIcon = false;
+      showPrivacyButton = true;
+      privacyShowMicIcon = false;
+      privacyShowCameraIcon = false;
+      privacyShowScreenShareIcon = false;
+      controlCenterWidgets = [
+        {
+          id = "volumeSlider";
+          enabled = true;
+          width = 50;
+        }
+        {
+          id = "brightnessSlider";
+          enabled = true;
+          width = 50;
+        }
+        {
+          id = "wifi";
+          enabled = true;
+          width = 50;
+        }
+        {
+          id = "bluetooth";
+          enabled = true;
+          width = 50;
+        }
+        {
+          id = "audioOutput";
+          enabled = true;
+          width = 50;
+        }
+        {
+          id = "audioInput";
+          enabled = true;
+          width = 50;
+        }
+        {
+          id = "nightMode";
+          enabled = true;
+          width = 50;
+        }
+        {
+          id = "darkMode";
+          enabled = true;
+          width = 50;
+        }
+      ];
+      showWorkspaceIndex = false;
+      showWorkspacePadding = false;
+      workspaceScrolling = false;
+      showWorkspaceApps = false;
+      maxWorkspaceIcons = 3;
+      workspacesPerMonitor = true;
+      showOccupiedWorkspacesOnly = false;
+      dwlShowAllTags = false;
+      workspaceNameIcons = { };
+      waveProgressEnabled = true;
+      clockCompactMode = false;
+      focusedWindowCompactMode = false;
+      runningAppsCompactMode = true;
+      keyboardLayoutNameCompactMode = false;
+      runningAppsCurrentWorkspace = false;
+      runningAppsGroupByApp = false;
+      clockDateFormat = "";
+      lockDateFormat = "";
+      mediaSize = 1;
+      appLauncherViewMode = "list";
+      spotlightModalViewMode = "list";
+      sortAppsAlphabetically = false;
+      appLauncherGridColumns = 4;
+      spotlightCloseNiriOverview = true;
+      weatherLocation = "New York, NY";
+      weatherCoordinates = "40.7128,-74.0060";
+      useAutoLocation = false;
+      weatherEnabled = true;
+      networkPreference = "auto";
+      vpnLastConnected = "";
+      iconTheme = "System Default";
+      launcherLogoMode = "apps";
+      launcherLogoCustomPath = "";
+      launcherLogoColorOverride = "";
+      launcherLogoColorInvertOnMode = false;
+      launcherLogoBrightness = 0.5;
+      launcherLogoContrast = 1;
+      launcherLogoSizeOffset = 0;
+      fontFamily = "Inter Variable";
+      monoFontFamily = "Fira Code";
+      fontWeight = 400;
+      fontScale = 1;
+      notepadUseMonospace = true;
+      notepadFontFamily = "";
+      notepadFontSize = 14;
+      notepadShowLineNumbers = false;
+      notepadTransparencyOverride = -1;
+      notepadLastCustomTransparency = 0.7;
+      soundsEnabled = true;
+      useSystemSoundTheme = false;
+      soundNewNotification = true;
+      soundVolumeChanged = true;
+      soundPluggedIn = true;
+      acMonitorTimeout = 0;
+      acLockTimeout = 0;
+      acSuspendTimeout = 0;
+      acSuspendBehavior = 0;
+      batteryMonitorTimeout = 0;
+      batteryLockTimeout = 0;
+      batterySuspendTimeout = 0;
+      batterySuspendBehavior = 0;
+      lockBeforeSuspend = false;
+      preventIdleForMedia = false;
+      loginctlLockIntegration = true;
+      fadeToLockEnabled = false;
+      fadeToLockGracePeriod = 5;
+      launchPrefix = "";
+      brightnessDevicePins = { };
+      wifiNetworkPins = { };
+      bluetoothDevicePins = { };
+      audioInputDevicePins = { };
+      audioOutputDevicePins = { };
+      gtkThemingEnabled = false;
+      qtThemingEnabled = false;
+      syncModeWithPortal = true;
+      terminalsAlwaysDark = false;
+      showDock = false;
+      dockAutoHide = false;
+      dockGroupByApp = false;
+      dockOpenOnOverview = false;
+      dockPosition = 1;
+      dockSpacing = 4;
+      dockBottomGap = 0;
+      dockMargin = 0;
+      dockIconSize = 40;
+      dockIndicatorStyle = "circle";
+      notificationOverlayEnabled = false;
+      modalDarkenBackground = true;
+      lockScreenShowPowerActions = true;
+      enableFprint = false;
+      maxFprintTries = 3;
+      hideBrightnessSlider = false;
+      notificationTimeoutLow = 5000;
+      notificationTimeoutNormal = 5000;
+      notificationTimeoutCritical = 0;
+      notificationPopupPosition = 0;
+      osdAlwaysShowValue = false;
+      osdPosition = 5;
+      osdVolumeEnabled = true;
+      osdMediaVolumeEnabled = true;
+      osdBrightnessEnabled = true;
+      osdIdleInhibitorEnabled = true;
+      osdMicMuteEnabled = true;
+      osdCapsLockEnabled = true;
+      osdPowerProfileEnabled = false;
+      powerActionConfirm = true;
+      powerActionHoldDuration = 1;
+      powerMenuActions = [
+        "reboot"
+        "logout"
+        "poweroff"
+        "lock"
+        "suspend"
+        "restart"
+      ];
+      powerMenuDefaultAction = "logout";
+      powerMenuGridLayout = false;
+      customPowerActionLock = "";
+      customPowerActionLogout = "";
+      customPowerActionSuspend = "";
+      customPowerActionHibernate = "";
+      customPowerActionReboot = "";
+      customPowerActionPowerOff = "";
+      updaterUseCustomCommand = false;
+      updaterCustomCommand = "";
+      updaterTerminalAdditionalParams = "";
+      displayNameMode = "system";
+      screenPreferences = { };
+      showOnLastDisplay = { };
+      barConfigs = [
+        {
+          id = "default";
+          name = "Main Bar";
+          enabled = true;
+          position = 0;
+          screenPreferences = [
+            "all"
+          ];
+          showOnLastDisplay = true;
+          leftWidgets = [
+            "launcherButton"
+            "workspaceSwitcher"
+            "focusedWindow"
+          ];
+          centerWidgets = [
+            "music"
+            "clock"
+            "weather"
+          ];
+          rightWidgets = [
+            {
+              id = "capsLockIndicator";
+              enabled = true;
+            }
+            {
+              id = "keyboard_layout_name";
+              enabled = true;
+              keyboardLayoutNameCompactMode = true;
+            }
+            {
+              id = "systemTray";
+              enabled = true;
+            }
+            {
+              id = "clipboard";
+              enabled = true;
+            }
+            {
+              id = "cpuUsage";
+              enabled = true;
+            }
+            {
+              id = "memUsage";
+              enabled = true;
+            }
+            {
+              id = "notificationButton";
+              enabled = true;
+            }
+            {
+              id = "battery";
+              enabled = true;
+            }
+            {
+              id = "controlCenterButton";
+              enabled = true;
+            }
+          ];
+          spacing = 4;
+          innerPadding = 4;
+          bottomGap = 0;
+          transparency = 1;
+          widgetTransparency = 1;
+          squareCorners = false;
+          noBackground = false;
+          gothCornersEnabled = false;
+          gothCornerRadiusOverride = false;
+          gothCornerRadiusValue = 12;
+          borderEnabled = false;
+          borderColor = "surfaceText";
+          borderOpacity = 1;
+          borderThickness = 1;
+          widgetOutlineEnabled = false;
+          widgetOutlineColor = "primary";
+          widgetOutlineOpacity = 1;
+          widgetOutlineThickness = 1;
+          fontScale = 1;
+          autoHide = false;
+          autoHideDelay = 250;
+          openOnOverview = false;
+          visible = true;
+          popupGapsAuto = true;
+          popupGapsManual = 4;
+        }
+      ];
+      configVersion = 2;
+    };
   };
 
   programs.niri = {

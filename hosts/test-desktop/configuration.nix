@@ -3,6 +3,7 @@
   imports = [
     inputs.nix-index-database.nixosModules.nix-index
     inputs.nix-flatpak.nixosModules.nix-flatpak
+    inputs.dms.nixosModules.greeter
     inputs.niri.nixosModules.niri
     ./overlay.nix
     ./hardware-configuration.nix
@@ -22,6 +23,11 @@
   # NIRI
   programs.niri.enable = true;
   niri-flake.cache.enable = true;
+  programs.dank-material-shell.greeter = {
+    enable = true;
+    compositor.name = "niri";
+    configHome = "/home/zx"; # sync themes
+  };
 
   # Use latest kernel.
   #boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -36,8 +42,9 @@
   # Enable networking
   networking.networkmanager.enable = true;
   hardware.bluetooth.enable = true;
-  #services.power-profiles-daemon.enable = true;
-  #services.upower.enable = true;
+  # services.power-profiles-daemon.enable = false; # power profile service
+  # services.upower.enable = false; # battery interface
+  services.udisks2.enable = true; # device automount
 
   # Set your time zone.
   time.timeZone = "Europe/Moscow";
@@ -105,13 +112,13 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" "input" ];
 
-    #packages = with pkgs; [
-    #  #  thunderbird
-    #  keeweb
-    #  firefox
-    #  dconf-editor
-    #  jetbrains.idea-ultimate
-    #];
+    # packages = with pkgs; [
+    #   #  thunderbird
+    #   keeweb
+    #   firefox
+    #   dconf-editor
+    #   jetbrains.idea-ultimate
+    # ];
   };
 
   # List packages installed in system profile. To search, run:

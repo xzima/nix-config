@@ -27,12 +27,12 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
 
     dgop = {
-      url = "github:AvengeMedia/dgop";
+      url = "github:AvengeMedia/dgop?ref=v0.1.12";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     dankMaterialShell = {
-      url = "github:AvengeMedia/DankMaterialShell";
+      url = "github:AvengeMedia/DankMaterialShell?ref=v1.0.3";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.dgop.follows = "dgop";
     };

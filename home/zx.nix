@@ -17,7 +17,13 @@
   home.packages = with pkgs; [
     keeweb # password manager
     # TODO: add to idea vm options `-Dawt.toolkit.name=WLToolkit`
-    jetbrains.idea-ultimate
+    (jetbrains.idea.overrideAttrs
+      (old: rec {
+        src = builtins.fetchurl {
+          url = builtins.replaceStrings [ "download.jetbrains.com" ] [ "download-cdn.jetbrains.com" ] (builtins.head old.src.urls);
+          sha256 = old.src.outputHash;
+        };
+      }))
     xwayland-satellite-stable # fix idea
     colordiff
     wev

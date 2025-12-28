@@ -128,6 +128,10 @@
     settings = {
       shell = "fish";
     };
+    keybindings = {
+      "ctrl+v" = "paste_from_clipboard";
+      "ctrl+shift+v" = "no_op";
+    };
     extraConfig = ''
       include dank-tabs.conf
       include dank-theme.conf
@@ -589,6 +593,10 @@
         "Ctrl+Alt+Delete" = {
           action = spawn "dms" "ipc" "powermenu" "toggle";
           hotkey-overlay.title = "Toggle Power Menu";
+        };
+        "Ctrl+Shift+V" /*"Mod+V"*/ = {
+          action = spawn "dms" "ipc" "clipboard" "toggle";
+          hotkey-overlay.title = "Toggle Clipboard Manager";
         };
 
         /* SEE https://github.com/AvengeMedia/DankMaterialShell/blob/master/distro/nix/niri.nix

@@ -573,9 +573,8 @@
         # Most actions that you can bind here can also be invoked programmatically with
         # `niri msg action do-something`.
 
-        # Mod-Shift-/, which is usually the same as Mod-?,
         # shows a list of important hotkeys.
-        "Mod+Shift+Slash".action = show-hotkey-overlay;
+        "Mod+F1".action = show-hotkey-overlay;
 
         # Suggested binds for running programs: terminal, app launcher, screen locker.
         "Ctrl+Alt+T" /*"Mod+T"*/ = {

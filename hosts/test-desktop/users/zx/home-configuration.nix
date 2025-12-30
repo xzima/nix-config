@@ -18,6 +18,10 @@
     username = "zx";
     homeDirectory = "/home/zx";
     stateVersion = "25.05";
+    # TODO: need run installation https://github.com/Frewacom/pywalfox?tab=readme-ov-file#%E2%80%8D-installation
+    file.".cache/wal/colors.json" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.cache/wal/dank-pywalfox.json";
+    };
   };
 
   # Allow unfree packages
@@ -62,6 +66,7 @@
     zip
     unzip
     git
+    pywalfox-native
   ];
 
   home.file = {

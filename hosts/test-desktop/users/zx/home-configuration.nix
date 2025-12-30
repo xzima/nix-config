@@ -26,14 +26,30 @@
 
   home.packages = with pkgs; [
     keeweb # password manager
-    # TODO: add to idea vm options `-Dawt.toolkit.name=WLToolkit`
-    (jetbrains.idea.overrideAttrs
-      (old: rec {
-        src = builtins.fetchurl {
-          url = builtins.replaceStrings [ "download.jetbrains.com" ] [ "download-cdn.jetbrains.com" ] (builtins.head old.src.urls);
-          sha256 = old.src.outputHash;
+    (
+      let
+        ideaOverAttr = pkgs.jetbrains.idea.overrideAttrs (old: rec {
+          src = builtins.fetchurl {
+            url = builtins.replaceStrings [ "download.jetbrains.com" ] [ "download-cdn.jetbrains.com" ] (builtins.head old.src.urls);
+            sha256 = old.src.outputHash;
+          };
+        });
+        ideaOver = ideaOverAttr.override {
+          forceWayland = true;
         };
-      }))
+      in
+      pkgs.buildFHSEnv {
+        name = "idea";
+        targetPkgs = pkgs: [
+          ideaOver
+        ];
+        multiPkgs = pkgs: pkgs.appimageTools.defaultFhsEnvArgs.multiPkgs pkgs;
+        runScript = "idea $*";
+        extraInstallCommands = ''
+          ln -s "${ideaOver}/share" $out
+        '';
+      }
+    )
     xwayland-satellite-stable # fix idea
     colordiff
     wev
@@ -45,6 +61,7 @@
     junction
     zip
     unzip
+    git
   ];
 
   home.file = {
@@ -68,7 +85,7 @@
       };
     };
   };
-  gtk.theme.name = "Adwaita-dark";
+
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/browsers/firefox/wrapper.nix
   xdg.desktopEntries = {
     "firefox-z7r.zima" = {

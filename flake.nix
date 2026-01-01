@@ -2,7 +2,8 @@
   description = "nix config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -26,22 +27,26 @@
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
 
-    dgop = {
-      url = "github:AvengeMedia/dgop";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    dms = {
-      url = "github:AvengeMedia/DankMaterialShell";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.dgop.follows = "dgop";
-    };
-
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    cosmic-applets-collection = {
+      url = "github:wingej0/ext-cosmic-applets-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs: inputs.blueprint { inherit inputs; };
+  outputs = inputs: inputs.blueprint {
+    inherit inputs;
+    nixpkgs.overlays = [
+      (final: prev: {
+        unstable = import inputs.nixpkgs-unstable {
+          inherit (final.stdenv.hostPlatform) system;
+          inherit (final) config;
+        };
+      })
+    ];
+  };
 }

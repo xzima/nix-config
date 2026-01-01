@@ -3,31 +3,41 @@
   imports = [
     inputs.nix-index-database.nixosModules.nix-index
     inputs.nix-flatpak.nixosModules.nix-flatpak
-    inputs.dms.nixosModules.greeter
-    inputs.niri.nixosModules.niri
-    ./overlay.nix
     ./hardware-configuration.nix
   ];
 
   system.stateVersion = "25.05";
   nixpkgs.hostPlatform = "x86_64-linux";
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+#    substituters = [ "https://cosmic.cachix.org/" ];
+#    trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
+  };
   # Disables all users for this host
   home-manager.users = lib.mkForce { };
 
+
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = [
+    (final: prev: {
+      unstable = import inputs.nixpkgs-unstable {
+        inherit (final.stdenv.hostPlatform) system;
+        inherit (final) config;
+      };
+    })
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # NIRI
-  programs.niri.enable = true;
-  niri-flake.cache.enable = true;
-  programs.dank-material-shell.greeter = {
-    enable = true;
-    compositor.name = "niri";
-    configHome = "/home/zx"; # sync themes
-  };
+  # Enable the COSMIC login manager
+  services.displayManager.cosmic-greeter.enable = true;
+
+  # Enable the COSMIC desktop environment
+  services.desktopManager.cosmic.enable = true;
+  # improve the performance of your Cosmic installation
+  services.system76-scheduler.enable = true;
 
   # Use latest kernel.
   #boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -44,7 +54,7 @@
   hardware.bluetooth.enable = true;
   # services.power-profiles-daemon.enable = false; # power profile service
   # services.upower.enable = false; # battery interface
-  services.udisks2.enable = true; # device automount
+  # services.udisks2.enable = true; # device automount
 
   # Set your time zone.
   time.timeZone = "Europe/Moscow";
@@ -78,7 +88,10 @@
   # };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.unstable.pantum-driver ];
+  };
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -110,7 +123,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.zx = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" "input" ];
+    extraGroups = [ "networkmanager" "wheel" "input" "docker" ];
 
     # packages = with pkgs; [
     #   #  thunderbird
@@ -125,7 +138,43 @@
   # $ nix search wget
   environment.systemPackages = [
     pkgs.home-manager
+#    inputs.cosmic-applets-collection.packages."${config.nixpkgs.hostPlatform.system}".cosmic-ext-applet-clipboard-manager
   ];
+  environment.cosmic.excludePackages = with pkgs; [
+    cosmic-edit
+    cosmic-term
+  ];
+  environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
+
+  #DOCKER
+  virtualisation.docker = {
+    enable = true;
+    daemon.settings.data-root = "/storage/docker";
+    autoPrune = {
+      enable = true;
+      flags = [ "--all" "--force" ];
+      dates = "daily";
+    };
+  };
+  systemd.services.dc-tor-proxy = {
+    wantedBy = [ "multi-user.target" ];
+    partOf = [ "docker.service" ];
+    after = [ "docker.service" ];
+    environment = {
+      STORAGE_PATH = "/home/zx";
+      PUID = "1000";
+      PGID = "1000";
+    };
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = "true";
+      WorkingDirectory = "${../docker-stable/composes/tor-proxy}";
+      ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d --remove-orphans";
+      ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
+      Restart = "on-failure";
+      RestartSec = "5";
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

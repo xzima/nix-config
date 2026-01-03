@@ -136,11 +136,6 @@
   virtualisation.docker = {
     enable = true;
     daemon.settings.data-root = "/storage/docker";
-    autoPrune = {
-      enable = true;
-      flags = [ "--all" "--force" ];
-      dates = "daily";
-    };
   };
   systemd.services.dc-tor-proxy = {
     wantedBy = [ "multi-user.target" ];

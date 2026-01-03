@@ -10,8 +10,8 @@
   nixpkgs.hostPlatform = "x86_64-linux";
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
-#    substituters = [ "https://cosmic.cachix.org/" ];
-#    trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
+    substituters = [ "https://niri.cachix.org" ];
+    trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964=" ];
   };
   # Disables all users for this host
   home-manager.users = lib.mkForce { };
@@ -70,8 +70,8 @@
   # services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-   services.displayManager.gdm.enable = true;
-   services.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   # services.xserver.xkb = {

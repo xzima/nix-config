@@ -1,4 +1,12 @@
-{ flake, inputs, perSystem, config, pkgs, lib, ... }:
+{
+  flake,
+  inputs,
+  perSystem,
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
 
   imports = [
@@ -34,7 +42,9 @@
       let
         ideaOverAttr = pkgs.jetbrains.idea.overrideAttrs (old: rec {
           src = builtins.fetchurl {
-            url = builtins.replaceStrings [ "download.jetbrains.com" ] [ "download-cdn.jetbrains.com" ] (builtins.head old.src.urls);
+            url = builtins.replaceStrings [ "download.jetbrains.com" ] [ "download-cdn.jetbrains.com" ] (
+              builtins.head old.src.urls
+            );
             sha256 = old.src.outputHash;
           };
         });
@@ -67,6 +77,8 @@
     unzip
     git
     pywalfox-native
+    wl-clipboard
+    qpdfview
   ];
 
   home.file = {
@@ -98,7 +110,10 @@
       genericName = "Web Browser (z7r.zima)";
       icon = "firefox";
       exec = "firefox -P z7r.zima --class=firefox-z7r.zima %U";
-      categories = [ "Network" "WebBrowser" ];
+      categories = [
+        "Network"
+        "WebBrowser"
+      ];
       mimeType = [
         "text/html"
         "text/xml"
@@ -171,7 +186,11 @@
     };
     keymap = {
       manager.prepend_keymap = [
-        { on = "M"; run = "plugin mount"; desc = "Enter Mount Manager"; }
+        {
+          on = "M";
+          run = "plugin mount";
+          desc = "Enter Mount Manager";
+        }
       ];
     };
   };
@@ -193,11 +212,18 @@
   # [ ] https://nik-rev.github.io/helix-golf/
   programs.helix = {
     enable = true;
-    extraPackages = with pkgs; [ nixd yaml-language-server docker-compose-language-service ];
+    extraPackages = with pkgs; [
+      nixd
+      yaml-language-server
+      docker-compose-language-service
+    ];
     settings = {
       theme = "autumn_night_transparent";
       editor = {
-        shell = [ "fish" "-c" ];
+        shell = [
+          "fish"
+          "-c"
+        ];
         cursor-shape = {
           normal = "block";
           insert = "bar";
@@ -251,7 +277,7 @@
   programs.dank-material-shell = {
     enable = true;
     niri = {
-      enableKeybinds = true; # Automatic keybinding configuration
+      # enableKeybinds = true; # Automatic keybinding configuration
       enableSpawn = true; # Auto-start DMS with niri
     };
 
@@ -599,60 +625,70 @@
         "Mod+F1".action = show-hotkey-overlay;
 
         # Suggested binds for running programs: terminal, app launcher, screen locker.
-        "Ctrl+Alt+T" /*"Mod+T"*/ = {
-          action = spawn "kitty";
-          hotkey-overlay.title = "Spawn terminal (Kitty)";
-        };
+        "Ctrl+Alt+T" # "Mod+T"
+          =
+            {
+              action = spawn "kitty";
+              hotkey-overlay.title = "Spawn terminal (Kitty)";
+            };
         "Mod+E" = {
           action = spawn "kitty" "-e" "yazi";
           hotkey-overlay.title = "Spawn File Manager";
         };
-        "Ctrl+Escape" /*"Mod+D"*/ = {
-          action = spawn "dms" "ipc" "spotlight" "toggle";
-          hotkey-overlay.title = "Toggle Application Launcher";
-        };
+        "Ctrl+Escape" # "Mod+D"
+          =
+            {
+              action = spawn "dms" "ipc" "spotlight" "toggle";
+              hotkey-overlay.title = "Toggle Application Launcher";
+            };
         "Ctrl+Alt+Delete" = {
           action = spawn "dms" "ipc" "powermenu" "toggle";
           hotkey-overlay.title = "Toggle Power Menu";
         };
-        "Ctrl+Shift+V" /*"Mod+V"*/ = {
-          action = spawn "dms" "ipc" "clipboard" "toggle";
-          hotkey-overlay.title = "Toggle Clipboard Manager";
-        };
+        "Ctrl+Shift+V" # "Mod+V"
+          =
+            {
+              action = spawn "dms" "ipc" "clipboard" "toggle";
+              hotkey-overlay.title = "Toggle Clipboard Manager";
+            };
 
-        /* SEE https://github.com/AvengeMedia/DankMaterialShell/blob/master/distro/nix/niri.nix
-        "Super+Alt+L".action.spawn = "swaylock";
+        /*
+          SEE https://github.com/AvengeMedia/DankMaterialShell/blob/master/distro/nix/niri.nix
+          "Super+Alt+L".action.spawn = "swaylock";
         */
 
         # You can also use a shell. Do this if you need pipes, multiple commands, etc.
         # Note: the entire command goes as a single argument in the end.
         # Mod+T { spawn "bash" "-c" "notify-send hello && exec alacritty"; }
 
-        /* SEE https://github.com/AvengeMedia/DankMaterialShell/blob/master/distro/nix/niri.nix
-        # Example volume keys mappings for PipeWire & WirePlumber.
-        # The allow-when-locked=true property makes them work even when the session is locked.
-        "XF86AudioRaiseVolume" = {
-          allow-when-locked = true;
-          action.spawn = [ "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+" ];
-        };
-        "XF86AudioLowerVolume" = {
-          allow-when-locked = true;
-          action.spawn = [ "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-" ];
-        };
-        "XF86AudioMute" = {
-          allow-when-locked = true;
-          action.spawn = [ "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle" ];
-        };
-        "XF86AudioMicMute" = {
-          allow-when-locked = true;
-          action.spawn = [ "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle" ];
-        };
+        /*
+          SEE https://github.com/AvengeMedia/DankMaterialShell/blob/master/distro/nix/niri.nix
+          # Example volume keys mappings for PipeWire & WirePlumber.
+          # The allow-when-locked=true property makes them work even when the session is locked.
+          "XF86AudioRaiseVolume" = {
+            allow-when-locked = true;
+            action.spawn = [ "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+" ];
+          };
+          "XF86AudioLowerVolume" = {
+            allow-when-locked = true;
+            action.spawn = [ "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-" ];
+          };
+          "XF86AudioMute" = {
+            allow-when-locked = true;
+            action.spawn = [ "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle" ];
+          };
+          "XF86AudioMicMute" = {
+            allow-when-locked = true;
+            action.spawn = [ "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle" ];
+          };
         */
 
-        "Alt+F4" /*"Mod+Q"*/ = {
-          action = close-window;
-          repeat = false;
-        };
+        "Alt+F4" # "Mod+Q"
+          =
+            {
+              action = close-window;
+              repeat = false;
+            };
 
         "Mod+Left".action = focus-column-left;
         "Mod+Down".action = focus-window-down;

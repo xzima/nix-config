@@ -11,7 +11,11 @@
 
   system.stateVersion = "25.05";
   nixpkgs.hostPlatform = "x86_64-linux";
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    substituters = [ "https://niri.cachix.org" ];
+    trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964=" ];
+  };
   # Disables all users for this host
   home-manager.users = lib.mkForce { };
 

@@ -34,7 +34,6 @@
     dms = {
       url = "github:AvengeMedia/DankMaterialShell";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.dgop.follows = "dgop";
     };
 
     niri = {
@@ -43,5 +42,12 @@
     };
   };
 
-  outputs = inputs: inputs.blueprint { inherit inputs; };
+  outputs = inputs: inputs.blueprint {
+    inherit inputs;
+    nixpkgs.overlays = [
+      (final: prev: {
+        dgop = inputs.dgop.packages.${final.stdenv.hostPlatform.system}.default;
+      })
+    ];
+  };
 }

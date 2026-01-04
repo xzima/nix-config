@@ -27,7 +27,12 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell/?ref=v3.7.1";
+      url = "github:noctalia-dev/noctalia-shell/?ref=v3.8.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/?ref=v1.0.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

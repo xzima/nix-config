@@ -43,6 +43,7 @@
     junction
     zip
     unzip
+    git
   ];
 
   home.file = {
@@ -125,6 +126,13 @@
     settings = {
       shell = "fish";
     };
+    keybindings = {
+      "ctrl+v" = "paste_from_clipboard";
+      "ctrl+shift+v" = "no_op";
+    };
+    extraConfig = ''
+      include themes/noctalia.conf
+    '';
   };
   programs.jq.enable = true;
   programs.fish = {
@@ -133,6 +141,24 @@
   programs.yazi = {
     enable = true;
     enableFishIntegration = true;
+    plugins = {
+      mount = pkgs.yaziPlugins.mount;
+    };
+    keymap = {
+      manager.prepend_keymap = [
+        {
+          on = "M";
+          run = "plugin mount";
+          desc = "Enter Mount Manager";
+        }
+      ];
+    };
+    theme = {
+      flavor = {
+        dark = "noctalia";
+        light = "noctalia";
+      };
+    };
   };
   programs.micro = {
     enable = true;
@@ -229,7 +255,7 @@
         "Mod+Shift+Slash".action = show-hotkey-overlay;
 
         # Suggested binds for running programs: terminal, app launcher, screen locker.
-        "Ctrl+Alt+T" /*"Mod+T"*/ = {
+        "Ctrl+Alt+T" = {
           action = spawn "kitty";
           hotkey-overlay.title = "Spawn terminal (Kitty)";
         };
@@ -237,18 +263,27 @@
           action = spawn "kitty" "-e" "yazi";
           hotkey-overlay.title = "Spawn File Manager";
         };
-        "Ctrl+Escape" /*"Mod+D"*/ = {
-          action = spawn "dms" "ipc" "spotlight" "toggle";
+
+        "Ctrl+Shift+V" = {
+          action = spawn "noctalia-shell" "ipc" "call" "launcher" "clipboard";
+          hotkey-overlay.title = "Toggle Clipboard Manager";
+        };
+        "Ctrl+Escape" = {
+          action = spawn "noctalia-shell" "ipc" "call" "launcher" "toggle";
           hotkey-overlay.title = "Toggle Application Launcher";
         };
         "Ctrl+Alt+Delete" = {
-          action = spawn "dms" "ipc" "powermenu" "toggle";
+          action = spawn "noctalia-shell" "ipc" "call" "sessionMenu" "toggle";
           hotkey-overlay.title = "Toggle Power Menu";
         };
-
-        /* SEE https://github.com/AvengeMedia/DankMaterialShell/blob/master/distro/nix/niri.nix
-        "Super+Alt+L".action.spawn = "swaylock";
-        */
+        "Super+Alt+L" = {
+          action = spawn "noctalia-shell" "ipc" "call" "lockScreen" "lock";
+          hotkey-overlay.title = "Lock Screen";
+        };
+        "Mod+Comma" = {
+          action = spawn "noctalia-shell" "ipc" "call" "settings" "toggle";
+          hotkey-overlay.title = "Toggle Settings";
+        };
 
         # You can also use a shell. Do this if you need pipes, multiple commands, etc.
         # Note: the entire command goes as a single argument in the end.

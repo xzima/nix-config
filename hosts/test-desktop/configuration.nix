@@ -4,13 +4,19 @@
     inputs.nix-index-database.nixosModules.nix-index
     inputs.nix-flatpak.nixosModules.nix-flatpak
     inputs.niri.nixosModules.niri
+    inputs.noctalia.nixosModules.default
+    inputs.dms.nixosModules.greeter
     ./overlay.nix
     ./hardware-configuration.nix
   ];
 
   system.stateVersion = "25.05";
   nixpkgs.hostPlatform = "x86_64-linux";
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    substituters = [ "https://niri.cachix.org" ];
+    trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964=" ];
+  };
   # Disables all users for this host
   home-manager.users = lib.mkForce { };
 
@@ -22,6 +28,13 @@
   # NIRI
   programs.niri.enable = true;
   niri-flake.cache.enable = true;
+  services.noctalia-shell = {
+    enable = true;
+  };
+  programs.dankMaterialShell.greeter = {
+    enable = true;
+    compositor.name = "niri";
+  };
 
   # Use latest kernel.
   #boot.kernelPackages = pkgs.linuxPackages_latest;

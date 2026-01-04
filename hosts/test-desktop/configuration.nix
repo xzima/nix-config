@@ -4,7 +4,6 @@
     inputs.nix-index-database.nixosModules.nix-index
     inputs.nix-flatpak.nixosModules.nix-flatpak
     inputs.niri.nixosModules.niri
-    inputs.noctalia.nixosModules.default
     inputs.dms.nixosModules.greeter
     ./overlay.nix
     ./hardware-configuration.nix
@@ -14,6 +13,7 @@
   nixpkgs.hostPlatform = "x86_64-linux";
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
+    # https://github.com/sodiboo/niri-flake/blob/main/flake.nix#L479
     substituters = [ "https://niri.cachix.org" ];
     trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964=" ];
   };
@@ -27,14 +27,7 @@
 
   # NIRI
   programs.niri.enable = true;
-  niri-flake.cache.enable = true;
-  services.noctalia-shell = {
-    enable = true;
-  };
-  programs.dankMaterialShell.greeter = {
-    enable = true;
-    compositor.name = "niri";
-  };
+  programs.regreet.enable = true;
 
   # Use latest kernel.
   #boot.kernelPackages = pkgs.linuxPackages_latest;

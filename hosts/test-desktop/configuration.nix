@@ -42,8 +42,9 @@
   # Enable networking
   networking.networkmanager.enable = true;
   hardware.bluetooth.enable = true;
-  #services.power-profiles-daemon.enable = true;
-  #services.upower.enable = true;
+  # services.power-profiles-daemon.enable = false; # power profile service
+  # services.upower.enable = false; # battery interface
+  services.udisks2.enable = true; # usb automount
 
   # Set your time zone.
   time.timeZone = "Europe/Moscow";

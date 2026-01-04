@@ -86,7 +86,6 @@
       };
     };
   };
-  gtk.theme.name = "Adwaita-dark";
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/browsers/firefox/wrapper.nix
   xdg.desktopEntries = {
     "firefox-z7r.zima" = {

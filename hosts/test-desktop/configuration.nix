@@ -4,6 +4,7 @@
     inputs.nix-index-database.nixosModules.nix-index
     inputs.nix-flatpak.nixosModules.nix-flatpak
     inputs.niri.nixosModules.niri
+    inputs.stylix.nixosModules.stylix
     ./hardware-configuration.nix
   ];
 
@@ -25,7 +26,17 @@
 
   # NIRI
   programs.niri.enable = true;
-  programs.regreet.enable = true;
+  programs.regreet = {
+    enable = true;
+    cageArgs = [ "-s" "-d" ]; # -d for disable header bar
+  };
+
+  # STYLE
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-estuary.yaml";
+    polarity = "dark";
+  };
 
   # Use latest kernel.
   #boot.kernelPackages = pkgs.linuxPackages_latest;

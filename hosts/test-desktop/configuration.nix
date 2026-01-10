@@ -6,6 +6,7 @@
     inputs.niri.nixosModules.niri
     inputs.stylix.nixosModules.stylix
     ./hardware-configuration.nix
+    ./theme.nix
   ];
 
   system.stateVersion = "25.05";
@@ -29,13 +30,6 @@
   programs.regreet = {
     enable = true;
     cageArgs = [ "-s" "-d" ]; # -d for disable header bar
-  };
-
-  # STYLE
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-estuary.yaml";
-    polarity = "dark";
   };
 
   # Use latest kernel.

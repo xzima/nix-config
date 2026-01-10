@@ -8,6 +8,7 @@
     inputs.niri.homeModules.niri
     inputs.stylix.homeModules.stylix
     inputs.niri.homeModules.stylix
+    ./theme.nix
   ];
 
   nixpkgs.overlays = [
@@ -65,26 +66,14 @@
     git
     wl-clipboard
     systemctl-tui
+    lazygit
+    matugen
   ];
 
   home.file = {
     ".dotfiles/micro" = {
       source = ../../../../modules/home/shell/dotfiles/micro;
       recursive = true;
-    };
-  };
-
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-estuary.yaml";
-    polarity = "dark";
-
-    # wait https://github.com/nix-community/stylix/issues/249
-    targets.micro.enable = false;
-
-    targets.firefox = {
-      firefoxGnomeTheme.enable = true;
-      profileNames = [ "default" "z7r.zima" ];
     };
   };
 
@@ -165,6 +154,7 @@
     keybindings = {
       "ctrl+v" = "paste_from_clipboard";
       "ctrl+shift+v" = "no_op";
+      "ctrl+shift+enter" = "launch --cwd=current --type=window";
     };
   };
   programs.jq.enable = true;

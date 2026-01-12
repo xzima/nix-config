@@ -68,7 +68,7 @@
     wl-clipboard
     systemctl-tui
     lazygit
-    matugen
+    nix-tree # Interactively browse a Nix store paths dependencies
   ];
 
   home.file = {
@@ -230,6 +230,16 @@
   programs.nix-index = {
     enable = true;
     enableFishIntegration = true;
+  };
+
+  programs.nh = {
+    enable = true;
+    flake = "${config.home.homeDirectory}/nix-config";
+
+    #clean = {
+    #  enable = true;
+    #  extraArgs = "--keep-since 4d --keep 3";
+    #};
   };
 
   programs.noctalia-shell = {

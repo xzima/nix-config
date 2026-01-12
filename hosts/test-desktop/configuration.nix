@@ -5,6 +5,7 @@
     inputs.nix-flatpak.nixosModules.nix-flatpak
     inputs.niri.nixosModules.niri
     inputs.stylix.nixosModules.stylix
+    inputs.matugen.nixosModules.default
     ./hardware-configuration.nix
     ./theme.nix
   ];

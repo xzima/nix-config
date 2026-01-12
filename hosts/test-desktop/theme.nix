@@ -1,90 +1,61 @@
-{ flake, inputs, hostName, perSystem, config, modulesPath, pkgs, lib, ... }:
-let
-  # source https://colorffy.com/dark-theme-generator
-  /** Base colors */
-  dark-a0 = "#000000";
-  light-a0 = "#ffffff";
-
-  /** Theme primary colors */
-  primary-a0 = "#4caf50";
-  primary-a10 = "#63b863";
-  primary-a20 = "#79c176";
-  primary-a30 = "#8dca89";
-  primary-a40 = "#a0d39c";
-  primary-a50 = "#b4dcb0";
-
-  /** Theme surface colors */
-  surface-a0 = "#0f160d";
-  surface-a10 = "#252b24";
-  surface-a20 = "#3c423b";
-  surface-a30 = "#555a54";
-  surface-a40 = "#6f736e";
-  surface-a50 = "#8a8d89";
-  surface-a60 = "#a6a9a5";
-  surface-a70 = "#c3c5c2";
-  surface-a80 = "#e1e1e0";
-  surface-a90 = "#ffffff";
-
-  /** Theme tonal surface colors */
-  surface-tonal-a0 = "#162315";
-  surface-tonal-a10 = "#2b382a";
-  surface-tonal-a20 = "#424e41";
-  surface-tonal-a30 = "#5b6459";
-  surface-tonal-a40 = "#747c73";
-  surface-tonal-a50 = "#8e958d";
-  surface-tonal-a60 = "#a9afa8";
-  surface-tonal-a70 = "#c5c9c4";
-
-  /** Success colors */
-  success-a0 = "#21498a";
-  success-a10 = "#4077d1";
-  success-a20 = "#92b2e5";
-
-  /** Warning colors */
-  warning-a0 = "#a87a2a";
-  warning-a10 = "#d7ac61";
-  warning-a20 = "#ecd7b2";
-
-  /** Danger colors */
-  danger-a0 = "#9c2121";
-  danger-a10 = "#d94a4a";
-  danger-a20 = "#eb9e9e";
-
-  /** Info colors */
-  info-a0 = "#4cacaf";
-  info-a10 = "#92cecf";
-  info-a20 = "#d9eeee";
-in
-{
+{ flake, inputs, hostName, perSystem, config, modulesPath, pkgs, lib, ... }: {
+  programs.matugen = {
+    enable = true;
+    source_color = "#4caf50";
+    jsonFormat = "hex";
+    variant = "dark";
+    type = "scheme-vibrant";
+    contrast = -1;
+  };
 
   stylix = {
     enable = true;
     polarity = "dark";
-    #base16Scheme = "${pkgs.base16-schemes}/share/themes/material-darker.yaml";
-    base16Scheme = {
-      base00 = surface-a0;
-      base01 = surface-tonal-a0;
-      base02 = surface-a40;
-      base03 = surface-a50;
-      base04 = surface-a60;
-      base05 = surface-a70;
-      base06 = surface-a80;
-      base07 = surface-a90;
-      base08 = danger-a20;
-      base09 = warning-a0;
-      base0A = warning-a10;
-      base0B = primary-a0;
-      base0C = primary-a20;
-      base0D = success-a10;
-      base0E = success-a20;
-      base0F = danger-a0;
+
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/material-darker.yaml";
+
+    override = with config.programs.matugen.theme.colors; {
+      base00 = surface.default; # Default Background
+      base01 = surface_container.default; # Lighter Background (Used for status bars, line number and folding marks)
+      base02 = surface_bright.default; # Selection Background
+      base03 = on_surface_variant.default; # Comments, Invisibles, Line Highlighting
+      base04 = on_background.default; # Dark Foreground (Used for status bars)
+      base05 = on_surface.default; # Default Foreground, Caret, Delimiters, Operators
+      base06 = on_surface.light; # Light Foreground (Not often used)
+      base07 = surface.light; # Light Background (Not often used)
+      # base08 = danger-a20; # Variables, XML Tags, Markup Link Text, Markup Lists, Diff Deleted
+      # base09 = warning-a0; # Integers, Boolean, Constants, XML Attributes, Markup Link Url
+      # base0A = warning-a10; # Classes, Markup Bold, Search Text Background
+      # base0B = primary-a0; # Strings, Inherited Class, Markup Code, Diff Inserted
+      # base0C = primary-a20; # Support, Regular Expressions, Escape Characters, Markup Quotes
+      # base0D = success-a10; # Functions, Methods, Attribute IDs, Headings
+      # base0E = success-a20; # Keywords, Storage, Selector, Markup Italic, Diff Changed
+      # base0F = error_container.default; # Deprecated, Opening/Closing Embedded Language Tags, e.g. <?php ?>
     };
+
     targets.regreet.enable = false;
   };
+
   programs.regreet = {
     settings.GTK.application_prefer_dark_theme = true;
     # https://github.com/medanimohamedakram/Dotfiles/blob/main/greetd/regreet.toml
-    extraCss = ''
+    extraCss = with config.programs.matugen.theme.colors; ''
+      @define-color error ${error.default};
+      @define-color on_error ${on_error.default};
+      @define-color on_error_container ${on_error_container.default};
+      @define-color on_primary ${on_primary.default};
+      @define-color on_primary_container ${on_primary_container.default};
+      @define-color on_surface ${on_surface.default};
+      @define-color on_surface_variant ${on_surface_variant.default};
+      @define-color primary ${primary.default};
+      @define-color primary_container ${primary_container.default};
+      @define-color shadow ${shadow.default};
+      @define-color surface ${surface.default};
+      @define-color surface_container ${surface_container.default};
+      @define-color surface_variant ${surface_variant.default};
+      @define-color tertiary ${tertiary.default};
+      @define-color outline_variant ${outline_variant.default};
+
       * {
         all: unset;
       }
@@ -94,10 +65,10 @@ in
       }
 
       frame.background {
-        background: alpha(${surface-a0}, .92);
-        color: ${primary-a40};
-        border-radius: 24px;
-        box-shadow: 0 0 12px 2px alpha(${dark-a0}, .9);
+        background: alpha(@surface, .92);
+        color: @on_surface;
+        border-radius: 4px;
+        box-shadow: 0 0 12px 2px alpha(@shadow, .9);
       }
 
       frame.background>grid>label:first-child {
@@ -108,103 +79,93 @@ in
       frame.background.top {
         font-size: 1.2rem;
         padding: 8px;
-        background: ${surface-a0};
+        background: @surface;
         border-radius: 0;
         border-bottom-left-radius: 24px;
         border-bottom-right-radius: 24px;
       }
 
       box.horizontal>button.default.suggested-action.text-button {
-        background: ${surface-tonal-a10};
-        color: ${primary-a40};
+        background: @primary;
+        color: @surface;
         padding: 12px;
         margin: 0 8px;
-        border-radius: 12px;
-        box-shadow: 0 0 2px 1px alpha(${dark-a0}, .6);
+        border-radius: 2em;
         transition: background .3s ease-in-out;
       }
 
       box.horizontal>button.default.suggested-action.text-button:hover {
-        background: ${primary-a0};
-        color: ${surface-tonal-a0};
+        background: @tertiary;
       }
 
       box.horizontal>button.text-button {
-        background: alpha(${danger-a20}, .1);
-        color: ${danger-a0};
+        background: @surface_container;
+        color: @on_surface;
         padding: 12px;
-        border-radius: 12px;
+        border-radius: 2em;
         transition: background .3s ease-in-out;
       }
 
       box.horizontal>button.text-button:hover {
-        background: alpha(${danger-a20}, .3);
+        background: @tertiary;
+        color: @surface;
       }
 
       box.bottom.vertical>box.horizontal>button.destructive-action.text-button {
-        background: ${surface-tonal-a0};
-        color: ${danger-a0};
+        background: @surface;
+        color: @error;
         padding: 12px;
-        border-radius: 12px;
+        border-radius: 2em;
+        border: 2px solid @error;
         transition: background .3s ease-in-out;
       }
 
       box.bottom.vertical>box.horizontal>button.destructive-action.text-button:hover {
-        background: ${danger-a20};
-        color: ${danger-a0};
+        background: @error;
+        color: @on_error;
       }
 
       combobox {
-        background: ${surface-tonal-a0};
-        color: ${primary-a40};
+        background: @surface_container;
+        color: @on_surface;
         border-radius: 12px;
         padding: 12px;
-        box-shadow: 0 0 0 1px alpha(${dark-a0}, .6);
       }
 
       combobox:disabled {
-        background: ${surface-tonal-a0};
-        color: alpha(${primary-a50}, .6);
+        background-color: transparent;
+        color: @on_surface;
         border-radius: 12px;
         padding: 12px;
         box-shadow: none;
       }
 
-      modelbutton.flat {
-        background: ${surface-tonal-a0};
-        padding: 6px;
-        margin: 2px;
-        border-radius: 8px;
-        border-spacing: 6px;
-      }
-
-      modelbutton.flat:hover {
-        background: alpha(${info-a10}, .2);
+      combobox:hover {
+        box-shadow: 0px 0px 0px 2px @tertiary;
+        border-radius: 12px;
       }
 
       button.image-button.toggle {
-        margin-right: 36px;
-        padding: 12px;
-        border-radius: 12px;
+        padding: 0em 0.9em;
+        border-radius: 2em;
+        background: @surface_container;
+        transition: background .3s ease-in-out;
       }
 
       button.image-button.toggle:hover {
-        background: ${surface-a0};
+        background: @tertiary;
+        color: @surface;
       }
 
       button.image-button.toggle:disabled {
-        background: ${surface-tonal-a0};
-        color: alpha(${primary-a50}, .6);
-        margin-right: 36px;
-        padding: 12px;
-        border-radius: 12px;
+        opacity: 0;
       }
 
       combobox>popover {
-        background: ${surface-tonal-a0};
-        color: ${primary-a50};
+        background: @surface_container;
+        color: @on_surface_variant;
         border-radius: 12px;
-        border: 1px solid ${info-a10};
+        border: 2px solid @tertiary;
         padding: 2px 12px;
       }
 
@@ -212,23 +173,30 @@ in
         padding: 2px;
       }
 
-      combobox:hover {
-        background: alpha(${info-a10}, .2);
+      modelbutton.flat {
+        padding: 6px;
+        margin: 2px;
       }
 
-      entry.password {
-        border: 2px solid ${primary-a0};
+      modelbutton.flat:hover {
+        color: @tertiary;
+        font-weight: bold;
+      }
+
+      entry {
+        background: @surface_container;
+        border: 2px solid @primary;
         border-radius: 12px;
         padding: 12px;
       }
 
-      entry.password:hover {
-        border: 2px solid ${primary-a0};
+      entry:hover {
+        border: 2px solid @tertiary;
       }
 
       tooltip {
-        background: ${surface-a0};
-        color: ${primary-a40};
+        background: @surface;
+        color: @on_surface;
         padding: 12px;
         border-radius: 12px;
       }

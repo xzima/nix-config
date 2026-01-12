@@ -8,6 +8,7 @@
     inputs.niri.homeModules.niri
     inputs.stylix.homeModules.stylix
     inputs.niri.homeModules.stylix
+    inputs.matugen.nixosModules.default
     ./theme.nix
   ];
 

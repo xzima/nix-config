@@ -1,6 +1,12 @@
-{ flake, inputs, perSystem, config, pkgs, lib, ... }:
 {
-
+  flake,
+  inputs,
+  perSystem,
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
     #flake.homeModules.shell
     inputs.nix-index-database.homeModules.nix-index
@@ -31,7 +37,7 @@
       let
         ideaOverAttr = pkgs.jetbrains.idea.overrideAttrs (old: rec {
           src = builtins.fetchurl {
-            url = builtins.replaceStrings [ "download.jetbrains.com" ] [ "download-cdn.jetbrains.com" ] (
+            url = builtins.replaceStrings ["download.jetbrains.com"] ["download-cdn.jetbrains.com"] (
               builtins.head old.src.urls
             );
             sha256 = old.src.outputHash;
@@ -41,7 +47,7 @@
           forceWayland = true;
         };
       in
-      ideaOver
+        ideaOver
       #      pkgs.buildFHSEnv {
       #        name = "idea";
       #        targetPkgs = pkgs: [
@@ -99,7 +105,7 @@
       genericName = "Web Browser (z7r.zima)";
       icon = "firefox";
       exec = "firefox -P z7r.zima --class=firefox-z7r.zima %U";
-      categories = [ "Network" "WebBrowser" ];
+      categories = ["Network" "WebBrowser"];
       mimeType = [
         "text/html"
         "text/xml"
@@ -119,14 +125,14 @@
   # containers
   services.podman = {
     enable = true;
-    networks.proxy = { };
+    networks.proxy = {};
   };
   systemd.user.services.pc-tor-proxy = {
     Unit = {
-      After = [ "podman-proxy-network.service" ];
+      After = ["podman-proxy-network.service"];
     };
     Install = {
-      WantedBy = [ "default.target" ];
+      WantedBy = ["default.target"];
     };
     Service = {
       Environment = [
@@ -171,7 +177,11 @@
     };
     keymap = {
       mgr.prepend_keymap = [
-        { on = "M"; run = "plugin mount"; desc = "Enter Mount Manager"; }
+        {
+          on = "M";
+          run = "plugin mount";
+          desc = "Enter Mount Manager";
+        }
       ];
     };
   };
@@ -185,10 +195,10 @@
   # [ ] https://nik-rev.github.io/helix-golf/
   programs.helix = {
     enable = true;
-    extraPackages = with pkgs; [ nixd yaml-language-server docker-compose-language-service ];
+    extraPackages = with pkgs; [nixd yaml-language-server docker-compose-language-service];
     settings = {
       editor = {
-        shell = [ "fish" "-c" ];
+        shell = ["fish" "-c"];
         cursor-shape = {
           normal = "block";
           insert = "bar";
@@ -207,20 +217,18 @@
       language-server = {
         nixd = {
           command = "nixd";
-          args = [ "--semantic-tokens=true" ];
-          config.nixd =
-            let
-              myFlake = ''(builtins.getFlake "${config.home.homeDirectory}/nix-config"'';
-              nixosOpts = "${myFlake}.nixosConfigurations.test-desktop.options";
-            in
-            {
-              nixpkgs.expr = "import ${myFlake}.inputs.nixpkgs { }";
-              formatting.command = [ "${lib.getExe pkgs.nixfmt-rfc-style}" ];
-              options = {
-                nixos.expr = nixosOpts;
-                home-manager.expr = "${nixosOpts}.home-manager.users.type.getSubOptions [ ]";
-              };
+          args = ["--semantic-tokens=true"];
+          config.nixd = let
+            myFlake = ''(builtins.getFlake "${config.home.homeDirectory}/nix-config"'';
+            nixosOpts = "${myFlake}.nixosConfigurations.test-desktop.options";
+          in {
+            nixpkgs.expr = "import ${myFlake}.inputs.nixpkgs { }";
+            formatting.command = ["${lib.getExe pkgs.nixfmt-rfc-style}"];
+            options = {
+              nixos.expr = nixosOpts;
+              home-manager.expr = "${nixosOpts}.home-manager.users.type.getSubOptions [ ]";
             };
+          };
         };
       };
     };
@@ -252,7 +260,7 @@
         enableClipPreview = true;
         enableClipboardHistory = true;
         iconMode = "tabler";
-        pinnedExecs = [ ];
+        pinnedExecs = [];
         position = "top_center";
         showCategories = true;
         sortByMostUsed = true;
@@ -263,7 +271,7 @@
       audio = {
         cavaFrameRate = 30;
         externalMixer = "pwvucontrol || pavucontrol";
-        mprisBlacklist = [ ];
+        mprisBlacklist = [];
         preferredPlayer = "";
         visualizerType = "linear";
         volumeOverdrive = false;
@@ -277,7 +285,7 @@
         floating = false;
         marginHorizontal = 0.25;
         marginVertical = 0.25;
-        monitors = [ ];
+        monitors = [];
         outerCorners = false;
         position = "top";
         showCapsule = false;
@@ -345,7 +353,10 @@
               showScrollLock = false;
               scrollLockIcon = "letter-s";
             }
-            { id = "KeyboardLayout"; displayMode = "forceOpen"; }
+            {
+              id = "KeyboardLayout";
+              displayMode = "forceOpen";
+            }
             {
               id = "SystemMonitor";
               compactMode = true;
@@ -365,13 +376,26 @@
               colorizeIcons = false;
               drawerEnabled = true;
               hidePassive = false;
-              blacklist = [ ];
-              pinned = [ ];
+              blacklist = [];
+              pinned = [];
             }
-            { id = "Volume"; displayMode = "onhover"; }
-            { id = "Brightness"; displayMode = "onhover"; }
-            { id = "NotificationHistory"; hideWhenZero = false; showUnreadBadge = true; }
-            { id = "WiFi"; displayMode = "onhover"; }
+            {
+              id = "Volume";
+              displayMode = "onhover";
+            }
+            {
+              id = "Brightness";
+              displayMode = "onhover";
+            }
+            {
+              id = "NotificationHistory";
+              hideWhenZero = false;
+              showUnreadBadge = true;
+            }
+            {
+              id = "WiFi";
+              displayMode = "onhover";
+            }
             {
               id = "ControlCenter";
               useDistroLogo = true;
@@ -391,10 +415,22 @@
       };
       calendar = {
         cards = [
-          { id = "calendar-header-card"; enabled = true; }
-          { id = "calendar-month-card"; enabled = true; }
-          { id = "weather-card"; enabled = true; }
-          { id = "timer-card"; enabled = true; }
+          {
+            id = "calendar-header-card";
+            enabled = true;
+          }
+          {
+            id = "calendar-month-card";
+            enabled = true;
+          }
+          {
+            id = "weather-card";
+            enabled = true;
+          }
+          {
+            id = "timer-card";
+            enabled = true;
+          }
         ];
       };
       colorSchemes = {
@@ -407,31 +443,49 @@
         position = "close_to_bar_button";
         shortcuts = {
           left = [
-            { id = "WiFi"; }
-            { id = "Bluetooth"; }
-            { id = "ScreenRecorder"; }
-            { id = "WallpaperSelector"; }
+            {id = "WiFi";}
+            {id = "Bluetooth";}
+            {id = "ScreenRecorder";}
+            {id = "WallpaperSelector";}
           ];
           right = [
-            { id = "Notifications"; }
-            { id = "PowerProfile"; }
-            { id = "KeepAwake"; }
-            { id = "NightLight"; }
+            {id = "Notifications";}
+            {id = "PowerProfile";}
+            {id = "KeepAwake";}
+            {id = "NightLight";}
           ];
         };
         cards = [
-          { id = "profile-card"; enabled = true; }
-          { id = "shortcuts-card"; enabled = true; }
-          { id = "audio-card"; enabled = true; }
-          { id = "weather-card"; enabled = false; }
-          { id = "media-sysmon-card"; enabled = true; }
-          { id = "brightness-card"; enabled = false; }
+          {
+            id = "profile-card";
+            enabled = true;
+          }
+          {
+            id = "shortcuts-card";
+            enabled = true;
+          }
+          {
+            id = "audio-card";
+            enabled = true;
+          }
+          {
+            id = "weather-card";
+            enabled = false;
+          }
+          {
+            id = "media-sysmon-card";
+            enabled = true;
+          }
+          {
+            id = "brightness-card";
+            enabled = false;
+          }
         ];
       };
       desktopWidgets = {
         enabled = false;
         gridSnap = false;
-        monitorWidgets = [ ];
+        monitorWidgets = [];
       };
       dock.enabled = false;
       general = {
@@ -493,11 +547,15 @@
         enabled = true;
         location = "top_right";
         lowUrgencyDuration = 3;
-        monitors = [ ];
+        monitors = [];
         normalUrgencyDuration = 8;
         overlayLayer = true;
         respectExpireTimeout = false;
-        saveToHistory = { low = true; normal = true; critical = true; };
+        saveToHistory = {
+          low = true;
+          normal = true;
+          critical = true;
+        };
         sounds = {
           enabled = false;
           criticalSoundFile = "";
@@ -512,9 +570,9 @@
         autoHideMs = 2000;
         # backgroundOpacity = 1;
         enabled = true;
-        enabledTypes = [ 0 1 2 4 ];
+        enabledTypes = [0 1 2 4];
         location = "top_right";
-        monitors = [ ];
+        monitors = [];
         overlayLayer = true;
       };
       screenRecorder = {
@@ -537,12 +595,30 @@
         countdownDuration = 10000;
         position = "center";
         powerOptions = [
-          { action = "lock"; enabled = true; }
-          { action = "suspend"; enabled = false; }
-          { action = "hibernate"; enabled = false; }
-          { action = "reboot"; enabled = true; }
-          { action = "logout"; enabled = true; }
-          { action = "shutdown"; enabled = true; }
+          {
+            action = "lock";
+            enabled = true;
+          }
+          {
+            action = "suspend";
+            enabled = false;
+          }
+          {
+            action = "hibernate";
+            enabled = false;
+          }
+          {
+            action = "reboot";
+            enabled = true;
+          }
+          {
+            action = "logout";
+            enabled = true;
+          }
+          {
+            action = "shutdown";
+            enabled = true;
+          }
         ];
       };
       systemMonitor = {
@@ -615,7 +691,7 @@
         fillColor = "#000000";
         fillMode = "crop";
         hideWallpaperFilenames = false;
-        monitorDirectories = [ ];
+        monitorDirectories = [];
         overviewEnabled = true;
         panelPosition = "follow_bar";
         randomEnabled = false;
@@ -701,7 +777,8 @@
         # Note: the entire command goes as a single argument in the end.
         # Mod+T { spawn "bash" "-c" "notify-send hello && exec alacritty"; }
 
-        /* SEE https://github.com/AvengeMedia/DankMaterialShell/blob/master/distro/nix/niri.nix
+        /*
+        SEE https://github.com/AvengeMedia/DankMaterialShell/blob/master/distro/nix/niri.nix
         # Example volume keys mappings for PipeWire & WirePlumber.
         # The allow-when-locked=true property makes them work even when the session is locked.
         "XF86AudioRaiseVolume" = {
@@ -917,9 +994,9 @@
         # Mod+Space       { switch-layout "next"; }
         # Mod+Shift+Space { switch-layout "prev"; }
 
-        "Print".action.screenshot = { };
-        "Ctrl+Print".action.screenshot-screen = { };
-        "Alt+Print".action.screenshot-window = { };
+        "Print".action.screenshot = {};
+        "Ctrl+Print".action.screenshot-screen = {};
+        "Alt+Print".action.screenshot-window = {};
 
         # The quit action will show a confirmation dialog to avoid accidental exits.
         "Mod+Shift+E".action = quit;

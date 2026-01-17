@@ -52,5 +52,14 @@
     };
   };
 
-  outputs = inputs: inputs.blueprint {inherit inputs;};
+  outputs = inputs:
+    inputs.blueprint {
+      inherit inputs;
+
+      nixpkgs.overlays = [
+        inputs.zed-extensions.overlays.default
+        inputs.niri.overlays.niri
+        (import ./overlay.nix)
+      ];
+    };
 }

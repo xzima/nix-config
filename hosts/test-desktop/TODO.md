@@ -1,6 +1,5 @@
 # Task list
 
-- починить idea wayland
 - настроить копирование файлов для yazi file://github.com/XYenon/clipboard.yazi
 - yazi должен работать одинаково на всех раскладках
 - настроить junction или найти альтернативу
@@ -55,3 +54,8 @@
             - https://nixcats.org/nix_LSPS.html
             - https://github.com/nix-community/nixd/blob/main/nixd/docs/configuration.md
         - настроить alejandra https://github.com/kamadorueda/alejandra
+- починить idea wayland
+    - написать overlay с переопределением jetbrains idea
+    - починить url откуда качается jetbrains idea
+    - принудительно запускать в режиме wayland
+    - решить проблему с темной темой header-ов

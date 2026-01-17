@@ -15,10 +15,12 @@
     inputs.stylix.homeModules.stylix
     inputs.niri.homeModules.stylix
     inputs.matugen.nixosModules.default
+    inputs.zed-extensions.homeManagerModules.default
     ./theme.nix
   ];
 
   nixpkgs.overlays = [
+    inputs.zed-extensions.overlays.default
     inputs.niri.overlays.niri
   ];
 
@@ -187,6 +189,95 @@
   };
   programs.micro = {
     enable = true;
+  };
+
+  targets.genericLinux.nixGL.vulkan.enable = true;
+  programs.zed-editor-extensions = {
+    enable = true;
+    # https://github.com/zed-industries/extensions/tree/main/extensions
+    # https://github.com/DuskSystems/nix-zed-extensions/tree/main/generated
+    packages = with pkgs.zed-extensions; [
+      nix
+      toml
+      make
+      comment
+      kotlin
+    ];
+  };
+  programs.zed-editor = {
+    enable = true;
+    extraPackages = with pkgs; [nixd alejandra];
+    mutableUserSettings = false;
+    mutableUserDebug = false;
+    mutableUserKeymaps = false;
+    mutableUserTasks = false;
+    userSettings = {
+      proxy = "socks5://0.0.0.0:29050";
+      use_system_path_prompts = false;
+      journal = {
+        path = "~/zed-journal";
+        hour_format = "hour24";
+      };
+      terminal = {
+        shell.program = "fish";
+      };
+      base_keymap = "JetBrains";
+      languages = {
+        Nix = {
+          language_servers = ["nixd" "!nil"];
+          formatter = {
+            external = {
+              command = "alejandra";
+              arguments = ["--quiet" "--"];
+            };
+          };
+        };
+      };
+      lsp = {
+        nixd = {
+          settings = {
+            # For flake.
+            # "expr": "import (builtins.getFlake \"/home/lyc/workspace/CS/OS/NixOS/flakes\").inputs.nixpkgs { }   "
+            # This expression will be interpreted as "nixpkgs" toplevel
+            # Nixd provides package, lib completion/information from it.
+            # Resource Usage: Entries are lazily evaluated, entire nixpkgs takes 200~300MB for just "names".
+            #                Package documentation, versions, are evaluated by-need.
+            nixpkgs.expr = ''import (builtins.getFlake (builtins.toString ${config.home.homeDirectory}/nix-config)).inputs.nixpkgs { }'';
+            formatting.command = ["alejandra" "--quiet" "--"];
+            # Control the diagnostic system
+            diagnostic.suppress = ["sema-extra-with"];
+            # Tell the language server your desired option set, for completion
+            # This is lazily evaluated.
+            options = {
+              # Map of eval information
+              # By default, this entriy will be read from `import <nixpkgs> { }`
+              # You can write arbitary nix expression here, to produce valid "options" declaration result.
+              #
+              # *NOTE*: Replace "<name>" below with your actual configuration name.
+              # If you're unsure what to use, you can verify with `nix repl` by evaluating
+              # the expression directly.
+              #
+              nixos.expr = ''(builtins.getFlake (builtins.toString ${config.home.homeDirectory}/nix-config)).nixosConfigurations.test-desktop.options'';
+              nixos_args.expr = ''(builtins.getFlake (builtins.toString ${config.home.homeDirectory}/nix-config)).nixosConfigurations.test-desktop._module.specialArgs'';
+
+              # Before configuring Home Manager options, consider your setup:
+              # Which command do you use for home-manager switching?
+              #
+              #  A. home-manager switch --flake .#... (standalone Home Manager)
+              #  "expr": "(builtins.getFlake (builtins.toString ./.)).homeConfigurations.<name>.options"
+              #  B. nixos-rebuild switch --flake .#... (NixOS with integrated Home Manager)
+              #  "expr": "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.<name>.options.home-manager.users.type.getSubOptions []"
+              #
+              # Configuration examples for both approaches are shown below.
+              home_manager.expr = ''(builtins.getFlake (builtins.toString ${config.home.homeDirectory}/nix-config)).legacyPackages.x86_64-linux.homeConfigurations."zx@test-desktop".options'';
+            };
+          };
+        };
+      };
+      # TODO: wait version > 0.219
+      # helix_mode = true;
+      # which_key.enable = true;
+    };
   };
 
   # TODO:

@@ -48,4 +48,10 @@
     - https://github.com/noctalia-dev/noctalia-shell
     - https://docs.noctalia.dev/getting-started/nixos/
 - настроить https://github.com/nix-community/nh
-    - https://github.com/efremovich/nixos-config/blob/main/nixos/modules/nh.nix 
+    - https://github.com/efremovich/nixos-config/blob/main/nixos/modules/nh.nix
+- настроить zed
+    - настроить nix extension https://github.com/zed-extensions/nix
+        - настроить nixd
+            - https://nixcats.org/nix_LSPS.html
+            - https://github.com/nix-community/nixd/blob/main/nixd/docs/configuration.md
+        - настроить alejandra https://github.com/kamadorueda/alejandra

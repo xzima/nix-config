@@ -1,10 +1,7 @@
 # Task list
 
-- настроить копирование файлов для yazi file://github.com/XYenon/clipboard.yazi
-- yazi должен работать одинаково на всех раскладках
 - настроить junction или найти альтернативу
 - попробовать пробросить конфиги напрямую из ~/nix-config
-- настроить IdeaVim->helix https://docs.helix-editor.com/master/other-software.html
 - настроить скриншоты
     - https://github.com/flameshot-org/flameshot/issues/3605
     - https://danklinux.com/docs/dankmaterialshell/keybinds-ipc#niri
@@ -12,6 +9,9 @@
 - обои должны быть привязаны к времени суток
     - разработать свою тему https://docs.noctalia.dev/development/colorscheme/
         - настроить цветовую схему под обои, idea и стандартные темные темы
+- настроить yazi
+    - копирование файлов для yazi file://github.com/XYenon/clipboard.yazi
+    - yazi должен работать одинаково на всех раскладках
 - noctalia shell configuration
     - screenshot annotation tool уже есть в настройках вызов из clipboard -- gradia satty
     - настроить docker mini tool - нужен docker rootless

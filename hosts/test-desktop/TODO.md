@@ -12,6 +12,24 @@
 - обои должны быть привязаны к времени суток
     - разработать свою тему https://docs.noctalia.dev/development/colorscheme/
         - настроить цветовую схему под обои, idea и стандартные темные темы
+- noctalia shell configuration
+    - screenshot annotation tool уже есть в настройках вызов из clipboard -- gradia satty
+    - настроить docker mini tool - нужен docker rootless
+    - настроить sistem monitor -- resources || missioncenter || jdsystemmonitor || corestats || system-monitoring-center || gnome-system-monitor || plasma-systemmonitor || mate-system-monitor || ukui-system-monitor || deepin-system-monitor || pantheon-system-monitor
+    - установить медиаплеер и настроить интеграцию -- vlc, mpv
+    - протестировать on-screen display
+    - разобраться с keyboard cheatsheet
+- проблемы jetbrains
+    - при использовании markdown плагина зависает
+    - заменить цвет background как в основной теме
+- проблемы zed
+    - интеграция с git - нужна интеграция с lazygit
+    - нужен редактор git conventional commit
+    - цветовая схема для кода должна быть как в idea
+- проблемы helix
+    - интеграция с git - нужна интеграция с lazygit
+    - нужен редактор git conventional commit -- commit-lsp
+    - цветовая схема для кода должна быть как в idea
 
 ## MAIN
 

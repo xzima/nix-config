@@ -9,6 +9,38 @@
 - обои должны быть привязаны к времени суток
     - разработать свою тему https://docs.noctalia.dev/development/colorscheme/
         - настроить цветовую схему под обои, idea и стандартные темные темы
+- tailscale
+- betterbird
+- telegram
+- trilium
+- amnezia
+- any desk -- удаленный рабочий стол
+- bitwarden
+- droidcam -- телефон как камера
+- Filelight — приложение для визуализации использования дискового пространства
+- flameshot
+- scanner -- gscan2pdf skanlite
+- gimp
+- chrome | tor browser | yandex browser
+- image viewer
+- htop btop
+- jellyfin
+- calc
+- kde connect
+- koreader
+- mattermost slack
+- pdf reader -- ocular
+- onlyoffice
+- virtualbox
+- ventoy
+- vlc -- media
+- weasis
+- zoom
+- gparted -- disk manager
+- caps gui -- printers
+- 7zip bat ripgrep yq tea tar rsync ffmpeg pantum-driver neofetch less tail kubectl
+- drowio
+- docker rootless
 - настроить yazi
     - копирование файлов для yazi file://github.com/XYenon/clipboard.yazi
     - yazi должен работать одинаково на всех раскладках

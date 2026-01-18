@@ -174,6 +174,7 @@
   };
   programs.zed-editor = {
     enable = true;
+    package = pkgs.unstable.zed-editor; # wait version > 0.219 https://github.com/NixOS/nixpkgs/blob/25.11/pkgs/by-name/ze/zed-editor/package.nix#L104
     extraPackages = with pkgs; [nixd alejandra];
     mutableUserSettings = false;
     mutableUserDebug = false;

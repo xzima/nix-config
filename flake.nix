@@ -57,13 +57,14 @@
   };
 
   outputs = inputs:
-    inputs.blueprint {
+    inputs.blueprint rec {
       inherit inputs;
-
-      nixpkgs.overlays = [
-        inputs.zed-extensions.overlays.default
-        inputs.niri.overlays.niri
-        (import ./overlay.nix)
-      ];
+      nixpkgs.config = {
+        allowUnfree = true;
+      };
+      nixpkgs.overlays = import ./overlays {
+        inherit inputs;
+        nixpkgsConfig = nixpkgs.config;
+      };
     };
 }

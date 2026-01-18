@@ -15,16 +15,6 @@ final: prev: {
           forceWayland = true;
         };
       in
-        final.buildFHSEnv {
-          name = "idea";
-          targetPkgs = pkgs: [
-            ideaOver
-          ];
-          multiPkgs = pkgs: pkgs.appimageTools.defaultFhsEnvArgs.multiPkgs pkgs;
-          runScript = "idea $*";
-          extraInstallCommands = ''
-            ln -s "${ideaOver}/share" $out
-          '';
-        };
+        ideaOver;
     };
 }

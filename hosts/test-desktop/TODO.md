@@ -26,10 +26,12 @@
     - интеграция с git - нужна интеграция с lazygit
     - нужен редактор git conventional commit
     - цветовая схема для кода должна быть как в idea
+    - настроить kotlin rust
 - проблемы helix
     - интеграция с git - нужна интеграция с lazygit
     - нужен редактор git conventional commit -- commit-lsp
     - цветовая схема для кода должна быть как в idea
+    - настроить kotlin rust
 
 ## MAIN
 

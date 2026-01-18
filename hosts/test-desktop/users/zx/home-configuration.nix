@@ -181,6 +181,11 @@
     mutableUserKeymaps = false;
     mutableUserTasks = false;
     userSettings = {
+      helix_mode = true;
+      which_key = {
+        enabled = true;
+        delay_ms = 100;
+      };
       proxy = "socks5://0.0.0.0:29050";
       use_system_path_prompts = false;
       journal = {
@@ -243,10 +248,16 @@
           };
         };
       };
-      # TODO: wait version > 0.219
-      # helix_mode = true;
-      # which_key.enable = true;
     };
+    userKeymaps = [
+      {
+        context = "(VimControl && !menu)";
+        bindings = {
+          space = null;
+          ctrl-w = null;
+        };
+      }
+    ];
   };
 
   # TODO:

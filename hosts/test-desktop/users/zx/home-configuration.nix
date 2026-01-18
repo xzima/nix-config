@@ -315,14 +315,19 @@
     systemd.enable = true;
     settings = {
       appLauncher = {
+        autoPasteClipboard = false;
+        clipboardWrapText = true;
         customLaunchPrefix = "";
         customLaunchPrefixEnabled = false;
         enableClipPreview = true;
         enableClipboardHistory = true;
         iconMode = "tabler";
-        pinnedExecs = [];
+        ignoreMouseInput = false;
+        pinnedApps = [];
         position = "top_center";
+        screenshotAnnotationTool = "";
         showCategories = true;
+        showIconBackground = false;
         sortByMostUsed = true;
         terminalCommand = "kitty -e";
         useApp2Unit = false;
@@ -330,7 +335,6 @@
       };
       audio = {
         cavaFrameRate = 30;
-        externalMixer = "pwvucontrol || pavucontrol";
         mprisBlacklist = [];
         preferredPlayer = "";
         visualizerType = "linear";
@@ -343,8 +347,9 @@
         density = "default";
         exclusive = true;
         floating = false;
-        marginHorizontal = 0.25;
-        marginVertical = 0.25;
+        hideOnOverview = false;
+        marginHorizontal = 5;
+        marginVertical = 5;
         monitors = [];
         outerCorners = false;
         position = "top";
@@ -360,7 +365,8 @@
               enableScrollWheel = true;
               followFocusedScreen = false;
               groupedBorderOpacity = 1;
-              hideUnoccupied = false;
+              hideUnoccupied = true;
+              iconScale = 0.8;
               labelMode = "index";
               showApplications = false;
               showLabelsOnlyWhenOccupied = true;
@@ -379,9 +385,14 @@
           center = [
             {
               id = "MediaMini";
+              compactMode = false;
+              compactShowAlbumArt = true;
+              compactShowVisualizer = false;
               hideMode = "hidden";
               hideWhenIdle = false;
               maxWidth = 145;
+              panelShowAlbumArt = true;
+              panelShowVisualizer = true;
               scrollingMode = "hover";
               showAlbumArt = false;
               showArtistFirst = true;
@@ -401,6 +412,10 @@
             }
             {
               id = "plugin:privacy-indicator";
+              defaultSettings = {
+                hideInactive = false;
+                removeMargins = false;
+              };
             }
           ];
           right = [
@@ -408,6 +423,7 @@
               id = "LockKeys";
               showCapsLock = true;
               capsLockIcon = "arrow-big-up-lines-filled";
+              hideWhenOff = true;
               showNumLock = true;
               numLockIcon = "numbers";
               showScrollLock = false;
@@ -416,7 +432,11 @@
             {
               id = "KeyboardLayout";
               displayMode = "forceOpen";
+              showIcon = false;
             }
+            {id = "plugin:pomodoro";}
+            {id = "plugin:screenshot";}
+            {id = "plugin:keybind-cheatsheet";}
             {
               id = "SystemMonitor";
               compactMode = true;
@@ -427,6 +447,7 @@
               showDiskUsage = false;
               diskPath = "/";
               showGpuTemp = false;
+              showLoadAverage = false;
               showMemoryAsPercent = false;
               showMemoryUsage = true;
               showNetworkStats = false;
@@ -442,6 +463,7 @@
             {
               id = "Volume";
               displayMode = "onhover";
+              middleClickCommand = "pwvucontrol || pavucontrol";
             }
             {
               id = "Brightness";
@@ -450,10 +472,11 @@
             {
               id = "NotificationHistory";
               hideWhenZero = false;
+              hideWhenZeroUnread = false;
               showUnreadBadge = true;
             }
             {
-              id = "WiFi";
+              id = "Network";
               displayMode = "onhover";
             }
             {
@@ -487,25 +510,24 @@
             id = "weather-card";
             enabled = true;
           }
-          {
-            id = "timer-card";
-            enabled = true;
-          }
         ];
       };
       colorSchemes = {
         darkMode = true;
-        generateTemplatesForPredefined = true;
+        manualSunrise = "06:30";
+        manualSunset = "18:30";
+        matugenSchemeType = "scheme-fruit-salad";
+        predefinedScheme = "Noctalia (default)";
         schedulingMode = "off";
         useWallpaperColors = false;
       };
       controlCenter = {
+        diskPath = "/";
         position = "close_to_bar_button";
         shortcuts = {
           left = [
-            {id = "WiFi";}
+            {id = "Network";}
             {id = "Bluetooth";}
-            {id = "ScreenRecorder";}
             {id = "WallpaperSelector";}
           ];
           right = [
@@ -567,9 +589,11 @@
         shadowDirection = "bottom_right";
         shadowOffsetX = 2;
         shadowOffsetY = 3;
+        showChangelogOnStartup = true;
         showHibernateOnLockScreen = false;
         showScreenCorners = false;
         showSessionButtonsOnLockScreen = true;
+        telemetryEnabled = false;
       };
       hooks = {
         darkModeChange = "";
@@ -578,11 +602,14 @@
         performanceModeEnabled = "";
         screenLock = "";
         screenUnlock = "";
+        session = "";
         wallpaperChange = "";
       };
       location = {
         analogClockInCalendar = false;
-        firstDayOfWeek = -1;
+        firstDayOfWeek = 1;
+        hideWeatherCityName = false;
+        hideWeatherTimezone = false;
         name = "krasnodar";
         showCalendarEvents = true;
         showCalendarWeather = true;
@@ -592,11 +619,20 @@
         weatherEnabled = true;
         weatherShowEffects = true;
       };
-      network.wifiEnabled = true;
+      network = {
+        bluetoothDetailsViewMode = "grid";
+        bluetoothHideUnnamedDevices = false;
+        bluetoothRssiPollIntervalMs = 10000;
+        bluetoothRssiPollingEnabled = false;
+        wifiDetailsViewMode = "grid";
+        wifiEnabled = true;
+      };
       nightLight = {
         enabled = true;
         autoSchedule = true;
         forced = false;
+        manualSunrise = "06:30";
+        manualSunset = "18:30";
         dayTemp = "6500";
         nightTemp = "4000";
       };
@@ -604,6 +640,7 @@
         # backgroundOpacity = 1;
         criticalUrgencyDuration = 15;
         enableKeyboardLayoutToast = true;
+        enableMediaToast = false;
         enabled = true;
         location = "top_right";
         lowUrgencyDuration = 3;
@@ -635,48 +672,49 @@
         monitors = [];
         overlayLayer = true;
       };
-      screenRecorder = {
-        audioCodec = "opus";
-        audioSource = "default_output";
-        colorRange = "limited";
-        copyToClipboard = false;
-        directory = "/home/zx/Videos";
-        frameRate = 60;
-        quality = "very_high";
-        showCursor = true;
-        videoCodec = "h264";
-        videoSource = "portal";
-      };
       sessionMenu = {
         largeButtonsStyle = true;
         showHeader = true;
         showNumberLabels = true;
         enableCountdown = true;
+        largeButtonsLayout = "single-row";
         countdownDuration = 10000;
         position = "center";
         powerOptions = [
           {
             action = "lock";
+            command = "";
+            countdownEnabled = true;
             enabled = true;
           }
           {
             action = "suspend";
+            command = "";
+            countdownEnabled = true;
             enabled = false;
           }
           {
             action = "hibernate";
+            command = "";
+            countdownEnabled = true;
             enabled = false;
           }
           {
             action = "reboot";
+            command = "";
+            countdownEnabled = true;
             enabled = true;
           }
           {
             action = "logout";
+            command = "";
+            countdownEnabled = true;
             enabled = true;
           }
           {
             action = "shutdown";
+            command = "";
+            countdownEnabled = true;
             enabled = true;
           }
         ];
@@ -687,13 +725,14 @@
         cpuWarningThreshold = 80;
         criticalColor = "";
         diskCriticalThreshold = 90;
-        diskPath = "/";
         diskPollingInterval = 3000;
         diskWarningThreshold = 80;
         enableDgpuMonitoring = false;
+        externalMonitor = "resources || missioncenter || jdsystemmonitor || corestats || system-monitoring-center || gnome-system-monitor || plasma-systemmonitor || mate-system-monitor || ukui-system-monitor || deepin-system-monitor || pantheon-system-monitor";
         gpuCriticalThreshold = 90;
         gpuPollingInterval = 3000;
         gpuWarningThreshold = 80;
+        loadAvgPollingInterval = 3000;
         memCriticalThreshold = 90;
         memPollingInterval = 3000;
         memWarningThreshold = 80;
@@ -705,38 +744,17 @@
         warningColor = "";
       };
       templates = {
-        alacritty = false;
-        cava = false;
-        code = false;
-        discord = false;
-        emacs = false;
+        activeTemplates = [];
         enableUserTemplates = false;
-        foot = false;
-        fuzzel = false;
-        ghostty = false;
-        gtk = false;
-        helix = false;
-        hyprland = false;
-        kcolorscheme = false;
-        kitty = false;
-        mango = false;
-        niri = false;
-        pywalfox = false;
-        qt = false;
-        spicetify = false;
-        telegram = false;
-        vicinae = false;
-        walker = false;
-        wezterm = false;
-        yazi = false;
-        zed = false;
       };
       ui = {
         bluetoothDetailsViewMode = "grid";
         bluetoothHideUnnamedDevices = false;
+        boxBorderEnabled = false;
         # panelBackgroundOpacity = 1;
         # fontDefault = "Roboto";
         # fontFixed = "DejaVu Sans Mono";
+        networkPanelView = "wifi";
         fontDefaultScale = 1;
         fontFixedScale = 1;
         panelsAttachedToBar = true;
@@ -745,6 +763,8 @@
         wifiDetailsViewMode = "grid";
       };
       wallpaper = {
+        useSolidColor = false;
+        # solidColor = "#1a1a2e";
         directory = "/home/zx/Pictures/Wallpapers";
         enableMultiMonitorDirectories = false;
         enabled = true;

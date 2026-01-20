@@ -1,5 +1,34 @@
 # Task list
 
+- настроить xdg-desktop-portals
+    - https://apps.gnome.org/ru/Dspy/
+    - file and directory chose https://github.com/hunkyburrito/xdg-desktop-portal-termfilechooser + yazi
+    - url selector with dmenu
+        - https://codeberg.org/dnkl/fuzzel
+        - https://github.com/Cloudef/bemenu
+        - https://github.com/philj56/tofi
+        - https://hg.sr.ht/~scoopta/wofi
+    - Screenshot and ScreenCast https://github.com/emersion/xdg-desktop-portal-wlr
+        - wofi integration https://github.com/emersion/xdg-desktop-portal-wlr/issues/124
+- try to replace bootloader with Limine
+    - https://www.youtube.com/watch?v=b_BAStWd1aw
+      ```nix
+      boot.loader.systemd-boot.enable = false; # Disable systemd-boot if enabled
+      boot.loader.grub.enable = false; # Disable GRUB if enabled
+      
+      boot.loader.limine = {
+      enable = true;
+      # Optional: Install for BIOS if needed (defaults to EFI)
+      # efiSupport = true;
+      # biosSupport = true;
+      # Optional: Customize appearance (e.g., with Stylix)
+      # style.wallpapers = [ /path/to/your/wallpaper.png ];
+      # style.wallpaperStyle = "centered";
+      # extraConfig = ''
+      #   remember_last_entry: yes
+      # '';
+      };
+      ```
 - настроить junction или найти альтернативу
 - попробовать пробросить конфиги напрямую из ~/nix-config
 - настроить скриншоты
@@ -10,7 +39,7 @@
     - разработать свою тему https://docs.noctalia.dev/development/colorscheme/
         - настроить цветовую схему под обои, idea и стандартные темные темы
 - tailscale
-- betterbird
+- betterbird -- https://gist.github.com/drupol/a4452934b5bed4956000d55699af074e
 - telegram
 - trilium
 - amnezia
@@ -22,14 +51,14 @@
 - scanner -- gscan2pdf skanlite
 - gimp
 - chrome | tor browser | yandex browser
-- image viewer
+- image viewer [feh](https://feh.finalrewind.org)
 - htop btop
 - jellyfin
 - calc
 - kde connect
 - koreader
 - mattermost slack
-- pdf reader -- ocular
+- pdf reader -- ocular [zathura](https://pwmt.org/projects/zathura)
 - onlyoffice
 - virtualbox
 - ventoy
@@ -47,7 +76,9 @@
 - noctalia shell configuration
     - screenshot annotation tool уже есть в настройках вызов из clipboard -- gradia satty
     - настроить docker mini tool - нужен docker rootless
-    - настроить sistem monitor -- resources || missioncenter || jdsystemmonitor || corestats || system-monitoring-center || gnome-system-monitor || plasma-systemmonitor || mate-system-monitor || ukui-system-monitor || deepin-system-monitor || pantheon-system-monitor
+    - настроить sistem monitor -- resources || missioncenter || jdsystemmonitor || corestats ||
+      system-monitoring-center || gnome-system-monitor || plasma-systemmonitor || mate-system-monitor ||
+      ukui-system-monitor || deepin-system-monitor || pantheon-system-monitor
     - установить медиаплеер и настроить интеграцию -- vlc, mpv
     - протестировать on-screen display
     - разобраться с keyboard cheatsheet
@@ -111,3 +142,7 @@
     - починить url откуда качается jetbrains idea
     - принудительно запускать в режиме wayland
     - решить проблему с темной темой header-ов
+
+## INFO
+
+- альтернатива dms и noctalia [ashell](https://github.com/MalpenZibo/ashell)

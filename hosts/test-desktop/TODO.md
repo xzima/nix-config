@@ -1,7 +1,11 @@
 # Task list
 
 - настроить xdg-desktop-portals
-    - https://apps.gnome.org/ru/Dspy/
+    - tools
+        - https://github.com/bilelmoussaoui/ashpd
+        - https://apps.gnome.org/ru/Dspy/
+        - docs https://flatpak.github.io/xdg-desktop-portal/docs/writing-a-new-backend.html
+        - sdk js https://github.com/particle-iot/node-dbus-next
     - file and directory chose https://github.com/hunkyburrito/xdg-desktop-portal-termfilechooser + yazi
     - url selector with dmenu
         - https://codeberg.org/dnkl/fuzzel
@@ -10,6 +14,10 @@
         - https://hg.sr.ht/~scoopta/wofi
     - Screenshot and ScreenCast https://github.com/emersion/xdg-desktop-portal-wlr
         - wofi integration https://github.com/emersion/xdg-desktop-portal-wlr/issues/124
+    - Settings, RemoteDesktop, ScreenCast, ScreenShot
+        - https://github.com/waycrate/xdg-desktop-portal-luminous
+    - redirect
+        - https://github.com/Decodetalkers/xdg-desktop-portal-shana
 - try to replace bootloader with Limine
     - https://www.youtube.com/watch?v=b_BAStWd1aw
       ```nix

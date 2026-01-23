@@ -16,7 +16,7 @@
     };
 
     matugen = {
-      url = "github:/InioX/Matugen?ref=v3.1.0";
+      url = "github:InioX/Matugen?ref=v3.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -36,7 +36,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.7.0";
 
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell/?ref=v4.1.1";

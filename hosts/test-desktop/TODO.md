@@ -1,24 +1,5 @@
 # Task list
 
-- try to replace bootloader with Limine
-    - https://www.youtube.com/watch?v=b_BAStWd1aw
-      ```nix
-      boot.loader.systemd-boot.enable = false; # Disable systemd-boot if enabled
-      boot.loader.grub.enable = false; # Disable GRUB if enabled
-      
-      boot.loader.limine = {
-      enable = true;
-      # Optional: Install for BIOS if needed (defaults to EFI)
-      # efiSupport = true;
-      # biosSupport = true;
-      # Optional: Customize appearance (e.g., with Stylix)
-      # style.wallpapers = [ /path/to/your/wallpaper.png ];
-      # style.wallpaperStyle = "centered";
-      # extraConfig = ''
-      #   remember_last_entry: yes
-      # '';
-      };
-      ```
 - настроить yazi
     - копирование файлов для yazi file://github.com/XYenon/clipboard.yazi
     - yazi должен работать одинаково на всех раскладках
@@ -177,6 +158,25 @@
         - https://github.com/waycrate/xdg-desktop-portal-luminous
     - redirect
         - https://github.com/Decodetalkers/xdg-desktop-portal-shana
+- try to replace bootloader with Limine
+    - https://www.youtube.com/watch?v=b_BAStWd1aw
+      ```nix
+      boot.loader.systemd-boot.enable = false; # Disable systemd-boot if enabled
+      boot.loader.grub.enable = false; # Disable GRUB if enabled
+
+      boot.loader.limine = {
+      enable = true;
+      # Optional: Install for BIOS if needed (defaults to EFI)
+      # efiSupport = true;
+      # biosSupport = true;
+      # Optional: Customize appearance (e.g., with Stylix)
+      # style.wallpapers = [ /path/to/your/wallpaper.png ];
+      # style.wallpaperStyle = "centered";
+      # extraConfig = ''
+      #   remember_last_entry: yes
+      # '';
+      };
+      ```
 
 ## INFO
 

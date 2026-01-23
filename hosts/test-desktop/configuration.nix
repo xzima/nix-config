@@ -30,9 +30,22 @@
   # Disables all users for this host
   home-manager.users = lib.mkForce {};
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.limine = {
+    enable = true;
+    extraEntries = ''
+      /Memtest86+
+          protocol: efi
+          path: boot():/limine/memtest86+/memtest.efi
+    '';
+    additionalFiles = {
+      "memtest86+/memtest.efi" = pkgs.memtest86plus.efi;
+    };
+  };
 
   # NIRI
   programs.niri.enable = true;

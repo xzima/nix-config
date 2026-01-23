@@ -60,6 +60,7 @@
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
         xdg-desktop-portal-gnome
+        gnome-keyring
       ];
       # source https://github.com/YaLTeR/niri/blob/main/resources/niri-portals.conf
       config.niri = {

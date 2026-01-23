@@ -1,23 +1,5 @@
 # Task list
 
-- настроить xdg-desktop-portals
-    - tools
-        - https://github.com/bilelmoussaoui/ashpd
-        - https://apps.gnome.org/ru/Dspy/
-        - docs https://flatpak.github.io/xdg-desktop-portal/docs/writing-a-new-backend.html
-        - sdk js https://github.com/particle-iot/node-dbus-next
-    - file and directory chose https://github.com/hunkyburrito/xdg-desktop-portal-termfilechooser + yazi
-    - url selector with dmenu
-        - https://codeberg.org/dnkl/fuzzel
-        - https://github.com/Cloudef/bemenu
-        - https://github.com/philj56/tofi
-        - https://hg.sr.ht/~scoopta/wofi
-    - Screenshot and ScreenCast https://github.com/emersion/xdg-desktop-portal-wlr
-        - wofi integration https://github.com/emersion/xdg-desktop-portal-wlr/issues/124
-    - Settings, RemoteDesktop, ScreenCast, ScreenShot
-        - https://github.com/waycrate/xdg-desktop-portal-luminous
-    - redirect
-        - https://github.com/Decodetalkers/xdg-desktop-portal-shana
 - try to replace bootloader with Limine
     - https://www.youtube.com/watch?v=b_BAStWd1aw
       ```nix
@@ -37,62 +19,67 @@
       # '';
       };
       ```
-- настроить junction или найти альтернативу
-- попробовать пробросить конфиги напрямую из ~/nix-config
+- настроить yazi
+    - копирование файлов для yazi file://github.com/XYenon/clipboard.yazi
+    - yazi должен работать одинаково на всех раскладках
+- flameshot
 - настроить скриншоты
     - https://github.com/flameshot-org/flameshot/issues/3605
     - https://danklinux.com/docs/dankmaterialshell/keybinds-ipc#niri
     - https://danklinux.com/docs/dankmaterialshell/cli-screenshot
 - обои должны быть привязаны к времени суток
-    - разработать свою тему https://docs.noctalia.dev/development/colorscheme/
-        - настроить цветовую схему под обои, idea и стандартные темные темы
-- tailscale
-- betterbird -- https://gist.github.com/drupol/a4452934b5bed4956000d55699af074e
-- telegram
-- trilium
-- amnezia
-- any desk -- удаленный рабочий стол
-- bitwarden
-- droidcam -- телефон как камера
-- Filelight — приложение для визуализации использования дискового пространства
-- flameshot
-- scanner -- gscan2pdf skanlite
-- gimp
-- chrome | tor browser | yandex browser
-- image viewer [feh](https://feh.finalrewind.org)
-- htop btop
-- jellyfin
+    - https://github.com/hexive/sunpaper
+    - https://github.com/rohan-shettyy/Wallpaper-Wizard
+- настроить half-qwerty keyboard layout https://github.com/jorissteyn/xkb-halfqwerty
+
 - calc
-- kde connect
-- koreader
-- mattermost slack
+- htop btop
+- 7zip bat ripgrep yq tar rsync ffmpeg neofetch less tail
+
+- trilium
+- jellyfin
+
+- telegram
+- bitwarden - перенос паролей из keeweb
+    - https://github.com/dani-garcia/vaultwarden
+- betterbird -- https://gist.github.com/drupol/a4452934b5bed4956000d55699af074e
+
+- image viewer [feh](https://feh.finalrewind.org)
 - pdf reader -- ocular [zathura](https://pwmt.org/projects/zathura)
-- onlyoffice
-- virtualbox
+- koreader
+
 - ventoy
-- vlc -- media
-- weasis
-- zoom
 - gparted -- disk manager
+- Filelight — приложение для визуализации использования дискового пространства
+- kde connect
+
+- mattermost slack
+- onlyoffice
+
+- scanner -- gscan2pdf skanlite
 - caps gui -- printers
-- 7zip bat ripgrep yq tea tar rsync ffmpeg pantum-driver neofetch less tail kubectl
-- drowio
+- pantum-driver
+
+- kubectl tea
+
+- tailscale
 - docker rootless
-- настроить yazi
-    - копирование файлов для yazi file://github.com/XYenon/clipboard.yazi
-    - yazi должен работать одинаково на всех раскладках
+    - настроить docker rootless
+        - перевести pc-tor-proxy на docker rootless
+        - попробовать пробросить конфиги напрямую из ~/nix-config
+            - пробросить конфиг для pc-tor-proxy напрямую из с использованием agenix
+
+- vlc -- media
 - noctalia shell configuration
-    - screenshot annotation tool уже есть в настройках вызов из clipboard -- gradia satty
-    - настроить docker mini tool - нужен docker rootless
-    - настроить sistem monitor -- resources || missioncenter || jdsystemmonitor || corestats ||
-      system-monitoring-center || gnome-system-monitor || plasma-systemmonitor || mate-system-monitor ||
-      ukui-system-monitor || deepin-system-monitor || pantheon-system-monitor
     - установить медиаплеер и настроить интеграцию -- vlc, mpv
-    - протестировать on-screen display
+    - screenshot annotation tool уже есть в настройках вызов из clipboard -- gradia satty
+    - настроить docker mini tool
+    - настроить sistem monitor -- resources || missioncenter || jdsystemmonitor || corestats || system-monitoring-center || gnome-system-monitor || plasma-systemmonitor || mate-system-monitor || ukui-system-monitor || deepin-system-monitor || pantheon-system-monitor
     - разобраться с keyboard cheatsheet
 - проблемы jetbrains
     - при использовании markdown плагина зависает
     - заменить цвет background как в основной теме
+    - поправить размер кнопок regreet
 - проблемы zed
     - интеграция с git - нужна интеграция с lazygit
     - нужен редактор git conventional commit
@@ -103,6 +90,26 @@
     - нужен редактор git conventional commit -- commit-lsp
     - цветовая схема для кода должна быть как в idea
     - настроить kotlin rust
+
+- amnezia
+- chrome | tor browser | yandex browser
+- настроить youtube
+    - [programs.firefoxpwa](https://pwasforfirefox.filips.si/)
+    - настроить amnezia для этого pwa
+    - протестировать on-screen display cm noctalia
+    - установить и настроить https://github.com/pltanton/autobrowser/tree/master или альтернативу как браузер по умолчанию
+    - для дефолтного браузера внутри autobrowser нужно установить приложение типа junction
+        - использовать скрипт на базе wofi или альтернативы для организации селектора браузера
+            - https://github.com/obvionaoe/rofi-browser
+            - использовать апи xdg desktop https://git.outfoxxed.me/quickshell/quickshell/src/branch/master/src/core/desktopentry.cpp
+
+- any desk -- удаленный рабочий стол
+- droidcam -- телефон как камера
+- virtualbox
+- drowio
+- zoom
+- gimp
+- weasis -- DICOM viewer for medical images
 
 ## MAIN
 
@@ -150,6 +157,22 @@
     - починить url откуда качается jetbrains idea
     - принудительно запускать в режиме wayland
     - решить проблему с темной темой header-ов
+- настроить xdg-desktop-portals
+    - file and directory chose https://github.com/hunkyburrito/xdg-desktop-portal-termfilechooser + yazi
+    - tools
+        - https://github.com/bilelmoussaoui/ashpd
+        - https://apps.gnome.org/ru/Dspy/
+        - docs https://flatpak.github.io/xdg-desktop-portal/docs/writing-a-new-backend.html
+        - sdk js https://github.com/particle-iot/node-dbus-next
+    - url selector with dmenu
+        - https://github.com/pltanton/autobrowser/tree/master
+        - https://hg.sr.ht/~scoopta/wofi
+    - Screenshot and ScreenCast https://github.com/emersion/xdg-desktop-portal-wlr
+        - wofi integration ```https://github.com/emersion/xdg-desktop-portal-wlr/issues/124```
+    - Settings, RemoteDesktop, ScreenCast, ScreenShot
+        - https://github.com/waycrate/xdg-desktop-portal-luminous
+    - redirect
+        - https://github.com/Decodetalkers/xdg-desktop-portal-shana
 
 ## INFO
 

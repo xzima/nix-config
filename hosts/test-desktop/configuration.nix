@@ -1,5 +1,14 @@
-{ flake, inputs, hostName, perSystem, config, modulesPath, pkgs, lib, ... }:
 {
+  flake,
+  inputs,
+  hostName,
+  perSystem,
+  config,
+  modulesPath,
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
     inputs.nix-index-database.nixosModules.nix-index
     inputs.nix-flatpak.nixosModules.nix-flatpak
@@ -13,14 +22,13 @@
   system.stateVersion = "25.05";
   nixpkgs.hostPlatform = "x86_64-linux";
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = ["nix-command" "flakes"];
     # https://github.com/sodiboo/niri-flake/blob/main/flake.nix#L479
-    substituters = [ "https://niri.cachix.org" ];
-    trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964=" ];
+    substituters = ["https://niri.cachix.org"];
+    trusted-public-keys = ["niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="];
   };
   # Disables all users for this host
-  home-manager.users = lib.mkForce { };
-
+  home-manager.users = lib.mkForce {};
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -30,9 +38,26 @@
   programs.niri.enable = true;
   programs.regreet = {
     enable = true;
-    cageArgs = [ "-s" "-d" ]; # -d for disable header bar
+    cageArgs = ["-s" "-d"]; # -d for disable header bar
   };
 
+  xdg = {
+    portal = {
+      xdgOpenUsePortal = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-gnome
+      ];
+      # source https://github.com/YaLTeR/niri/blob/main/resources/niri-portals.conf
+      config.niri = {
+        default = ["gnome" "gtk"];
+        "org.freedesktop.impl.portal.Access" = ["gtk"];
+        "org.freedesktop.impl.portal.Notification" = ["gtk"];
+        "org.freedesktop.impl.portal.Secret" = ["gnome-keyring"];
+        "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
+      };
+    };
+  };
   # Use latest kernel.
   #boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -114,7 +139,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.zx = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" "input" ];
+    extraGroups = ["networkmanager" "wheel" "input"];
 
     #packages = with pkgs; [
     #  #  thunderbird

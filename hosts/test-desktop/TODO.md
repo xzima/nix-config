@@ -39,9 +39,11 @@
 - trilium
 - jellyfin
 
-- telegram
 - bitwarden - перенос паролей из keeweb
     - https://github.com/dani-garcia/vaultwarden
+- telegram
+    - telegram-desktop
+    - tg
 - betterbird -- https://gist.github.com/drupol/a4452934b5bed4956000d55699af074e
 
 - image viewer [feh](https://feh.finalrewind.org)
@@ -93,6 +95,8 @@
 
 - amnezia
 - chrome | tor browser | yandex browser
+- wofi
+    - https://hg.sr.ht/~scoopta/wofi
 - настроить youtube
     - [programs.firefoxpwa](https://pwasforfirefox.filips.si/)
     - настроить amnezia для этого pwa

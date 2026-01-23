@@ -37,7 +37,6 @@
     dconf-editor # dconf viewer
     nerd-fonts.fira-code
     podman-compose
-    junction
     zip
     unzip
     git
@@ -45,6 +44,9 @@
     systemctl-tui
     lazygit
     nix-tree # Interactively browse a Nix store paths dependencies
+    # dbus tools
+    ashpd-demo # test xdg-portals
+    bustle # exploration tool
   ];
 
   home.file = {
@@ -65,29 +67,58 @@
       "z7r.zima" = {
         id = 1;
         name = "z7r.zima";
+        settings = {
+          "widget.use-xdg-desktop-portal.file-picker" = 1; # use os native file picker
+        };
       };
     };
   };
-  # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/browsers/firefox/wrapper.nix
-  xdg.desktopEntries = {
-    "firefox-z7r.zima" = {
-      name = "[z7r.zima]Firefox";
-      genericName = "Web Browser (z7r.zima)";
-      icon = "firefox";
-      exec = "firefox -P z7r.zima --class=firefox-z7r.zima %U";
-      categories = ["Network" "WebBrowser"];
-      mimeType = [
-        "text/html"
-        "text/xml"
-        "application/xhtml+xml"
-        "application/vnd.mozilla.xul+xml"
-        "x-scheme-handler/http"
-        "x-scheme-handler/https"
-      ];
-      startupNotify = true;
-      terminal = false;
-      settings = {
-        StartupWMClass = "firefox-z7r.zima";
+
+  xdg = {
+    mimeApps = {
+      enable = true;
+      defaultApplications = let
+        browser = "firefox-z7r.zima.desktop";
+      in {
+        # set default web browser
+        "x-scheme-handler/http" = browser;
+        "x-scheme-handler/https" = browser;
+        "x-scheme-handler/about" = browser;
+        /*
+          TODO: enable or delete
+          "x-scheme-handler/chrome" = browser;
+          "text/html" = browser;
+          "application/x-extension-htm" = browser;
+          "application/x-extension-html" = browser;
+          "application/x-extension-shtml" = browser;
+          "application/xhtml+xml" = browser;
+          "application/x-extension-xhtml" = browser;
+          "application/x-extension-xht" = browser;
+          "x-scheme-handler/unknown" = browser;
+        */
+      };
+    };
+    desktopEntries = {
+      # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/browsers/firefox/wrapper.nix
+      "firefox-z7r.zima" = {
+        name = "[z7r.zima]Firefox";
+        genericName = "Web Browser (z7r.zima)";
+        icon = "firefox";
+        exec = "firefox -P z7r.zima --class=firefox-z7r.zima %U";
+        categories = ["Network" "WebBrowser"];
+        mimeType = [
+          "text/html"
+          "text/xml"
+          "application/xhtml+xml"
+          "application/vnd.mozilla.xul+xml"
+          "x-scheme-handler/http"
+          "x-scheme-handler/https"
+        ];
+        startupNotify = true;
+        terminal = false;
+        settings = {
+          StartupWMClass = "firefox-z7r.zima";
+        };
       };
     };
   };
@@ -187,7 +218,6 @@
         delay_ms = 100;
       };
       proxy = "socks5://0.0.0.0:29050";
-      use_system_path_prompts = false;
       journal = {
         path = "~/zed-journal";
         hour_format = "hour24";
@@ -811,6 +841,8 @@
   programs.niri = {
     enable = true;
     settings = {
+      # disable hotkey overlay on startup
+      hotkey-overlay.skip-at-startup = true;
       input.keyboard.xkb = {
         layout = "us,ru";
         options = "grp:caps_toggle";

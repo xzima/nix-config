@@ -46,6 +46,7 @@
 - kubectl tea
 
 - tailscale
+- add tailscale noctalia plugin
 - docker rootless
     - настроить docker rootless
         - перевести pc-tor-proxy на docker rootless

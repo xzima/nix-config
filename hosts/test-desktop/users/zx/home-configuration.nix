@@ -85,16 +85,16 @@
         "x-scheme-handler/https" = browser;
         "x-scheme-handler/about" = browser;
         /*
-          TODO: enable or delete
-          "x-scheme-handler/chrome" = browser;
-          "text/html" = browser;
-          "application/x-extension-htm" = browser;
-          "application/x-extension-html" = browser;
-          "application/x-extension-shtml" = browser;
-          "application/xhtml+xml" = browser;
-          "application/x-extension-xhtml" = browser;
-          "application/x-extension-xht" = browser;
-          "x-scheme-handler/unknown" = browser;
+        TODO: enable or delete
+        "x-scheme-handler/chrome" = browser;
+        "text/html" = browser;
+        "application/x-extension-htm" = browser;
+        "application/x-extension-html" = browser;
+        "application/x-extension-shtml" = browser;
+        "application/xhtml+xml" = browser;
+        "application/x-extension-xhtml" = browser;
+        "application/x-extension-xht" = browser;
+        "x-scheme-handler/unknown" = browser;
         */
       };
     };
@@ -357,11 +357,14 @@
     settings = {
       appLauncher = {
         autoPasteClipboard = false;
+        clipboardWatchImageCommand = "wl-paste --type image --watch cliphist store";
+        clipboardWatchTextCommand = "wl-paste --type text --watch cliphist store";
         clipboardWrapText = true;
         customLaunchPrefix = "";
         customLaunchPrefixEnabled = false;
         enableClipPreview = true;
         enableClipboardHistory = true;
+        enableSettingsSearch = true;
         iconMode = "tabler";
         ignoreMouseInput = false;
         pinnedApps = [];
@@ -379,21 +382,26 @@
         mprisBlacklist = [];
         preferredPlayer = "";
         visualizerType = "linear";
+        volumeFeedback = false;
         volumeOverdrive = false;
         volumeStep = 5;
       };
       bar = {
+        barType = "simple";
         # backgroundOpacity = 1;
         # capsuleOpacity = 1;
         density = "default";
         exclusive = true;
         floating = false;
+        frameRadius = 12;
+        frameThickness = 8;
         hideOnOverview = false;
         marginHorizontal = 5;
         marginVertical = 5;
         monitors = [];
         outerCorners = false;
         position = "top";
+        screenOverrides = [];
         showCapsule = false;
         showOutline = false;
         useSeparateOpacity = false;
@@ -403,13 +411,18 @@
               id = "Workspace";
               characterCount = 2;
               colorizeIcons = false;
+              emptyColor = "secondary";
               enableScrollWheel = true;
+              focusedColor = "primary";
               followFocusedScreen = false;
               groupedBorderOpacity = 1;
               hideUnoccupied = true;
               iconScale = 0.8;
               labelMode = "index";
+              occupiedColor = "secondary";
+              reverseScroll = false;
               showApplications = false;
+              showBadge = true;
               showLabelsOnlyWhenOccupied = true;
               unfocusedIconsOpacity = 1;
             }
@@ -475,9 +488,36 @@
               displayMode = "forceOpen";
               showIcon = false;
             }
-            {id = "plugin:pomodoro";}
-            {id = "plugin:screenshot";}
-            {id = "plugin:keybind-cheatsheet";}
+            {
+              id = "plugin:pomodoro";
+              defaultSettings = {
+                autoStartBreaks = false;
+                autoStartWork = false;
+                compactMode = false;
+                longBreakDuration = 15;
+                sessionsBeforeLongBreak = 4;
+                shortBreakDuration = 5;
+                workDuration = 25;
+              };
+            }
+            {
+              id = "plugin:screenshot";
+              defaultSettings = {mode = "region";};
+            }
+            {
+              id = "plugin:keybind-cheatsheet";
+              defaultSettings = {
+                autoHeight = true;
+                cheatsheetData = [];
+                columnCount = 3;
+                detectedCompositor = "";
+                hyprlandConfigPath = "~/.config/hypr/hyprland.conf";
+                modKeyVariable = "$mod";
+                niriConfigPath = "~/.config/niri/config.kdl";
+                windowHeight = 0;
+                windowWidth = 1400;
+              };
+            }
             {
               id = "SystemMonitor";
               compactMode = true;
@@ -486,6 +526,7 @@
               showCpuTemp = true;
               showCpuUsage = true;
               showDiskUsage = false;
+              showSwapUsage = false;
               diskPath = "/";
               showGpuTemp = false;
               showLoadAverage = false;
@@ -515,6 +556,7 @@
               hideWhenZero = false;
               hideWhenZeroUnread = false;
               showUnreadBadge = true;
+              unreadBadgeColor = "primary";
             }
             {
               id = "Network";
@@ -555,9 +597,10 @@
       };
       colorSchemes = {
         darkMode = true;
+        generationMethod = "tonal-spot";
         manualSunrise = "06:30";
         manualSunset = "18:30";
-        matugenSchemeType = "scheme-fruit-salad";
+        monitorForColors = "";
         predefinedScheme = "Noctalia (default)";
         schedulingMode = "off";
         useWallpaperColors = false;
@@ -613,17 +656,21 @@
       dock.enabled = false;
       general = {
         allowPanelsOnScreenWithoutBar = true;
+        allowPasswordWithFprintd = false;
         animationDisabled = false;
         animationSpeed = 1;
+        autoStartAuth = false;
         avatarImage = "/home/zx/.face";
         boxRadiusRatio = 1;
         compactLockScreen = false;
         dimmerOpacity = 0.6;
+        enableLockScreenCountdown = true;
         enableShadows = true;
         forceBlackScreenCorners = false;
         iRadiusRatio = 1;
         language = "";
         lockOnSuspend = true;
+        lockScreenCountdownDuration = 10000;
         radiusRatio = 1;
         scaleRatio = 1;
         screenRadiusRatio = 1;
@@ -634,7 +681,7 @@
         showHibernateOnLockScreen = false;
         showScreenCorners = false;
         showSessionButtonsOnLockScreen = true;
-        telemetryEnabled = false;
+        telemetryEnabled = true; # TODO: disable after release
       };
       hooks = {
         darkModeChange = "";
@@ -644,6 +691,7 @@
         screenLock = "";
         screenUnlock = "";
         session = "";
+        startup = "";
         wallpaperChange = "";
       };
       location = {
@@ -778,6 +826,8 @@
         memPollingInterval = 3000;
         memWarningThreshold = 80;
         networkPollingInterval = 3000;
+        swapCriticalThreshold = 90;
+        swapWarningThreshold = 80;
         tempCriticalThreshold = 90;
         tempPollingInterval = 3000;
         tempWarningThreshold = 80;
@@ -786,7 +836,7 @@
       };
       templates = {
         activeTemplates = [];
-        enableUserTemplates = false;
+        enableUserTheming = false;
       };
       ui = {
         bluetoothDetailsViewMode = "grid";
@@ -804,6 +854,7 @@
         wifiDetailsViewMode = "grid";
       };
       wallpaper = {
+        automationEnabled = false;
         useSolidColor = false;
         # solidColor = "#1a1a2e";
         directory = "/home/zx/Pictures/Wallpapers";
@@ -815,14 +866,14 @@
         monitorDirectories = [];
         overviewEnabled = true;
         panelPosition = "follow_bar";
-        randomEnabled = false;
         randomIntervalSec = 300;
-        recursiveSearch = false;
         setWallpaperOnAllMonitors = true;
+        showHiddenFiles = false;
         transitionDuration = 1500;
         transitionEdgeSmoothness = 0.05;
         transitionType = "random";
         useWallhaven = false;
+        viewMode = "single";
         wallhavenApiKey = "";
         wallhavenCategories = "111";
         wallhavenOrder = "desc";

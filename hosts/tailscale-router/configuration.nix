@@ -35,10 +35,15 @@
     auth-file.file = ./secrets/auth-key.age;
   };
 
-  services.tailscale = {
-    enable = true;
-    authKeyFile = config.age.secrets.auth-file.path;
-    useRoutingFeatures = "server";
-    extraSetFlags = [ "--advertise-routes=192.168.0.2/32,192.168.0.96/27" ]; # 192.168.0.2,192.168.0.97-126
-  };
+  services.tailscale =
+    let
+      advertise-routes = "--advertise-routes=192.168.0.2/32,192.168.0.96/27"; # 192.168.0.2,192.168.0.97-126
+    in
+    {
+      enable = true;
+      authKeyFile = config.age.secrets.auth-file.path;
+      useRoutingFeatures = "server";
+      extraSetFlags = [ advertise-routes ];
+      extraUpFlags = [ advertise-routes ];
+    };
 }

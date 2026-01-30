@@ -2,7 +2,7 @@ let
   zx-laptop = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB9pAWo4p4nU2pbRKddNN+kbdyrWTTksVkV+yON0JwJc";
   nodes = {
     tailscale-router = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDJXN0R3Qxcv0gwFIC7xb5rhi9PTK39TruxoO8MYbkXK";
-    docker-stable = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJrKQ6XR+8nRDV/KdSB97wjYpyRvufS8u7NvwmBIixGg";
+    docker-stable = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOheZL8eIV10R3kkP+ZqKhhCjnaONVctH81vHwnwBd0l";
   };
 in
 {

@@ -3,8 +3,7 @@ services:
     image: jellyfin/jellyfin:10.11.5
     restart: unless-stopped
     environment:
-      HTTP_PROXY: http://awg-proxy:25550
-      HTTPS_PROXY: http://awg-proxy:25550
+      ALL_PROXY: socks5h://tor-proxy:29050
       NO_PROXY: localhost,127.0.0.1
     group_add:
       - 104

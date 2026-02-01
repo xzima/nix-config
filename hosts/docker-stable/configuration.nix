@@ -12,6 +12,29 @@
   nixpkgs.hostPlatform = "x86_64-linux";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.nvidia.acceptLicense = true;
+
+  # Nvidia
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware = {
+    nvidia-container-toolkit.enable = true;
+    graphics.enable = true;
+    nvidia = {
+      modesetting.enable = true;
+      open = false; # Because video card is old
+      gsp.enable = false;
+      nvidiaPersistenced = true;
+      package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+        version = "580.126.09"; # Should be equal with proxmox host version
+        sha256_64bit = "sha256-TKxT5I+K3/Zh1HyHiO0kBZokjJ/YCYzq/QiKSYmG7CY=";
+        settingsSha256 = "sha256-4SfCWp3swUp+x+4cuIZ7SA5H7/NoizqgPJ6S9fm90fA=";
+        persistencedSha256 = "sha256-J1UwS0o/fxz45gIbH9uaKxARW+x4uOU1scvAO4rHU5Y=";
+      };
+    };
+  };
+
   environment.variables = {
     TERM = "xterm-256color"; # fix proxmox terminal colors
   };
@@ -67,6 +90,7 @@
     pkgs.unzip
     pkgs.ffmpeg
     pkgs.docker-buildx
+    pkgs.pciutils
   ];
   # Docker specific
   virtualisation.docker = {

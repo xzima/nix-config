@@ -5,11 +5,13 @@ services:
     environment:
       ALL_PROXY: socks5h://tor-proxy:29050
       NO_PROXY: localhost,127.0.0.1
-    group_add:
-      - 104
-      - 44
-    devices:
-      - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: cdi
+              capabilities: [ gpu, utility, compute ]
+              device_ids: [ nvidia.com/gpu=all ]
     volumes:
       - ${MEDIA_PATH}:/storage
       - ${STORAGE_PATH}/jellyfin/config:/config

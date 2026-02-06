@@ -1,8 +1,5 @@
 # Task list
 
-- обои должны быть привязаны к времени суток
-    - https://github.com/hexive/sunpaper
-    - https://github.com/rohan-shettyy/Wallpaper-Wizard
 - настроить half-qwerty keyboard layout https://github.com/jorissteyn/xkb-halfqwerty
 
 - calc
@@ -52,6 +49,10 @@
     - настроить docker mini tool
     - настроить sistem monitor -- resources || missioncenter || jdsystemmonitor || corestats || system-monitoring-center || gnome-system-monitor || plasma-systemmonitor || mate-system-monitor || ukui-system-monitor || deepin-system-monitor || pantheon-system-monitor
     - разобраться с keyboard cheatsheet
+- configure https://github.com/ind4skylivey/jetbrains-trial-reset as [package.nix](https://numtide.github.io/blueprint/main/getting-started/folder_structure/#packagenix-formatternix-packagespnamenixdefaultnix)
+- обои должны быть привязаны к времени суток
+    - https://github.com/hexive/sunpaper - нужно интегрировать с noctalia
+    - https://github.com/rohan-shettyy/Wallpaper-Wizard
 - проблемы jetbrains
     - при использовании markdown плагина зависает
     - заменить цвет background как в основной теме

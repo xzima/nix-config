@@ -579,16 +579,11 @@
               defaultSettings = {
                 autoStartBreaks = false;
                 autoStartWork = false;
-                compactMode = false;
                 longBreakDuration = 15;
                 sessionsBeforeLongBreak = 4;
                 shortBreakDuration = 5;
                 workDuration = 25;
               };
-            }
-            {
-              id = "plugin:screenshot";
-              defaultSettings = {mode = "region";};
             }
             {
               id = "plugin:keybind-cheatsheet";
@@ -605,6 +600,14 @@
               };
             }
             {
+              id = "Tray";
+              colorizeIcons = false;
+              drawerEnabled = true;
+              hidePassive = false;
+              blacklist = [];
+              pinned = [];
+            }
+            {
               id = "SystemMonitor";
               compactMode = true;
               useMonospaceFont = true;
@@ -619,14 +622,6 @@
               showMemoryAsPercent = false;
               showMemoryUsage = true;
               showNetworkStats = false;
-            }
-            {
-              id = "Tray";
-              colorizeIcons = false;
-              drawerEnabled = true;
-              hidePassive = false;
-              blacklist = [];
-              pinned = [];
             }
             {
               id = "Volume";
@@ -950,7 +945,7 @@
         fillMode = "crop";
         hideWallpaperFilenames = false;
         monitorDirectories = [];
-        overviewEnabled = true;
+        overviewEnabled = false;
         panelPosition = "follow_bar";
         randomIntervalSec = 300;
         setWallpaperOnAllMonitors = true;

@@ -1,13 +1,5 @@
 # Task list
 
-- настроить yazi
-    - копирование файлов для yazi file://github.com/XYenon/clipboard.yazi
-    - yazi должен работать одинаково на всех раскладках
-- flameshot
-- настроить скриншоты
-    - https://github.com/flameshot-org/flameshot/issues/3605
-    - https://danklinux.com/docs/dankmaterialshell/keybinds-ipc#niri
-    - https://danklinux.com/docs/dankmaterialshell/cli-screenshot
 - обои должны быть привязаны к времени суток
     - https://github.com/hexive/sunpaper
     - https://github.com/rohan-shettyy/Wallpaper-Wizard
@@ -178,6 +170,23 @@
       # '';
       };
       ```
+- flameshot https://github.com/YaLTeR/niri/discussions/1737
+    - настроить скриншоты
+        - https://github.com/flameshot-org/flameshot/issues/3605
+        - https://danklinux.com/docs/dankmaterialshell/keybinds-ipc#niri
+        - https://danklinux.com/docs/dankmaterialshell/cli-screenshot
+- настроить yazi
+    - копирование файлов для yazi https://github.com/XYenon/clipboard.yazi
+        - нет в nixpkgs, по этому https://github.com/grappas/wl-clipboard.yazi
+    - yazi должен работать одинаково на всех раскладках
+        - не будет работать https://github.com/sxyazi/yazi/issues/798
+        - можно добавить переопределения для русской
+          раскладки https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/keymap-default.toml
+    - ~~https://yazi-rs.github.io/docs/tips#close-input-by-esc~~
+    - https://yazi-rs.github.io/docs/tips#smart-enter
+    - https://yazi-rs.github.io/docs/tips#smart-paste
+    - https://yazi-rs.github.io/docs/tips#symlink-in-status
+    - https://yazi-rs.github.io/docs/tips#user-group-in-status
 
 ## INFO
 

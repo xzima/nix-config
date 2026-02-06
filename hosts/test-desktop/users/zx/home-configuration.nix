@@ -173,8 +173,44 @@
   programs.yazi = {
     enable = true;
     enableFishIntegration = true;
+    initLua = ''
+      Status:children_add(function(self)
+      	local h = self._current.hovered
+      	if h and h.link_to then
+      		return " -> " .. tostring(h.link_to)
+      	else
+      		return ""
+      	end
+      end, 3300, Status.LEFT)
+
+      Status:children_add(function()
+      	local h = cx.active.current.hovered
+      	if not h or ya.target_family() ~= "unix" then
+      		return ""
+      	end
+
+      	return ui.Line {
+      		ui.Span(ya.user_name(h.cha.uid) or tostring(h.cha.uid)):fg("magenta"),
+      		":",
+      		ui.Span(ya.group_name(h.cha.gid) or tostring(h.cha.gid)):fg("magenta"),
+      		" ",
+      	}
+      end, 500, Status.RIGHT)
+
+      Header:children_add(function()
+      	if ya.target_family() ~= "unix" then
+      		return ""
+      	end
+      	return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. ":"):fg("blue")
+      end, 500, Header.LEFT)
+    '';
     plugins = {
       mount = pkgs.yaziPlugins.mount;
+      # TODO: not work with yank.
+      # wl-clipboard = pkgs.yaziPlugins.wl-clipboard;
+      clipboard = pkgs.yaziPlugins.clipboard;
+      smart-enter = pkgs.yaziPlugins.smart-enter;
+      smart-paste = pkgs.yaziPlugins.smart-paste;
     };
     keymap = {
       mgr.prepend_keymap = [
@@ -182,6 +218,23 @@
           on = "M";
           run = "plugin mount";
           desc = "Enter Mount Manager";
+        }
+        {
+          on = "y";
+          # TODO: not work with yank. If you want to use this plugin with yazi's default yanking behaviour you should use cx.yanked instead of tab.selected in init.lua
+          # run = ["yank" "plugin wl-clipboard"];
+          run = ["yank" "plugin clipboard -- --action=copy"];
+          desc = "Copy to all clipboards";
+        }
+        {
+          on = "<Enter>";
+          run = "plugin smart-enter";
+          desc = "Enter the child directory, or open the file";
+        }
+        {
+          on = "p";
+          run = "plugin smart-paste";
+          desc = "Paste into the hovered directory or CWD";
         }
       ];
     };

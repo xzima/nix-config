@@ -451,6 +451,7 @@
         enableClipPreview = true;
         enableClipboardHistory = true;
         enableSettingsSearch = true;
+        enableWindowsSearch = true;
         iconMode = "tabler";
         ignoreMouseInput = false;
         pinnedApps = [];
@@ -473,11 +474,13 @@
         volumeStep = 5;
       };
       bar = {
+        autoHideDelay = 500;
+        autoShowDelay = 150;
         barType = "simple";
         # backgroundOpacity = 1;
         # capsuleOpacity = 1;
         density = "default";
-        exclusive = true;
+        displayMode = "always_visible";
         floating = false;
         frameRadius = 12;
         frameThickness = 8;
@@ -506,6 +509,7 @@
               iconScale = 0.8;
               labelMode = "index";
               occupiedColor = "secondary";
+              pillSize = 0.6;
               reverseScroll = false;
               showApplications = false;
               showBadge = true;
@@ -543,12 +547,12 @@
             }
             {
               id = "Clock";
+              clockColor = "primary";
               customFont = "";
               formatHorizontal = "HH:mm - dd.MM(ddd)";
               formatVertical = "HH mm - dd MM";
               tooltipFormat = "HH:mm - dd.MM(ddd)";
               useCustomFont = false;
-              usePrimaryColor = true;
             }
             {
               id = "plugin:privacy-indicator";
@@ -613,8 +617,11 @@
               useMonospaceFont = true;
               usePrimaryColor = false;
               showCpuTemp = true;
+              showCpuFreq = false;
               showCpuUsage = true;
               showDiskUsage = false;
+              showDiskAvailable = false;
+              showDiskUsageAsPercent = false;
               showSwapUsage = false;
               diskPath = "/";
               showGpuTemp = false;
@@ -808,6 +815,8 @@
       };
       notifications = {
         # backgroundOpacity = 1;
+        batteryCriticalThreshold = 5;
+        batteryWarningThreshold = 20;
         criticalUrgencyDuration = 15;
         enableKeyboardLayoutToast = true;
         enableMediaToast = false;
@@ -891,9 +900,11 @@
       };
       systemMonitor = {
         cpuCriticalThreshold = 90;
-        cpuPollingInterval = 3000;
+        cpuPollingInterval = 1000;
         cpuWarningThreshold = 80;
         criticalColor = "";
+        diskAvailCriticalThreshold = 10;
+        diskAvailWarningThreshold = 20;
         diskCriticalThreshold = 90;
         diskPollingInterval = 3000;
         diskWarningThreshold = 80;
@@ -904,13 +915,12 @@
         gpuWarningThreshold = 80;
         loadAvgPollingInterval = 3000;
         memCriticalThreshold = 90;
-        memPollingInterval = 3000;
+        memPollingInterval = 1000;
         memWarningThreshold = 80;
-        networkPollingInterval = 3000;
+        networkPollingInterval = 1000;
         swapCriticalThreshold = 90;
         swapWarningThreshold = 80;
         tempCriticalThreshold = 90;
-        tempPollingInterval = 3000;
         tempWarningThreshold = 80;
         useCustomColors = false;
         warningColor = "";
@@ -950,6 +960,7 @@
         randomIntervalSec = 300;
         setWallpaperOnAllMonitors = true;
         showHiddenFiles = false;
+        sortOrder = "name";
         transitionDuration = 1500;
         transitionEdgeSmoothness = 0.05;
         transitionType = "random";

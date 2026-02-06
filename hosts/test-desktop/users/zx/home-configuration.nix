@@ -47,12 +47,45 @@
     # dbus tools
     ashpd-demo # test xdg-portals
     bustle # exploration tool
+    (writeShellScriptBin "take-screen" ''
+      output=$(${niri-stable}/bin/niri msg --json focused-output | ${jq}/bin/jq -r .name)
+      ${grim}/bin/grim -o "''${output}" - | ${satty}/bin/satty --filename -
+    '')
   ];
 
   home.file = {
     ".dotfiles/micro" = {
       source = ../../../../modules/home/shell/dotfiles/micro;
       recursive = true;
+    };
+  };
+
+  # https://github.com/flameshot-org/flameshot/issues/3605
+  # https://github.com/YaLTeR/niri/discussions/1737
+  services.flameshot = {
+    enable = true;
+    # https://github.com/flameshot-org/flameshot/blob/master/flameshot.example.ini
+    settings = {
+      General = {
+        useGrimAdapter = true;
+        showDesktopNotification = false;
+        showStartupLaunchMessage = false;
+      };
+    };
+  };
+  # https://github.com/flameshot-org/flameshot/issues/3605#issuecomment-3444013475
+  programs.satty = {
+    enable = true;
+    # https://github.com/Satty-org/Satty#configuration-file
+    settings = {
+      general = {
+        initial-tool = "crop";
+        primary-highlighter = "freehand";
+        fullscreen = true;
+        no-window-decoration = true;
+        early-exit = true;
+        copy-command = "${pkgs.wl-clipboard}/bin/wl-copy";
+      };
     };
   };
 
@@ -1222,8 +1255,16 @@
         # Mod+Shift+Space { switch-layout "prev"; }
 
         "Print".action.screenshot = {};
-        "Ctrl+Print".action.screenshot-screen = {};
-        "Alt+Print".action.screenshot-window = {};
+        # "Ctrl+Print".action.screenshot-screen = {};
+        # "Alt+Print".action.screenshot-window = {};
+        "Ctrl+Print" = {
+          action = spawn "flameshot" "gui";
+          hotkey-overlay.title = "Take screenshot(FlameShot)";
+        };
+        "Alt+Print" = {
+          action = spawn "take-screen";
+          hotkey-overlay.title = "Take screenshot(Satty)";
+        };
 
         # The quit action will show a confirmation dialog to avoid accidental exits.
         "Mod+Shift+E".action = quit;

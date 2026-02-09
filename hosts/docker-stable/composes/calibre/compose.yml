@@ -1,7 +1,7 @@
 # based on: https://github.com/crocodilestick/Calibre-Web-Automated/tree/main?tab=readme-ov-file#using-docker-compose-recommended
 services:
   calibre:
-    image: crocodilestick/calibre-web-automated:V3.1.4
+    image: crocodilestick/calibre-web-automated:v4.0.5
     restart: unless-stopped
     environment:
       TZ: ${TZ}

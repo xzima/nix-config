@@ -1,7 +1,7 @@
 # based on: https://github.com/TriliumNext/Trilium/blob/main/docker-compose.yml
 services:
   trilium:
-    image: triliumnext/trilium:v0.100.0
+    image: triliumnext/trilium:v0.101.3
     restart: unless-stopped
     environment:
       TRILIUM_CONFIG_INI_PATH: "/config.ini"

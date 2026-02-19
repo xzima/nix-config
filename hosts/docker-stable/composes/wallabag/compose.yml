@@ -2,7 +2,7 @@
 # https://github.com/wallabag/docker
 services:
   wallabag-postgres:
-    image: postgres:18.0-alpine
+    image: postgres:18.1-alpine
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]

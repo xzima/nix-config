@@ -1,0 +1,39 @@
+services:
+  vaultwarden-postgres:
+    image: postgres:18.1-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]
+      start_period: 60s
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ${STORAGE_PATH}/vaultwarden/db/postgres:/var/lib/postgresql
+
+  vaultwarden:
+    image: vaultwarden/server:1.35.3-alpine
+    restart: unless-stopped
+    environment:
+      DOMAIN: "https://vaultwarden.$BASE_DOMAIN"
+      DATABASE_URL: 'postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@vaultwarden-postgres/$POSTGRES_DB'
+    volumes:
+      - ${STORAGE_PATH}/vaultwarden/data:/data
+      - ${STORAGE_PATH}/vaultwarden/settings:/web-vault
+    labels:
+      traefik.enable: true
+      traefik.http.routers.vaultwarden.entrypoints: websecure
+      traefik.http.routers.vaultwarden.rule: Host(`vaultwarden.$BASE_DOMAIN`)
+      traefik.http.services.vaultwarden.loadbalancer.server.port: 80
+      # homepage
+      homepage.group: Others
+      homepage.name: VaultWarden
+      homepage.icon: vaultwarden-light.svg
+      homepage.href: https://vaultwarden.$BASE_DOMAIN
+      homepage.description: Password Manager
+
+networks:
+  default:
+    external: true
+    name: proxy

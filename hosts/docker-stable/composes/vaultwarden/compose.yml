@@ -20,7 +20,6 @@ services:
       DATABASE_URL: 'postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@vaultwarden-postgres/$POSTGRES_DB'
     volumes:
       - ${STORAGE_PATH}/vaultwarden/data:/data
-      - ${STORAGE_PATH}/vaultwarden/settings:/web-vault
     labels:
       traefik.enable: true
       traefik.http.routers.vaultwarden.entrypoints: websecure

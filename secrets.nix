@@ -39,4 +39,6 @@ in
   "hosts/docker-stable/secrets/jellyfin.jellystat-jwt-secret.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
 
   "hosts/docker-stable/secrets/wallabag.env.age".publicKeys = [ zx-laptop nodes.docker-stable ];
+
+  "hosts/docker-stable/secrets/vaultwarden.env.age".publicKeys = [ zx-laptop nodes.docker-stable ];
 }

@@ -173,5 +173,7 @@
     "jellyfin.jellystat-jwt-secret.txt".file = ./secrets/jellyfin.jellystat-jwt-secret.txt.age;
     # wallabag
     "wallabag.env".file = ./secrets/wallabag.env.age;
+    # vaultwarden
+    "vaultwarden.env".file = ./secrets/vaultwarden.env.age;
   };
 }

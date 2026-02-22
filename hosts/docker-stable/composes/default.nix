@@ -113,4 +113,12 @@ in
       config.age.secrets."wallabag.env".path
     ];
   };
+
+  systemd.services.dc-vaultwarden = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./vaultwarden;
+    envFiles = [
+      config.age.secrets."vaultwarden.env".path
+    ];
+  };
 }

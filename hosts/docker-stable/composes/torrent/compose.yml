@@ -35,6 +35,9 @@ services:
       traefik.http.routers.qbittorrent.entrypoints: websecure
       traefik.http.routers.qbittorrent.rule: Host(`qbittorrent.$BASE_DOMAIN`)
       traefik.http.services.qbittorrent.loadbalancer.server.port: 8080
+      # custom
+      traefik.http.routers.qbittorrent.middlewares: qbittorrent-mw
+      traefik.http.middlewares.qbittorrent-mw.headers.accessControlAllowOriginList: "*"
       # homepage
       homepage.group: Torrent
       homepage.name: QBitTorrent

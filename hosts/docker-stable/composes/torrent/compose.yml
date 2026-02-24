@@ -49,6 +49,33 @@ services:
       - ${STORAGE_PATH}/qbittorrent/config:/config
       - ${MEDIA_PATH}:/storage
 
+  torrserver:
+    image: ghcr.io/yourok/torrserver:MatriX.140
+    restart: unless-stopped
+    environment:
+      - TS_PORT=5665
+      - TS_DONTKILL=1
+      - TS_HTTPAUTH=0
+      - TS_CONF_PATH=/opt/ts/config
+      - TS_TORR_DIR=/opt/ts/torrents
+    volumes:
+      - ${STORAGE_PATH}/torrserver/cache:/opt/ts/torrents
+      - ${STORAGE_PATH}/torrserver/config:/opt/ts/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.torrserver.entrypoints: websecure
+      traefik.http.routers.torrserver.rule: Host(`torrserver.$BASE_DOMAIN`)
+      traefik.http.services.torrserver.loadbalancer.server.port: 5665
+      # custom
+      traefik.http.routers.torrserver.middlewares: torrserver-mw
+      traefik.http.middlewares.torrserver-mw.headers.accessControlAllowOriginList: "*"
+      # homepage
+      homepage.group: Torrent
+      homepage.name: TorrServer
+      homepage.icon: torrserver.png
+      homepage.href: https://torrserver.$BASE_DOMAIN
+      homepage.description: Torrent stream server
+
 networks:
   default:
     external: true

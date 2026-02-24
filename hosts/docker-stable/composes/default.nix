@@ -121,4 +121,9 @@ in
       config.age.secrets."vaultwarden.env".path
     ];
   };
+
+  systemd.services.dc-nginx-files = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./nginx-files;
+  };
 }

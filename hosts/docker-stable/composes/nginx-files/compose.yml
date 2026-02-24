@@ -1,0 +1,25 @@
+services:
+  nginx-files:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./data:/srv
+    labels:
+      traefik.enable: true
+      traefik.http.routers.nginx-files.entrypoints: websecure
+      traefik.http.routers.nginx-files.rule: Host(`nginx-files.$BASE_DOMAIN`)
+      # custom
+      traefik.http.routers.nginx-files.middlewares: nginx-files-mw
+      traefik.http.middlewares.nginx-files-mw.headers.accessControlAllowOriginList: "*"
+      # homepage
+      homepage.group: Infrastructure
+      homepage.name: NginxFiles
+      homepage.icon: nginx.svg
+      homepage.href: https://nginx-files.$BASE_DOMAIN
+      homepage.description: Public file share server on Nginx
+
+networks:
+  default:
+    external: true
+    name: proxy

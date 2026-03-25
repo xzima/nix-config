@@ -22,7 +22,7 @@ services:
       - ${MEDIA_PATH}:/storage
 
   sonarr:
-    image: linuxserver/sonarr:4.0.15
+    image: linuxserver/sonarr:4.0.17
     restart: unless-stopped
     environment:
       TZ: ${TZ}

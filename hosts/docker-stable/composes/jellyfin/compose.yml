@@ -13,7 +13,8 @@ services:
               capabilities: [ gpu, utility, compute ]
               device_ids: [ nvidia.com/gpu=all ]
     volumes:
-      - ${MEDIA_PATH}:/storage
+      - ${TORRENT_PATH}:/storage
+      - ${MEDIA_PATH}:/archive
       - ${STORAGE_PATH}/jellyfin/config:/config
       - ${STORAGE_PATH}/jellyfin/cache:/cache
     labels:

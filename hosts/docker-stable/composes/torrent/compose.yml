@@ -9,7 +9,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${STORAGE_PATH}/jackett/config:/config
-      - ${MEDIA_PATH}:/storage
+      - ${TORRENT_PATH}:/storage
     labels:
       traefik.enable: true
       traefik.http.routers.jackett.entrypoints: websecure
@@ -47,7 +47,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${STORAGE_PATH}/qbittorrent/config:/config
-      - ${MEDIA_PATH}:/storage
+      - ${TORRENT_PATH}:/storage
 
   torrserver:
     image: ghcr.io/yourok/torrserver:MatriX.140

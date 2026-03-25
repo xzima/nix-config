@@ -6,6 +6,7 @@ services:
     volumes:
       - ${STORAGE_PATH}:/srv${STORAGE_PATH}
       - ${MEDIA_PATH}:/srv${MEDIA_PATH}
+      - ${TORRENT_PATH}:/srv${TORRENT_PATH}
       - ${STORAGE_PATH}/filebrowser/database:/database
       - ${STORAGE_PATH}/filebrowser/config:/config
     labels:

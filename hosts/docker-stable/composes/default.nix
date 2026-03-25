@@ -12,6 +12,7 @@ let
       SECRET_PATH = config.age.secretsDir;
       STORAGE_PATH = "/storage/services";
       MEDIA_PATH = "/media-store";
+      TORRENT_PATH = "/torrent-storage";
     };
     serviceConfig = {
       Type = "oneshot";

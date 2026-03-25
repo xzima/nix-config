@@ -19,7 +19,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${STORAGE_PATH}/radarr/config:/config
-      - ${MEDIA_PATH}:/storage
+      - ${TORRENT_PATH}:/storage
+      - ${MEDIA_PATH}:/archive
 
   sonarr:
     image: linuxserver/sonarr:4.0.17
@@ -41,7 +42,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${STORAGE_PATH}/sonarr/config:/config
-      - ${MEDIA_PATH}:/storage
+      - ${TORRENT_PATH}:/storage
+      - ${MEDIA_PATH}:/archive
 
   whisparr:
     image: ghcr.io/hotio/whisparr:v3-3.0.1.1349
@@ -63,7 +65,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${STORAGE_PATH}/whisparr/config:/config
-      - ${MEDIA_PATH}:/storage
+      - ${TORRENT_PATH}:/storage
+      - ${MEDIA_PATH}:/archive
 
 networks:
   default:

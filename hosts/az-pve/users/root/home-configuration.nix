@@ -16,6 +16,11 @@
     antigenBundles = [ "debian" ];
   };
 
+  programs.nh = {
+    enable = true;
+    flake = "github:xzima/nix-config/stable";
+  };
+
   # Set zsh as default shell on activation
   home.activation.make-zsh-default-shell = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     # if zsh is not the current shell

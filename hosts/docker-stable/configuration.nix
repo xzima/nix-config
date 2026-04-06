@@ -12,6 +12,11 @@
   nixpkgs.hostPlatform = "x86_64-linux";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  programs.nh = {
+    enable = true;
+    flake = "github:xzima/nix-config/stable";
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.nvidia.acceptLicense = true;

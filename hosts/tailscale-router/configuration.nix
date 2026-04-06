@@ -31,6 +31,11 @@
     };
   };
 
+  programs.nh = {
+    enable = true;
+    flake = "github:xzima/nix-config/stable";
+  };
+
   age.secrets = {
     auth-file.file = ./secrets/auth-key.age;
   };

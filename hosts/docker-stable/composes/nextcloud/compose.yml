@@ -29,9 +29,8 @@ services:
       - ${STORAGE_PATH}/nextcloud/db/redis:/data
 
   nextcloud:
-    build: full
+    image: alexzima/photoprism:260305
     restart: unless-stopped
-    pull_policy: build
     depends_on:
       nextcloud-postgres:
         condition: service_healthy

@@ -13,13 +13,8 @@
 
 services:
   photoprism:
-    build:
-      context: ./
-      network: host
-      args:
-        ALL_PROXY: socks5h://0.0.0.0:29050
+    image: alexzima/photoprism:32.0.6-apache
     restart: unless-stopped
-    pull_policy: build
     stop_grace_period: 10s
     depends_on:
       - photoprism-mariadb

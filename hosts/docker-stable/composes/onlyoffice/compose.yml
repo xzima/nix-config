@@ -14,6 +14,18 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ${STORAGE_PATH}/onlyoffice/db/postgres:/var/lib/postgresql/data
+    labels:
+      traefik.enable: true
+      traefik.tcp.routers.onlyoffice-pg.tls: true
+      traefik.tcp.routers.onlyoffice-pg.entrypoints : websecure
+      traefik.tcp.routers.onlyoffice-pg.rule: HostSNI(`onlyoffice-pg.$BASE_DOMAIN`)
+      traefik.tcp.services.onlyoffice-pg.loadbalancer.server.port: 5432
+      # homepage
+      homepage.group: DB
+      homepage.name: OnlyOffice(NextCloud) PG
+      homepage.icon: postgres.svg
+      homepage.href: https://onlyoffice-pg.$BASE_DOMAIN
+      homepage.description: Personal office suite DB
 
   onlyoffice-redis:
     image: redis:8.6.1-alpine

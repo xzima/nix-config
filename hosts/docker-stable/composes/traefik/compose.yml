@@ -47,7 +47,7 @@ services:
 
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
-      #- --providers.file.directory=/external
+      - --providers.file.directory=/external
 
     environment:
       TZ: ${TZ}
@@ -67,7 +67,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      #- ./external/:/external/:ro
+      - ./external/:/external/:ro
       - ${STORAGE_PATH}/traefik/acme.json:/acme.json
 
 secrets:

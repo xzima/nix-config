@@ -41,4 +41,6 @@ in
   "hosts/docker-stable/secrets/wallabag.env.age".publicKeys = [ zx-laptop nodes.docker-stable ];
 
   "hosts/docker-stable/secrets/vaultwarden.env.age".publicKeys = [ zx-laptop nodes.docker-stable ];
+
+  "hosts/docker-stable/secrets/ssh-tunnel.pub.age".publicKeys = [ zx-laptop nodes.docker-stable ];
 }

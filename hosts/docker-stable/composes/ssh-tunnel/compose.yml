@@ -1,0 +1,31 @@
+services:
+  ssh-tunnel:
+    image: linuxserver/openssh-server:10.2_p1-r0-ls222
+    restart: unless-stopped
+    secrets:
+      - public-key
+    environment:
+      TZ: ${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+      USER_NAME: ssh-tunnel
+      SUDO_ACCESS: false
+      PASSWORD_ACCESS: false
+      PUBLIC_KEY_FILE: /run/secrets/public-key
+    volumes:
+      - ${STORAGE_PATH}/config:/config
+    ports:
+      - "2222:2222"
+    labels:
+      homepage.group: Infrastructure
+      homepage.name: SSH Tunnel
+      homepage.description: SSH entrypoint to internal docker network
+
+secrets:
+  public-key:
+    file: ${SECRET_PATH}/ssh-tunnel.pub
+
+networks:
+  default:
+    external: true
+    name: proxy

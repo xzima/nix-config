@@ -13,18 +13,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ${STORAGE_PATH}/wallabag/db/postgres:/var/lib/postgresql
-    labels:
-      traefik.enable: true
-      traefik.tcp.routers.wallabag-pg.tls: true
-      traefik.tcp.routers.wallabag-pg.entrypoints : websecure
-      traefik.tcp.routers.wallabag-pg.rule: HostSNI(`wallabag-pg.$BASE_DOMAIN`)
-      traefik.tcp.services.wallabag-pg.loadbalancer.server.port: 5432
-      # homepage
-      homepage.group: DB
-      homepage.name: WallaBag PG
-      homepage.icon: postgres.svg
-      homepage.href: https://wallabag-pg.$BASE_DOMAIN
-      homepage.description: Save and classify articles DB
 
   wallabag-redis:
     image: redis:8.6.1-alpine

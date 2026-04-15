@@ -91,18 +91,6 @@ services:
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD_FILE: /run/secrets/mariadb-password
       MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mariadb-password
-    labels:
-      traefik.enable: true
-      traefik.tcp.routers.photoprism-mdb.tls: true
-      traefik.tcp.routers.photoprism-mdb.entrypoints : websecure
-      traefik.tcp.routers.photoprism-mdb.rule: HostSNI(`photoprism-mdb.$BASE_DOMAIN`)
-      traefik.tcp.services.photoprism-mdb.loadbalancer.server.port: 3306
-      # homepage
-      homepage.group: DB
-      homepage.name: PhotoPrism MariaDB
-      homepage.icon: mariadb.svg
-      homepage.href: https://photoprism-mdb.$BASE_DOMAIN
-      homepage.description: AI-Powered Photos App DB
 
 secrets:
   mariadb-password:

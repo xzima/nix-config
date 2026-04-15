@@ -127,4 +127,8 @@ in
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./nginx-files;
   };
+
+  systemd.services.dc-ssh-tunnel = mkCompose {
+    projectPath = ./ssh-tunnel;
+  };
 }

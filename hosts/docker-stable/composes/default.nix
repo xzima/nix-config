@@ -5,8 +5,8 @@
 let
   mkCompose = { projectPath, envs ? { }, envFiles ? [ ], after ? [ ], isWait ? false, ... }: {
     wantedBy = [ "multi-user.target" ];
-    partOf = [ "docker.service" ];
-    after = [ "docker.service" ] ++ after;
+    requires = [ "network-online.target" "docker.service" ] ++ after;
+    after = [ "network-online.target" "docker.service" ] ++ after;
     environment = envs // {
       COMPOSE_BAKE = "true";
       SECRET_PATH = config.age.secretsDir;
@@ -33,6 +33,27 @@ in
     projectPath = ./traefik;
     envFiles = [
       config.age.secrets."traefik.env".path
+    ];
+  };
+
+  systemd.services.dc-ssh-tunnel = mkCompose {
+    isWait = true;
+    projectPath = ./ssh-tunnel;
+  };
+
+  systemd.services.dc-db = mkCompose {
+    isWait = true;
+    projectPath = ./db;
+  };
+
+  systemd.services.dc-vaultwarden = mkCompose {
+    after = [
+      config.systemd.services.dc-traefik.name
+      config.systemd.services.dc-db.name
+    ];
+    projectPath = ./vaultwarden;
+    envFiles = [
+      config.age.secrets."vaultwarden.env".path
     ];
   };
 
@@ -115,20 +136,8 @@ in
     ];
   };
 
-  systemd.services.dc-vaultwarden = mkCompose {
-    after = [ config.systemd.services.dc-traefik.name ];
-    projectPath = ./vaultwarden;
-    envFiles = [
-      config.age.secrets."vaultwarden.env".path
-    ];
-  };
-
   systemd.services.dc-nginx-files = mkCompose {
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./nginx-files;
-  };
-
-  systemd.services.dc-ssh-tunnel = mkCompose {
-    projectPath = ./ssh-tunnel;
   };
 }

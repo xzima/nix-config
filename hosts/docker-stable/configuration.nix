@@ -182,5 +182,7 @@
     "vaultwarden.env".file = ./secrets/vaultwarden.env.age;
     # ssh-tunnel
     "ssh-tunnel.pub".file = ./secrets/ssh-tunnel.pub.age;
+    # db
+    "db.postgres-password.txt".file = ./secrets/db.postgres-password.txt.age;
   };
 }

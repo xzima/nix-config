@@ -1,0 +1,23 @@
+services:
+  postgres18:
+    image: postgres:18.4-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q" ]
+      start_period: 60s
+    secrets:
+      - postgres-password
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
+    volumes:
+      - ${STORAGE_PATH}/db/postgres:/var/lib/postgresql
+
+
+secrets:
+  postgres-password:
+    file: ${SECRET_PATH}/db.postgres-password.txt
+
+networks:
+  default:
+    external: true
+    name: proxy

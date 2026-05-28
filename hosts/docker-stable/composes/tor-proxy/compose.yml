@@ -6,6 +6,8 @@ services:
     image: dockurr/tor:0.4.9
     restart: unless-stopped
     user: ${PUID}:${PGID}
+    environment:
+      CHECK: true
     ports:
       - "29050:9050"
     volumes:

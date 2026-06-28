@@ -60,7 +60,7 @@
 
       ${pkgs.coreutils-full}/bin/cat << EOF > "''$GITEA_SHELL_PATH"
       #!/bin/sh
-      ${pkgs.docker}/bin/docker exec -i --env SSH_ORIGINAL_COMMAND="\''$SSH_ORIGINAL_COMMAND" gitea-container-name /bin/sh "\''$@"
+      ${pkgs.docker_29}/bin/docker exec -i --env SSH_ORIGINAL_COMMAND="\''$SSH_ORIGINAL_COMMAND" gitea-container-name /bin/sh "\''$@"
       EOF
 
       ${pkgs.coreutils-full}/bin/chmod 755 ''$GITEA_SHELL_PATH
@@ -100,6 +100,7 @@
   # Docker specific
   virtualisation.docker = {
     enable = true;
+    package = pkgs.docker_29; # Forces Nix to use the secure Docker 29 package
     daemon.settings.data-root = "/storage/docker";
     autoPrune = {
       enable = true;

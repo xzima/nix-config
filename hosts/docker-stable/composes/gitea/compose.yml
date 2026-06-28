@@ -21,7 +21,7 @@ services:
 
   gitea:
     container_name: gitea-container-name # used for Gitea Docker SSH Forwarding
-    image: gitea/gitea:1.25.1-rootless
+    image: gitea/gitea:1.26.4-rootless
     restart: unless-stopped
     depends_on:
       - gitea-postgres

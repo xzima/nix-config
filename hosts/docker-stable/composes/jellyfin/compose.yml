@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: jellyfin/jellyfin:10.11.6
+    image: jellyfin/jellyfin:10.11.11
     restart: unless-stopped
     environment:
       ALL_PROXY: socks5h://tor-proxy:29050

@@ -61,7 +61,7 @@ services:
       - ${STORAGE_PATH}/jellyfin/jellystat/db/postgres:/var/lib/postgresql
 
   jellystat:
-    image: cyfershepard/jellystat:1.1.8
+    image: cyfershepard/jellystat:1.1.11
     restart: unless-stopped
     depends_on:
       jellystat-db:

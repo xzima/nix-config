@@ -96,7 +96,6 @@
     pkgs.ffmpeg
     pkgs.docker-buildx
     pkgs.pciutils
-    pkgs.bws
   ];
   # Docker specific
   virtualisation.docker = {

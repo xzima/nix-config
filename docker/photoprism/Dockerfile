@@ -1,4 +1,4 @@
-FROM photoprism/photoprism:260305
+FROM photoprism/photoprism:260601
 
 ARG ALL_PROXY
 ENV ALL_PROXY=$ALL_PROXY

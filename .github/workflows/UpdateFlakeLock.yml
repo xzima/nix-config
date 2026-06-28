@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6.0.2
       - name: Set up Nix
-        uses: nixbuild/nix-quick-install-action@v34
+        uses: nixbuild/nix-quick-install-action@v35
       - name: Run nix flake update
         run: |
           nix flake update

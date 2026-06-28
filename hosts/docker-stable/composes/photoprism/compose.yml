@@ -13,7 +13,7 @@
 
 services:
   photoprism:
-    image: alexzima/photoprism:260305
+    image: alexzima/photoprism:260601
     restart: unless-stopped
     stop_grace_period: 10s
     depends_on:

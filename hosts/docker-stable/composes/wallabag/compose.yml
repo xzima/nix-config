@@ -42,6 +42,7 @@ services:
       SYMFONY__ENV__DATABASE_PORT: 5432
       SYMFONY__ENV__DATABASE_NAME: ${POSTGRES_DB}
       # PG user for app. Should be equal, because on creation new user don't have access to db
+      # should exist database with name POSTGRES_USER, because on wallabag migration it not specify db name(and use username)(see https://github.com/wallabag/docker/blob/master/root/entrypoint.sh#L77)
       SYMFONY__ENV__DATABASE_USER: ${POSTGRES_USER}
       SYMFONY__ENV__DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
       SYMFONY__ENV__REDIS_HOST: wallabag-redis

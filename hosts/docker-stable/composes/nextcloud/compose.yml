@@ -2,22 +2,22 @@
 # https://github.com/stilicho2011/ubuntu_rep/blob/main/nextcloud/docker-compose.yaml
 # https://github.com/nextcloud/docker/tree/master/.examples/docker-compose/insecure/postgres/apache
 services:
-  nextcloud-postgres:
-    image: postgres:17.10-alpine
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -q -d `cat $$POSTGRES_DB_FILE` -U `cat $$POSTGRES_USER_FILE`" ]
-      start_period: 60s
-    secrets:
-      - postgres-db-name
-      - postgres-username
-      - postgres-password
-    environment:
-      POSTGRES_DB_FILE: /run/secrets/postgres-db-name
-      POSTGRES_USER_FILE: /run/secrets/postgres-username
-      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
-    volumes:
-      - ${STORAGE_PATH}/nextcloud/db/postgres:/var/lib/postgresql/data
+#  nextcloud-postgres: TODO: удалить файлы на сервере
+#    image: postgres:17.10-alpine
+#    restart: unless-stopped
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready -q -d `cat $$POSTGRES_DB_FILE` -U `cat $$POSTGRES_USER_FILE`" ]
+#      start_period: 60s
+#    secrets:
+#      - postgres-db-name
+#      - postgres-username
+#      - postgres-password
+#    environment:
+#      POSTGRES_DB_FILE: /run/secrets/postgres-db-name
+#      POSTGRES_USER_FILE: /run/secrets/postgres-username
+#      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
+#    volumes:
+#      - ${STORAGE_PATH}/nextcloud/db/postgres:/var/lib/postgresql/data
 
   nextcloud-redis:
     image: redis:8.8.0-alpine
@@ -32,8 +32,6 @@ services:
     image: alexzima/nextcloud:33.0.4-apache
     restart: unless-stopped
     depends_on:
-      nextcloud-postgres:
-        condition: service_healthy
       nextcloud-redis:
         condition: service_healthy
     healthcheck:
@@ -56,7 +54,7 @@ services:
     environment:
       TZ: ${TZ}
       REDIS_HOST: nextcloud-redis
-      POSTGRES_HOST: nextcloud-postgres
+      POSTGRES_HOST: postgres18
       POSTGRES_DB_FILE: /run/secrets/postgres-db-name
       POSTGRES_USER_FILE: /run/secrets/postgres-username
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password

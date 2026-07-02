@@ -1,5 +1,5 @@
 services:
-#  vaultwarden-postgres:
+#  vaultwarden-postgres: TODO: удалить файлы на сервере
 #    image: postgres:18.1-alpine
 #    restart: unless-stopped
 #    healthcheck:

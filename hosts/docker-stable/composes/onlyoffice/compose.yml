@@ -2,18 +2,18 @@
 # https://github.com/stilicho2011/ubuntu_rep/blob/main/onlyoffice/docker-compose.yaml
 # https://github.com/ONLYOFFICE/Docker-DocumentServer/blob/master/docker-compose.yml
 services:
-  onlyoffice-postgres:
-    image: postgres:17.10-alpine
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]
-      start_period: 60s
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - ${STORAGE_PATH}/onlyoffice/db/postgres:/var/lib/postgresql/data
+#  onlyoffice-postgres:
+#    image: postgres:17.10-alpine TODO: удалить файлы на сервере
+#    restart: unless-stopped
+#    healthcheck:
+#      test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]
+#      start_period: 60s
+#    environment:
+#      POSTGRES_DB: ${POSTGRES_DB}
+#      POSTGRES_USER: ${POSTGRES_USER}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#    volumes:
+#      - ${STORAGE_PATH}/onlyoffice/db/postgres:/var/lib/postgresql/data
 
   onlyoffice-redis:
     image: redis:8.8.0-alpine
@@ -41,8 +41,6 @@ services:
     image: onlyoffice/documentserver:9.4.0
     restart: unless-stopped
     depends_on:
-      onlyoffice-postgres:
-        condition: service_healthy
       onlyoffice-redis:
         condition: service_healthy
       onlyoffice-rabbitmq:
@@ -57,7 +55,7 @@ services:
       - ${STORAGE_PATH}/onlyoffice/fonts:/usr/share/fonts
     environment:
       DB_TYPE: postgres
-      DB_HOST: onlyoffice-postgres
+      DB_HOST: postgres18
       DB_PORT: 5432
       DB_NAME: ${POSTGRES_DB}
       DB_USER: ${POSTGRES_USER}

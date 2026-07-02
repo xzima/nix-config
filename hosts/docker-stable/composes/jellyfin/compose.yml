@@ -43,29 +43,27 @@ services:
       homepage.href: https://jellyfin.$BASE_DOMAIN
       homepage.description: Home Media Server
 
-  jellystat-db:
-    image: postgres:18.0-alpine
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -q -d `cat $$POSTGRES_DB_FILE` -U `cat $$POSTGRES_USER_FILE`" ]
-      start_period: 60s
-    secrets:
-      - postgres-db-name
-      - postgres-username
-      - postgres-password
-    environment:
-      POSTGRES_DB_FILE: /run/secrets/postgres-db-name
-      POSTGRES_USER_FILE: /run/secrets/postgres-username
-      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
-    volumes:
-      - ${STORAGE_PATH}/jellyfin/jellystat/db/postgres:/var/lib/postgresql
+#  jellystat-db: TODO: удалить файлы на сервере
+#    image: postgres:18.0-alpine
+#    restart: unless-stopped
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready -q -d `cat $$POSTGRES_DB_FILE` -U `cat $$POSTGRES_USER_FILE`" ]
+#      start_period: 60s
+#    secrets:
+#      - postgres-db-name
+#      - postgres-username
+#      - postgres-password
+#    environment:
+#      POSTGRES_DB_FILE: /run/secrets/postgres-db-name
+#      POSTGRES_USER_FILE: /run/secrets/postgres-username
+#      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
+#    volumes:
+#      - ${STORAGE_PATH}/jellyfin/jellystat/db/postgres:/var/lib/postgresql
 
   jellystat:
     image: cyfershepard/jellystat:1.1.11
     restart: unless-stopped
     depends_on:
-      jellystat-db:
-        condition: service_healthy
       jellyfin:
         condition: service_healthy
     secrets:
@@ -78,7 +76,7 @@ services:
       FILE__POSTGRES_DB: /run/secrets/postgres-db-name
       FILE__POSTGRES_USER: /run/secrets/postgres-username
       FILE__POSTGRES_PASSWORD: /run/secrets/postgres-password
-      POSTGRES_IP: jellystat-db
+      POSTGRES_IP: postgres18
       POSTGRES_PORT: 5432
       FILE__JWT_SECRET: /run/secrets/jwt-secret
       MINIMUM_SECONDS_TO_INCLUDE_PLAYBACK: 60

@@ -68,12 +68,18 @@ in
   };
 
   systemd.services.dc-nextcloud = mkCompose {
-    after = [ config.systemd.services.dc-traefik.name ];
+    after = [
+      config.systemd.services.dc-traefik.name
+      config.systemd.services.dc-db.name
+    ];
     projectPath = ./nextcloud;
   };
 
   systemd.services.dc-onlyoffice = mkCompose {
-    after = [ config.systemd.services.dc-traefik.name ];
+    after = [
+      config.systemd.services.dc-traefik.name
+      config.systemd.services.dc-db.name
+    ];
     projectPath = ./onlyoffice;
     envFiles = [
       config.age.secrets."onlyoffice.env".path
@@ -104,7 +110,10 @@ in
   };
 
   systemd.services.dc-jellyfin = mkCompose {
-    after = [ config.systemd.services.dc-traefik.name ];
+    after = [
+      config.systemd.services.dc-traefik.name
+      config.systemd.services.dc-db.name
+    ];
     projectPath = ./jellyfin;
   };
 
@@ -114,7 +123,10 @@ in
   };
 
   systemd.services.dc-gitea = mkCompose {
-    after = [ config.systemd.services.dc-traefik.name ];
+    after = [
+      config.systemd.services.dc-traefik.name
+      config.systemd.services.dc-db.name
+    ];
     projectPath = ./gitea;
   };
 
@@ -129,7 +141,10 @@ in
   };
 
   systemd.services.dc-wallabag = mkCompose {
-    after = [ config.systemd.services.dc-traefik.name ];
+    after = [
+      config.systemd.services.dc-traefik.name
+      config.systemd.services.dc-db.name
+    ];
     projectPath = ./wallabag;
     envFiles = [
       config.age.secrets."wallabag.env".path

@@ -38,6 +38,7 @@ services:
       # custom
       traefik.http.routers.qbittorrent.middlewares: qbittorrent-mw
       traefik.http.middlewares.qbittorrent-mw.headers.accessControlAllowOriginList: "*"
+      traefik.http.middlewares.qbittorrent-mw.headers.accessControlAllowHeaders: "*"
       # homepage
       homepage.group: Torrent
       homepage.name: QBitTorrent

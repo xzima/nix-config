@@ -1,0 +1,30 @@
+services:
+  lampac:
+    image: ghcr.io/lampac-nextgen/lampac:1.37.7
+    restart: unless-stopped
+    shm_size: 1024mb
+    volumes:
+      - ./init.conf:/lampac/init.conf
+      - ./ext:/lampac/wwwroot/p
+      - ${SECRET_PATH}/lampa.passwd:/lampac/passwd
+      - ${STORAGE_PATH}/lampa/cache:/lampac/cache
+      - ${STORAGE_PATH}/lampa/database:/lampac/database
+    labels:
+      traefik.enable: true
+      traefik.http.routers.lampa.entrypoints: websecure
+      traefik.http.routers.lampa.rule: Host(`lampa.$BASE_DOMAIN`)
+      traefik.http.services.lampa.loadbalancer.server.port: 9118
+      # custom
+      traefik.http.routers.lampa.middlewares: lampa-mw
+      traefik.http.middlewares.lampa-mw.headers.accessControlAllowOriginList: "*"
+      # homepage
+      homepage.group: Torrent
+      homepage.name: Lampa
+      homepage.icon: /icons/lampa.svg
+      homepage.href: https://lampa.$BASE_DOMAIN
+      homepage.description: Lampa - Каталог фильмов и сериалов
+
+networks:
+  default:
+    external: true
+    name: proxy

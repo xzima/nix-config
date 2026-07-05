@@ -151,4 +151,8 @@ in
     ];
   };
 
+  systemd.services.dc-lampa = mkCompose {
+    after = [ config.systemd.services.dc-traefik.name ];
+    projectPath = ./lampa;
+  };
 }

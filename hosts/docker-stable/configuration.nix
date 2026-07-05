@@ -180,5 +180,7 @@
     "ssh-tunnel.pub".file = ./secrets/ssh-tunnel.pub.age;
     # db
     "db.postgres-password.txt".file = ./secrets/db.postgres-password.txt.age;
+    # lampa
+    "lampa.passwd".file = ./secrets/lampa.passwd.age;
   };
 }

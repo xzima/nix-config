@@ -45,4 +45,6 @@ in
   "hosts/docker-stable/secrets/ssh-tunnel.pub.age".publicKeys = [ zx-laptop nodes.docker-stable ];
 
   "hosts/docker-stable/secrets/db.postgres-password.txt.age".publicKeys = [ zx-laptop nodes.docker-stable ];
+
+  "hosts/docker-stable/secrets/lampa.passwd.age".publicKeys = [ zx-laptop nodes.docker-stable ];
 }

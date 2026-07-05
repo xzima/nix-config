@@ -181,6 +181,9 @@
     # db
     "db.postgres-password.txt".file = ./secrets/db.postgres-password.txt.age;
     # lampa
-    "lampa.passwd".file = ./secrets/lampa.passwd.age;
+    "lampa.passwd" = {
+      file = ./secrets/lampa.passwd.age;
+      mode = "444";
+    };
   };
 }

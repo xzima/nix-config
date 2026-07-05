@@ -151,8 +151,4 @@ in
     ];
   };
 
-  systemd.services.dc-nginx-files = mkCompose {
-    after = [ config.systemd.services.dc-traefik.name ];
-    projectPath = ./nginx-files;
-  };
 }

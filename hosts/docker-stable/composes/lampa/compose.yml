@@ -17,6 +17,7 @@ services:
       # custom
       traefik.http.routers.lampa.middlewares: lampa-mw
       traefik.http.middlewares.lampa-mw.headers.accessControlAllowOriginList: "*"
+      traefik.http.middlewares.lampa-mw.headers.accessControlAllowHeaders: "*"
       # homepage
       homepage.group: Torrent
       homepage.name: Lampa

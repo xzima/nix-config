@@ -1,6 +1,6 @@
 services:
   radarr:
-    image: linuxserver/radarr:6.1.1
+    image: linuxserver/radarr:6.3.0
     restart: unless-stopped
     environment:
       TZ: ${TZ}

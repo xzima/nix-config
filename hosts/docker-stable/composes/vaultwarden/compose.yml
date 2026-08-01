@@ -13,7 +13,7 @@ services:
 #      - ${STORAGE_PATH}/vaultwarden/db/postgres:/var/lib/postgresql
 
   vaultwarden:
-    image: vaultwarden/server:1.36.0-alpine
+    image: vaultwarden/server:1.37.1-alpine
     restart: unless-stopped
     environment:
       DOMAIN: "https://vaultwarden.$BASE_DOMAIN"

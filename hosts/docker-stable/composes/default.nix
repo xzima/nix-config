@@ -75,6 +75,17 @@ in
     projectPath = ./nextcloud;
   };
 
+
+  systemd.services.dc-opencloud = mkCompose {
+    after = [
+      config.systemd.services.dc-traefik.name
+    ];
+    projectPath = ./opencloud;
+    envFiles = [
+      config.age.secrets."onlyoffice.env".path
+    ];
+  };
+
   systemd.services.dc-onlyoffice = mkCompose {
     after = [
       config.systemd.services.dc-traefik.name

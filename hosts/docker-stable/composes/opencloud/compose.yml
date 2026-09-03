@@ -11,8 +11,8 @@ services:
     volumes:
       - ${STORAGE_PATH}/opencloud/data:/var/lib/opencloud
       - ${STORAGE_PATH}/opencloud/config:/etc/opencloud
-      - ./config/app-registry.yaml:/etc/opencloud/app-registry.yaml
-      - ./config/csp.yaml:/etc/opencloud/csp.yaml
+      - ./app-registry.yaml:/etc/opencloud/app-registry.yaml
+      - ./csp.yaml:/etc/opencloud/csp.yaml
       # TODO: add photo - ${STORAGE_PATH}/opencloud/shared_photos:/var/lib/opencloud/storage/shared_photos
     environment:
       TZ: ${TZ}

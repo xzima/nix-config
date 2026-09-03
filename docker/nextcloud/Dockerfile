@@ -1,6 +1,6 @@
 # based on: https://github.com/nextcloud/docker/tree/f0a7a8c934a8fef236ac5d12e319a12e7fcb1f88/.examples/dockerfiles/full/apache
 # fix build: https://github.com/coolapso/docker-nextcloud-full/tree/main/patchedApache
-FROM nextcloud:33.0.6-apache
+FROM nextcloud:34.0.2-apache
 
 RUN set -ex; \
     \

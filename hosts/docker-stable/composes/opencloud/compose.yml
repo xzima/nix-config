@@ -25,7 +25,6 @@ services:
       COLLABORATION_APP_DESCRIPTION: Open office documents with OnlyOffice
       COLLABORATION_APP_ADDR: https://onlyoffice.$BASE_DOMAIN
       COLLABORATION_APP_ICON: https://onlyoffice.$BASE_DOMAIN/web-apps/apps/documenteditor/main/resources/img/favicon.ico
-      COLLABORATION_STORE: memory
       COLLABORATION_WOPI_SRC: https://opencloud.$BASE_DOMAIN
       COLLABORATION_WOPI_SECRET: $ONLYOFFICE_JWT_KEY
       COLLABORATION_WOPI_DISABLE_CHAT: true

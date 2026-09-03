@@ -5,8 +5,6 @@ services:
     image: opencloudeu/opencloud:7.2.4
     restart: unless-stopped
     user: ${PUID}:${PGID}
-    entrypoint: [ "/bin/sh" ]
-    command: [ "-c", "[ ! -f /etc/opencloud/opencloud.yaml  ] && opencloud init; opencloud server" ]
     healthcheck:
       test: ["CMD-SHELL", "curl -fsSI http://localhost:9200 || exit 1"]
       start_period: 30s
@@ -15,14 +13,18 @@ services:
       - ${STORAGE_PATH}/opencloud/data:/var/lib/opencloud
       # TODO: add photo - ${STORAGE_PATH}/opencloud/shared_photos:/var/lib/opencloud/storage/shared_photos
     environment:
+      TZ: ${TZ}
       PROXY_TLS: false
       OC_URL: https://opencloud.$BASE_DOMAIN
-      COLLABORATION_WOPI_SRC: https://onlyoffice.$BASE_DOMAIN
-      COLLABORATION_APP_ADDR: https://onlyoffice.$BASE_DOMAIN
+      OC_ADD_RUN_SERVICES: collaboration
       COLLABORATION_APP_NAME: OnlyOffice
       COLLABORATION_APP_PRODUCT: OnlyOffice
-      COLLABORATION_APP_ICON: https://onlyoffice.$BASE_DOMAIN/favicon.ico
+      COLLABORATION_APP_DESCRIPTION: Open office documents with OnlyOffice
+      COLLABORATION_APP_ADDR: https://onlyoffice.$BASE_DOMAIN
+      COLLABORATION_STORE: memory
+      COLLABORATION_WOPI_SRC: https://onlyoffice.$BASE_DOMAIN
       COLLABORATION_WOPI_SECRET: $ONLYOFFICE_JWT_KEY
+      COLLABORATION_WOPI_DISABLE_CHAT: true
     labels:
       traefik.enable: true
       traefik.http.routers.opencloud.entrypoints: websecure

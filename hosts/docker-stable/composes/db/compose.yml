@@ -3,7 +3,6 @@ services:
     # renovate: datasource=docker
     image: ghcr.io/immich-app/postgres:18-vectorchord1.1.1-pgvector0.8.5
     restart: unless-stopped
-    user: ${PUID}:${PGID}
     shm_size: 128mb
     security_opt:
       - no-new-privileges:true

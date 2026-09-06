@@ -185,5 +185,8 @@
       file = ./secrets/lampa.passwd.age;
       mode = "444";
     };
+    # immich
+    "immich.env".file = ./secrets/immich.env.age;
+    "immich.postgres-password.txt".file = ./secrets/immich.postgres-password.txt.age;
   };
 }

@@ -110,6 +110,17 @@ in
     projectPath = ./photoprism;
   };
 
+  systemd.services.dc-immich = mkCompose {
+    after = [
+      config.systemd.services.dc-traefik.name
+      config.systemd.services.dc-db.name
+    ];
+    projectPath = ./immich;
+    envFiles = [
+      config.age.secrets."immich.env".path
+    ];
+  };
+
   systemd.services.dc-torrent = mkCompose {
     after = [ config.systemd.services.dc-traefik.name ];
     projectPath = ./torrent;

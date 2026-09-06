@@ -1,0 +1,83 @@
+# based on:
+# https://github.com/immich-app/immich/blob/main/docker/docker-compose.rootless.yml
+# https://docs.immich.app/install/docker-compose/
+services:
+  immich-redis:
+    image: redis:8.8.1-alpine
+    restart: unless-stopped
+    user: ${PUID}:${PGID}
+    command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD}" ]
+    healthcheck:
+      test: redis-cli ping | grep -q PONG || exit 1
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - NET_RAW
+    volumes:
+      - ${STORAGE_PATH}/immich/db/redis:/data
+
+  immich-machine-learning:
+    # TODO: перенастроить как появится видеокарта которая будет поддерживать требования
+    # https://docs.immich.app/features/ml-hardware-acceleration/
+    # For hardware acceleration, add one of -[armnn, cuda, rocm, openvino, rknn] to the image tag.
+    # Example tag: ${IMMICH_VERSION:-release}-cuda
+    image: ghcr.io/immich-app/immich-machine-learning:v3.1.0
+    restart: unless-stopped
+    user: ${PUID}:${PGID}
+    # extends: # uncomment this section for hardware acceleration - see https://docs.immich.app/features/ml-hardware-acceleration
+    #   file: hwaccel.ml.yml
+    #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - NET_RAW
+    volumes:
+      - ${STORAGE_PATH}/immich/ml-model-cache:/cache
+
+  immich-server:
+    image: ghcr.io/immich-app/immich-server:v3.1.0
+    restart: unless-stopped
+    user: ${PUID}:${PGID}
+    depends_on:
+      - immich-redis
+      - immich-machine-learning
+    extends:
+      file: hwaccel.transcoding.yml
+      service: nvenc # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - NET_RAW
+    secrets:
+      - postgres-password
+    environment:
+      REDIS_HOSTNAME: immich-redis
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      DB_HOSTNAME: postgres18
+      DB_USERNAME: ${POSTGRES_USER}
+      DB_DATABASE_NAME: ${POSTGRES_DB}
+      DB_PASSWORD_FILE: /run/secrets/postgres-password
+      DB_STORAGE_TYPE: HDD
+    volumes:
+      - ${STORAGE_PATH}/immich/data:/data
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.immich.entrypoints: websecure
+      traefik.http.routers.immich.rule: Host(`immich.$BASE_DOMAIN`)
+      traefik.http.services.immich.loadbalancer.server.port: 2283
+      # homepage
+      homepage.group: Others
+      homepage.name: Immich
+      homepage.icon: immich.svg
+      homepage.href: https://immich.$BASE_DOMAIN
+      homepage.description: Photo and Video
+
+secrets:
+  postgres-password:
+    file: ${SECRET_PATH}/immich.postgres-password.txt
+
+networks:
+  default:
+    external: true
+    name: proxy

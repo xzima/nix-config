@@ -1,17 +1,21 @@
 services:
   postgres18:
-    image: postgres:18.4-alpine
+    image: ghcr.io/immich-app/postgres:18-vectorchord1.1.1-pgvector0.8.5
     restart: unless-stopped
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-q" ]
-      start_period: 60s
+    user: ${PUID}:${PGID}
+    shm_size: 128mb
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - NET_RAW
     secrets:
       - postgres-password
     environment:
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
+      POSTGRES_INITDB_ARGS: '--data-checksums'
+      DB_STORAGE_TYPE: 'HDD'
     volumes:
       - ${STORAGE_PATH}/db/postgres:/var/lib/postgresql
-
 
 secrets:
   postgres-password:

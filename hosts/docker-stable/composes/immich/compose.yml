@@ -41,9 +41,13 @@ services:
     depends_on:
       - immich-redis
       - immich-machine-learning
-    extends:
-      file: hwaccel.transcoding.yml
-      service: nvenc # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: cdi
+              capabilities: [ gpu, utility, compute ]
+              device_ids: [ nvidia.com/gpu=all ]
     security_opt:
       - no-new-privileges:true
     cap_drop:

@@ -14,12 +14,6 @@ services:
       - ${STORAGE_PATH}/onlyoffice/public:/var/www/onlyoffice/documentserver-example/public/files
       - ${STORAGE_PATH}/onlyoffice/fonts:/usr/share/fonts
     environment:
-      DB_TYPE: postgres
-      DB_HOST: postgres18
-      DB_PORT: 5432
-      DB_NAME: ${POSTGRES_DB}
-      DB_USER: ${POSTGRES_USER}
-      DB_PWD: ${POSTGRES_PASSWORD}
       WOPI_ENABLED: true
       JWT_ENABLED: true
       JWT_SECRET: ${ONLYOFFICE_JWT_KEY}

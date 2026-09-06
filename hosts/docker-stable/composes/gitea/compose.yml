@@ -2,23 +2,6 @@
 # https://docs.gitea.com/installation/install-with-docker-rootless
 # https://github.com/go-gitea/gitea/tree/main/docker
 services:
-#  gitea-postgres: TODO: удалить файлы на сервере
-#    image: postgres:18.0-alpine
-#    restart: unless-stopped
-#    healthcheck:
-#      test: [ "CMD-SHELL", "pg_isready -q -d `cat $$POSTGRES_DB_FILE` -U `cat $$POSTGRES_USER_FILE`" ]
-#      start_period: 60s
-#    secrets:
-#      - postgres-db-name
-#      - postgres-username
-#      - postgres-password
-#    environment:
-#      POSTGRES_DB_FILE: /run/secrets/postgres-db-name
-#      POSTGRES_USER_FILE: /run/secrets/postgres-username
-#      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
-#    volumes:
-#      - ${STORAGE_PATH}/gitea/db/postgres:/var/lib/postgresql
-
   gitea:
     container_name: gitea-container-name # used for Gitea Docker SSH Forwarding
     image: gitea/gitea:1.27.0-rootless

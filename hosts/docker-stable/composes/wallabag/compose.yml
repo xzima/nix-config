@@ -1,19 +1,6 @@
 # based on: https://framagit.org/oxyta.net/docker-atelier/-/blob/master/bag/docker-compose.yml
 # https://github.com/wallabag/docker
 services:
-#  wallabag-postgres: TODO: удалить файлы на сервере
-#    image: postgres:18.0-alpine
-#    restart: unless-stopped
-#    healthcheck:
-#      test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]
-#      start_period: 60s
-#    environment:
-#      POSTGRES_DB: ${POSTGRES_USER} # should be equal POSTGRES_USER, because on wallabag migration it not specify db name(and use username)
-#      POSTGRES_USER: ${POSTGRES_USER}
-#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-#    volumes:
-#      - ${STORAGE_PATH}/wallabag/db/postgres:/var/lib/postgresql
-
   wallabag-redis:
     image: redis:8.8.1-alpine
     restart: unless-stopped

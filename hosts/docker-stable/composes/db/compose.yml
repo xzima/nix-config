@@ -1,5 +1,6 @@
 services:
   postgres18:
+    # renovate: datasource=docker
     image: ghcr.io/immich-app/postgres:18-vectorchord1.1.1-pgvector0.8.5
     restart: unless-stopped
     user: ${PUID}:${PGID}

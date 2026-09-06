@@ -51,6 +51,15 @@
       "managerFilePatterns": ["/(^|/)(?:docker-)?compose[^/]*\\.ya?ml$/"],
       "matchStrings": ["\\s+DOCKER_MODS:\\s+(?<packageName>.*):(?<currentValue>.*)\\n"],
       "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)(?:docker-)?compose[^/]*\\.ya?ml$/"],
+      "matchStrings": [
+        "# renovate: datasource=docker\\n\\s+image: (?<depName>\\s*[^:]+):(?<currentValue>[a-zA-Z0-9.-]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
     }
   ]
 }

@@ -5,14 +5,10 @@ services:
   immich-redis:
     image: redis:8.8.1-alpine
     restart: unless-stopped
-    user: ${PUID}:${PGID}
     command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD}" ]
     healthcheck:
-      test: redis-cli ping | grep -q PONG || exit 1
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - NET_RAW
+      test: [ "CMD", "redis-cli", "ping" ]
+      start_period: 60s
     volumes:
       - ${STORAGE_PATH}/immich/db/redis:/data
 

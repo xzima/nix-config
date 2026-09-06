@@ -1,5 +1,6 @@
 # based on:
 # https://docs.opencloud.eu/docs/admin/getting-started/container/docker-compose/docker-compose-base
+# https://github.com/opencloud-eu/opencloud-compose
 services:
   opencloud:
     image: opencloudeu/opencloud:7.2.4

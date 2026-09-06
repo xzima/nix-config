@@ -4,7 +4,7 @@
 services:
   gitea:
     container_name: gitea-container-name # used for Gitea Docker SSH Forwarding
-    image: gitea/gitea:1.27.0-rootless
+    image: gitea/gitea:1.27.3-rootless
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3000/api/healthz" ]

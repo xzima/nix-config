@@ -3,7 +3,7 @@
 # https://github.com/nextcloud/docker/tree/master/.examples/docker-compose/insecure/postgres/apache
 services:
   nextcloud-redis:
-    image: redis:8.8.1-alpine
+    image: redis:8.10.0-alpine
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]

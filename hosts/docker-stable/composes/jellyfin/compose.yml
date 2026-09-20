@@ -44,7 +44,7 @@ services:
       homepage.description: Home Media Server
 
   jellystat:
-    image: cyfershepard/jellystat:1.1.11
+    image: cyfershepard/jellystat:1.1.12
     restart: unless-stopped
     depends_on:
       jellyfin:

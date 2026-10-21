@@ -1,6 +1,6 @@
 services:
   lampac:
-    image: ghcr.io/lampac-nextgen/lampac:1.37.7
+    image: ghcr.io/lampac-nextgen/lampac:v1.84.1
     restart: unless-stopped
     shm_size: 1024mb
     volumes:
